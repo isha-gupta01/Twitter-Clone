@@ -1,9 +1,28 @@
+"use client"
 import React from 'react'
+import { useState, useEffect } from 'react'
 
 const ThirdSec = () => {
+    const [randomTweet, setRandomTweet] = useState([]);
+    const [loading, setLoading] = useState(true)
+    useEffect(() => {
+        setLoading(true);
+        try{
+            fetch("http://localhost:4000/trends/trendingtweets/")
+            .then((res) => res.json())
+            .then((data) => setRandomTweet(data));
+        }
+        catch(error){
+            console.log("In Fetching Randomtweet error occured ",error);
+        }
+        finally{
+            setLoading(false);
+        }
+    }, []);
+
     return (
         <div>
-            
+
             <div className="third bg-black w-[350px] fixed right-[6rem] max-h-[1000px]   h-[100%] inline-flex justify-center   overflow-y-auto scrollbar-hide  ">
                 <div className="m-4 overflow-y-auto scrollbar-hide overflow-hidden flex justify-center flex-col">
                     <div className=" fixed top-0 w-full bg-black  mt-3 h-12  mb-3 ">
@@ -23,23 +42,32 @@ const ThirdSec = () => {
                                 className="bg-sky-500 rounded-2xl text-white my-2 p-1 w-28 flex justify-center items-center font-bold">
                                 Subscribe</div>
                         </div>
-                        <div className="bg-black border border-white/30 w-[300px] h-fit space-y-4 mt-3 p-4 rounded-2xl">
+                        {loading ? (<div className="flex justify-center items-center h-20">
+                            <div className="animate-spin h-8 w-8 border-4 border-gray-300 border-t-blue-500 rounded-full"></div>
+                        </div>) : (<div className="bg-black border border-white/30 w-[300px] h-fit space-y-4 mt-3 p-4 rounded-2xl">
                             <div className="font-semibold">What's Happening</div>
-                            <div className="flex flex-row items-center justify-between ">
-                                <div className="flex flex-col items-start">
-                                    <div className="text-sm font-bold">Menswear Fashion Weeks</div>
-                                    <div className="text-xs text-white/25">Fashion · Live</div>
+                            {randomTweet.map((item) => (
+                                <div key={item._id} className="flex flex-row items-center justify-between ">
+                                    <div className="flex flex-col items-start">
+                                        <div className="text-xs text-white/25">{item.category}</div>
+                                        <div className="text-sm font-bold">{item.title}</div>
+                                        <div className="text-xs text-white/25">{item.posts} posts</div>
+                                    </div>
+
+                                    {item.image ? <div className=" rounded-3xl"><img src="WhatsApp Image 2024-02-19 at 00.43.31_082ab663.jpg" alt=""
+                                        className="w-10 h-10 rounded" /></div> : <div className="fill-gray-600 ml-10">···</div>}
                                 </div>
-                                <div className=" rounded-3xl"><img src="WhatsApp Image 2024-02-19 at 00.43.31_082ab663.jpg" alt=""
-                                    className="w-12 h-12 rounded" /></div>
-                            </div>
-                            <div className="flex flex-row  items-center justify-between">
+                            ))
+
+                            }
+                            <div className="text-sky-500 font-semibold text-sm space-y-3">Show more</div>
+                            {/* <div className="flex flex-row  items-center justify-between">
                                 <div className="">
                                     <div className="text-xs text-white/30 ">Trending in India</div>
                                     <div className="text-sm font-bold">#AgainstDharaviProject</div>
                                     <div className="text-xs text-white/30">1,873 posts</div>
                                 </div>
-                                <div className="fill-gray-600 ml-10">···</div>
+                                
                             </div>
                             <div className="flex flex-row  items-center justify-between">
                                 <div className="">
@@ -56,9 +84,9 @@ const ThirdSec = () => {
                                     <div className="text-xs text-white/30">3,573 posts</div>
                                 </div>
                                 <div className="fill-gray-600 ml-10">···</div>
-                            </div>
-                            <div className="text-sky-500 font-semibold text-sm space-y-3">Show more</div>
-                        </div>
+                            </div> */}
+
+                        </div>)}
                         <div className="bg-black border border-white/30 w-[300px] h-fit p-3 mt-3 rounded-2xl space-y-4">
                             <div className="font-bold text-sm">Who to Follow</div>
                             <div className="flex flex-row justify-between items-center">

@@ -36,6 +36,8 @@ router.post('/login', async (req, res) => {
                 userId:user._id,
                 email: user.email,
                 username: user.username,
+                Name:user.Name,
+                profileImage:user.profileImage,
             }
         });
 

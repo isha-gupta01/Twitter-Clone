@@ -10,6 +10,7 @@ import loggedUser from "./routes/loggedInUsers.js"
 import tweetcount from "./routes/tweetCount.js"
 import UserCrud from "./routes/users.js"
 import TweetCrud from "./routes/tweets.js"
+import trending from "./routes/trending.js"
 import dotenv from 'dotenv';
 import { fileURLToPath } from "url";
 import path from "path";
@@ -20,6 +21,7 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 app.use(cors());
+app.use('/trends/trendingtweets',trending);
 app.use('/api/auth', router); 
 app.use('/loggeduser', loggedUser); 
 app.use('/tweetfetch',tweetcount)

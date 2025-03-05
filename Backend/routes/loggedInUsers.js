@@ -37,5 +37,27 @@ loggedUser.get("/me", authenticateToken, async (req, res) => {
         res.status(500).json({ message: "Server error" });
     }
 });
+loggedUser.get("/me", authenticateToken, async (req, res) => {
+    try {
+        const user = await UserInfo.findById(req.user.userId).select("-password");
+        // console.log(user) // Exclude password
+        if (!user) return res.status(404).json({ message: "User not found" });
+
+        res.json(user);
+    } catch (error) {
+        res.status(500).json({ message: "Server error" });
+    }
+});
+loggedUser.get("/profile/:userId", async (req, res) => {
+    try {
+        const user = await UserInfo.findById(req.params.userId).select("-password");
+        // console.log("data",user) // Exclude password
+        if (!user) return res.status(404).json({ message: "User not found" });
+
+        res.json(user);
+    } catch (error) {
+        res.status(500).json({ message: "Server error" });
+    }
+});
 
 export default loggedUser;

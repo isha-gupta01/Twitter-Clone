@@ -28,15 +28,15 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 
-UserCrud.post("/setupprofile", upload.single("media"), async (req, res) => {
+UserCrud.post("/setupprofile",authenticateToken, upload.single("media"), async (req, res) => {
     try {
-        console.log("🛠️ Headers:", req.headers);
+        // console.log("🛠️ Headers:", req.headers);
         // console.log("Received Data:", req.body); // ✅ Log form fields
         // console.log("Uploaded File:", req.file); // ✅ Log file
-        const { username, Name, bio} = req.body;
         // console.log(username)
         // console.log(req.user.userId)
-        const userId = "67b780f7213b0c295d45cdf2"; // Extract user ID from token
+        const { username, Name, bio} = req.body;
+        const userId = req.user.userId; // Extract user ID from token
         const mediaUrl = req.file ? `/uploads/${req.file.filename}` : null;
        
         if (!username && !Name && !bio && !mediaUrl) {

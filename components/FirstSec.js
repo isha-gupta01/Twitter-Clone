@@ -2,6 +2,7 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 const FirstSec = () => {
+    const user = JSON.parse(localStorage.getItem("user"))
   return (
     <div>
       <div className="first mt-3 fixed left-0 bg-black w-[189px] z-10 h-[100vh]">
@@ -60,8 +61,8 @@ const FirstSec = () => {
 
                             <Link href="/Logout">
                             <li
-                                className="flex md:justify-start items-center justify-center  md:w-fit   hover:bg-gray-900 hover:cursor-pointer fixed bottom-3 left-24 px-5 py-3 hover:rounded-full">
-                                <Image src="/person2.png" alt="person" width={50} height={50} className='rounded-full' />
+                                className="flex md:justify-start items-center justify-center  md:w-fit   hover:bg-gray-900 hover:cursor-pointer fixed bottom-3 left-[6.3rem] px-5 py-3 hover:rounded-full">
+                                <Image src={user.profileImage} alt="person" width={50} height={50} className='rounded-full' />
                             </li>
                             </Link>
                         </ul>
