@@ -49,7 +49,15 @@ const SetupProfile = () => {
             setResponse("Profile Updated Successfully.");
             setForm({ username: "", Name: "", bio: "" }); // ✅ Correct Reset
             setSelectedFile(null); // ✅ Reset File Selection
-    
+            const updatedUser = {
+                ...JSON.parse(localStorage.getItem("user")),
+                profileImage: data.profile.profileImage,
+            };
+
+            localStorage.setItem("user", JSON.stringify(updatedUser));
+
+            // ✅ Update state to reflect new image immediately
+            setUser(updatedUser);
             setTimeout(() => {
               router.push("/ProfilePage");
             }, 1000);
