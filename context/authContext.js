@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }) => {
     setPassword(password); 
 
     try {
-      const response = await fetch("http://localhost:4000/api/auth/login");
+      const response = await fetch("https://twitterclonebackend-nqms.onrender.com/api/auth/login");
       const users = await response.json();
 
       const loggedInUser = users.find((user) => user.email === email);

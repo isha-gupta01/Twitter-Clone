@@ -15,7 +15,7 @@ const LikeButton = ({ tweetId, initialLikes, userId }) => {
 
         // const fetchLikes = async () => {
         //     try {
-        //         const response = await fetch("http://localhost:4000/tweetcrud/likes", {
+        //         const response = await fetch("https://twitterclonebackend-nqms.onrender.com/tweetcrud/likes", {
         //             method: "GET",
         //             headers: {
         //                 "Content-Type": "application/json",
@@ -45,7 +45,7 @@ const LikeButton = ({ tweetId, initialLikes, userId }) => {
             // Optimistic UI update
             setLikes((prevLikes) => (newLikedState ? prevLikes + 1 : prevLikes - 1));
 
-            const response = await fetch("http://localhost:4000/tweetcrud/likes", {
+            const response = await fetch("https://twitterclonebackend-nqms.onrender.com/tweetcrud/likes", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

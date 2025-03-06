@@ -58,7 +58,7 @@ const SecondSec = () => {
         formData.append("profileImage", user.profileImage);
 
         try {
-            const response = await fetch("http://localhost:4000/tweetcrud/loggedtweet", {
+            const response = await fetch("https://twitterclonebackend-nqms.onrender.com/tweetcrud/loggedtweet", {
                 method: "POST",
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`, // Add Auth Token
@@ -91,7 +91,7 @@ const SecondSec = () => {
             }
             try {
                 setLoading(true);
-                const response = await fetch("http://localhost:4000/tweetfetch/tweets", {
+                const response = await fetch("https://twitterclonebackend-nqms.onrender.com/tweetfetch/tweets", {
                     method: "GET",
                     headers: {
                         Authorization: `Bearer ${token}`,

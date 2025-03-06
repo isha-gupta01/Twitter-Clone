@@ -14,7 +14,7 @@ const Posts = () => {
                 return;
             }
             try {
-                const response = await fetch("http://localhost:4000/tweetfetch/usertweets", {
+                const response = await fetch("https://twitterclonebackend-nqms.onrender.com/tweetfetch/usertweets", {
                     method: "GET",
                     headers: {
                         Authorization: `Bearer ${token}`,

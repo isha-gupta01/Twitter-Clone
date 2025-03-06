@@ -15,7 +15,7 @@ const ProfilePage = () => {
 
         const fetchUserProfile = async () => {
             try {
-                const res = await fetch(`http://localhost:4000/loggeduser/profile/${userId}`);
+                const res = await fetch(`https://twitterclonebackend-nqms.onrender.com/loggeduser/profile/${userId}`);
                 if (!res.ok) throw new Error("User not found");
                 const userData = await res.json();
                 setSelectedUser(userData._id);

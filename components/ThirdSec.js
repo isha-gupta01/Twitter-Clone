@@ -8,7 +8,7 @@ const ThirdSec = () => {
     useEffect(() => {
         setLoading(true);
         try{
-            fetch("http://localhost:4000/trends/trendingtweets/")
+            fetch("https://twitterclonebackend-nqms.onrender.com/trends/trendingtweets/")
             .then((res) => res.json())
             .then((data) => setRandomTweet(data));
         }

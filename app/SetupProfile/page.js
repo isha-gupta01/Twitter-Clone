@@ -35,7 +35,7 @@ const SetupProfile = () => {
             console.log(`${key}:`, value);
         }    
         try {
-            const response = await fetch("http://localhost:4000/usercrud/setupprofile", {
+            const response = await fetch("https://twitterclonebackend-nqms.onrender.com/usercrud/setupprofile", {
               method: "POST",
               body: formData,
               headers: {

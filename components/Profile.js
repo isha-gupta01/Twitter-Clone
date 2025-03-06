@@ -43,7 +43,7 @@ const Profile = () => {
                     return;
                 }
 
-                const response = await fetch("http://localhost:4000/tweetfetch/me", {
+                const response = await fetch("https://twitterclonebackend-nqms.onrender.com/tweetfetch/me", {
                     method: "GET",
                     headers: {
                         "Authorization": `Bearer ${token}`,  // Send token properly
@@ -77,7 +77,7 @@ const Profile = () => {
             }
 
             try {
-                const response = await fetch("http://localhost:4000/loggeduser/me", {
+                const response = await fetch("https://twitterclonebackend-nqms.onrender.com/loggeduser/me", {
                     method: "GET",
                     headers: {
                         "Authorization": `Bearer ${token}`, // Include token
