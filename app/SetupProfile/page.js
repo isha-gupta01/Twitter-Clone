@@ -65,18 +65,18 @@ const SetupProfile = () => {
                 setResponse("Profile Updated Successfully.");
                 setForm({ username: "", Name: "", bio: "" }); // ✅ Correct Reset
                 setSelectedFile(null); // ✅ Reset File Selection
-                if (typeof window !== "undefined") {
-                    const updatedUser = {
-                        ...JSON.parse(localStorage.getItem("user")),
-                        username: data.profile.username,
-                        Name: data.profile.Name,
-                        bio: data.profile.bio,
-                        profileImage: data.profile.profileImage,
-                    };
+                // if (typeof window !== "undefined") {
+                //     const updatedUser = {
+                //         ...JSON.parse(localStorage.getItem("user")),
+                //         username: data.profile.username,
+                //         Name: data.profile.Name,
+                //         bio: data.profile.bio,
+                //         profileImage: data.profile.profileImage,
+                //     };
 
-                    localStorage.setItem("user", JSON.stringify(updatedUser));
-                    setUser(updatedUser);
-                }
+                //     localStorage.setItem("user", JSON.stringify(updatedUser));
+                //     setUser(updatedUser);
+                // }
 
                 // ✅ Update state to reflect new image immediately
                 setTimeout(() => {
