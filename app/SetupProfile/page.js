@@ -19,42 +19,47 @@ const SetupProfile = () => {
         const file = event.target.files[0];
         if (file) {
             setSelectedFile(file);
-            // console.log("Selected File:", file);
+            console.log("Selected File:", file);
         }
     };
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const formData = new FormData(); // ✅ Correct way to create FormData
-        formData.append("username", form.username)
-        formData.append("Name", form.Name)
-        formData.append("bio", form.bio)
+        const formData = new FormData();
+        formData.append("username", form.username);
+        formData.append("Name", form.Name);
+        formData.append("bio", form.bio);
         if (selectedFile) {
-            formData.append("media", selectedFile)
+          formData.append("media", selectedFile);
         }
-        for (let [key, value] of formData.entries()) {
-            console.log(`${key}:`, value);
-        }    
+    
         try {
-            const response = await fetch("https://twitterclonebackend-nqms.onrender.com/usercrud/setupprofile", {
+          const response = await fetch("https://twitterclonebackend-nqms.onrender.com/usercrud/setupprofile",
+            {
               method: "POST",
               body: formData,
               headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`},
-            });
-      
-            const data = await response.json();
-            // console.log(data)
-            if (response.ok) {
-              setResponse("Profile Updated Successfully.")
-              setForm([]);
-              setTimeout(() => {
-                router.push("/ProfilePage");
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            }
+          );
+    
+          const data = await response.json();
+    
+          if (response.ok) {
+            setResponse("Profile Updated Successfully.");
+            setForm({ username: "", Name: "", bio: "" }); // ✅ Correct Reset
+            setSelectedFile(null); // ✅ Reset File Selection
+    
+            setTimeout(() => {
+              router.push("/ProfilePage");
             }, 1000);
-            } 
-          } catch (error) {
-            setResponse("Error:", error);
+          } else {
+            setResponse(data.message || "Error updating profile.");
           }
-    }
+        } catch (error) {
+          setResponse("Error: " + error.message);
+        }
+      };
     return (
         <div className='bg-gray-800 w-full text-white min-h-screen flex justify-center items-center'>
             <div className='bg-black w-[30rem] h-[40rem] rounded-2xl py-8 flex flex-col '>
