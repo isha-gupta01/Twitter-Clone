@@ -9,6 +9,7 @@ const SetupProfile = () => {
     const [selectedFile, setSelectedFile] = useState(null)
     const router = useRouter();
     const [response, setResponse] = useState("")
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")) || {});
         // Handle tweet content change
     const handleInputChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
@@ -51,6 +52,9 @@ const SetupProfile = () => {
             setSelectedFile(null); // ✅ Reset File Selection
             const updatedUser = {
                 ...JSON.parse(localStorage.getItem("user")),
+                username: data.profile.username,
+                Name: data.profile.Name,
+                bio: data.profile.bio,
                 profileImage: data.profile.profileImage,
             };
 
