@@ -10,6 +10,21 @@ const SetupProfile = () => {
     const router = useRouter();
     const [response, setResponse] = useState("")
     const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")) || {});
+
+
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            const storedUser = JSON.parse(localStorage.getItem("user"));
+            if (storedUser) {
+                setUser(storedUser);
+                setForm({
+                    username: storedUser.username || "",
+                    Name: storedUser.Name || "",
+                    bio: storedUser.bio || "",
+                });
+            }
+        }
+    }, []);
         // Handle tweet content change
     const handleInputChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
@@ -45,11 +60,12 @@ const SetupProfile = () => {
           );
     
           const data = await response.json();
-    
+
           if (response.ok) {
             setResponse("Profile Updated Successfully.");
             setForm({ username: "", Name: "", bio: "" }); // ✅ Correct Reset
             setSelectedFile(null); // ✅ Reset File Selection
+            if (typeof window !== "undefined") {
             const updatedUser = {
                 ...JSON.parse(localStorage.getItem("user")),
                 username: data.profile.username,
@@ -58,7 +74,7 @@ const SetupProfile = () => {
                 profileImage: data.profile.profileImage,
             };
 
-            localStorage.setItem("user", JSON.stringify(updatedUser));
+            localStorage.setItem("user", JSON.stringify(updatedUser));}
 
             // ✅ Update state to reflect new image immediately
             setUser(updatedUser);
