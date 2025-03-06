@@ -1,31 +1,15 @@
 "use client"
 import { useRouter } from 'next/navigation'
 import React from 'react'
-import { useState } from 'react'
+import { useState} from 'react'
 
 
 const SetupProfile = () => {
-    const [form, setForm] = useState({ username: "", Name: "", bio: "" })
+    const [form, setForm] = useState({ username: "", Name: "", bio: ""})
     const [selectedFile, setSelectedFile] = useState(null)
     const router = useRouter();
     const [response, setResponse] = useState("")
-    const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")) || {});
-
-
-    // useEffect(() => {
-    //     if (typeof window !== "undefined") {
-    //         const storedUser = JSON.parse(localStorage.getItem("user"));
-    //         if (storedUser) {
-    //             setUser(storedUser);
-    //             setForm({
-    //                 username: storedUser.username || "",
-    //                 Name: storedUser.Name || "",
-    //                 bio: storedUser.bio || "",
-    //             });
-    //         }
-    //     }
-    // }, []);
-    // Handle tweet content change
+        // Handle tweet content change
     const handleInputChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
@@ -45,50 +29,36 @@ const SetupProfile = () => {
         formData.append("Name", form.Name);
         formData.append("bio", form.bio);
         if (selectedFile) {
-            formData.append("media", selectedFile);
+          formData.append("media", selectedFile);
         }
-
+    
         try {
-            const response = await fetch("https://twitterclonebackend-nqms.onrender.com/usercrud/setupprofile",
-                {
-                    method: "POST",
-                    body: formData,
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("token")}`,
-                    },
-                }
-            );
-
-            const data = await response.json();
-
-            if (response.ok) {
-                setResponse("Profile Updated Successfully.");
-                setForm({ username: "", Name: "", bio: "" }); // ✅ Correct Reset
-                setSelectedFile(null); // ✅ Reset File Selection
-                // if (typeof window !== "undefined") {
-                //     const updatedUser = {
-                //         ...JSON.parse(localStorage.getItem("user")),
-                //         username: data.profile.username,
-                //         Name: data.profile.Name,
-                //         bio: data.profile.bio,
-                //         profileImage: data.profile.profileImage,
-                //     };
-
-                //     localStorage.setItem("user", JSON.stringify(updatedUser));
-                //     setUser(updatedUser);
-                // }
-
-                // ✅ Update state to reflect new image immediately
-                setTimeout(() => {
-                    router.push("/ProfilePage");
-                }, 1000);
-            } else {
-                setResponse(data.message || "Error updating profile.");
+          const response = await fetch("https://twitterclonebackend-nqms.onrender.com/usercrud/setupprofile",
+            {
+              method: "POST",
+              body: formData,
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
             }
+          );
+    
+          const data = await response.json();
+    
+          if (response.ok) {
+            setResponse("Profile Updated Successfully.");
+            setForm({ username: "", Name: "", bio: "" }); // ✅ Correct Reset
+            setSelectedFile(null); // ✅ Reset File Selection
+            setTimeout(() => {
+              router.push("/ProfilePage");
+            }, 1000);
+          } else {
+            setResponse(data.message || "Error updating profile.");
+          }
         } catch (error) {
-            setResponse("Error: " + error.message);
+          setResponse("Error: " + error.message);
         }
-    };
+      };
     return (
         <div className='bg-gray-800 w-full text-white min-h-screen flex justify-center items-center'>
             <div className='bg-black w-[30rem] h-[40rem] rounded-2xl py-8 flex flex-col '>
