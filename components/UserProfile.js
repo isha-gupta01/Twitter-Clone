@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import UserPosts from "@/sections/UserPosts";
+import FollowButton from "./FollowButton";
 
 const UserProfile = ({ userId }) => {
     const [dataUser, setDataUser] = useState([]);
@@ -131,9 +132,8 @@ const UserProfile = ({ userId }) => {
                 {/* Follow Button */}
                 <div className="absolute -bottom-14 right-4">
                     <Link href="#">
-                        <button className="px-6 py-2 border border-gray-500 text-black bg-white font-bold rounded-full hover:bg-white/60">
-                            Follow
-                        </button>
+                        <FollowButton userIdToFollow={dataUser._id}/>
+                        {/* <div className="text-white">{dataUser._id}</div> */}
                     </Link>
                 </div>
             </div>
