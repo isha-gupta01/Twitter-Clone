@@ -64,7 +64,7 @@ const FollowButton = ({ userIdToFollow }) => {
     };
 
     return (
-        <button onClick={handleFollowToggle} className={`px-4 py-2 rounded ${isFollowing ? "bg-red-500" : "bg-blue-500"} text-white`}>
+        <button onClick={handleFollowToggle} className={`"px-6 py-2 border border-gray-500 text-black bg-white font-bold rounded-full hover:bg-white/60" ${isFollowing ? "bg-slate-500" : "bg-white"} text-white`}>
             {isFollowing ? "Unfollow" : "Follow"}
         </button>
     );
