@@ -13,26 +13,35 @@ export const AuthProvider = ({ children }) => {
 
   // Function to handle login
   const login = async (email, password) => {
-    setIsAuthenticated(true);
-    setEmail(email);
-    setPassword(password); 
-
     try {
-      const response = await fetch("https://twitterclonebackend-nqms.onrender.com/api/auth/login");
-      const users = await response.json();
-
-      const loggedInUser = users.find((user) => user.email === email);
-
-      if (loggedInUser) {
-        // setUserName(loggedInUser.Name);
-        // setUser(loggedInUser.EmpId);
-        console.log("Logged in user",loggedInUser.username)
-      } else {
-        console.error("User not found:", email);
+      const response = await fetch(
+        "https://twitterclonebackend-nqms.onrender.com/api/auth/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        }
+      );
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Login failed");
       }
-    } 
-    catch (error) {
-      console.error("Error fetching user data:", error);
+  
+      const data = await response.json();
+      console.log("Logged in user:", data.user.username);
+  
+      // Save JWT in localStorage (or cookies if needed)
+      localStorage.setItem("token", data.token);
+  
+      // Set authentication state
+      setIsAuthenticated(true);
+      setEmail(data.user.email);
+  
+    } catch (error) {
+      console.error("Error logging in:", error.message);
     }
   };
 
