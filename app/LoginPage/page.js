@@ -42,8 +42,8 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="bg-gray-900 flex justify-center items-center h-screen text-white">
-      <div className="bg-black rounded-lg h-[90vh] flex items-center justify-center flex-col shadow-lg p-8 w-[30rem] max-w-md text-center">
+    <div className="bg-gray-900 flex justify-center items-center sm:h-screen text-white">
+      <div className="bg-black rounded-lg h-[90vh] md:h-[60vh] xl:h-[70vh] flex items-center justify-center flex-col shadow-lg p-8 w-[30rem] max-w-md text-center">
         <div className="mb-6">
           <div className="flex invert justify-center items-center">
             <Link href="/"><svg viewBox="0 0 24 24" aria-hidden="true"

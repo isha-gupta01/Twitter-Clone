@@ -96,8 +96,8 @@ const SetupProfile = () => {
 
     return (
         <div className="bg-gray-800 w-full text-white min-h-screen flex justify-center items-center">
-            <div className="bg-black w-[30rem] h-[40rem] rounded-2xl py-8 flex flex-col">
-                <div className="w-[27rem] pl-[3rem] justify-center">
+            <div className="bg-black w-[28rem] h-[40rem] rounded-2xl py-8 flex flex-col">
+                <div className="w-[27rem] p-4 xl:pl-[3rem] justify-center">
                     <div className="invert">
                         <svg
                             viewBox="0 0 24 24"

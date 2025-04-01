@@ -43,8 +43,8 @@ const Posts = () => {
                         <li key={item._id} className="flex text-lg text-white px-8 gap-8  py-5 items-center">
                             <div>{index + 1}.</div>
                             <div className='flex justify-between gap-14  items-center'>
-                                <div className='w-[370px]'>{item.content}</div>
-                                <div className=''>
+                                <div className='w-[350px]'>{item.content}</div>
+                                <div className='hidden xl:flex'>
                                     {item.image && (
                                         <div>
                                             <Image src={item.image} alt="img" width={50} height={50} />

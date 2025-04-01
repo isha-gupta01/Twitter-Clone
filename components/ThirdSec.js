@@ -21,9 +21,9 @@ const ThirdSec = () => {
     }, []);
 
     return (
-        <div>
+        <div className='hidden lg:flex'>
 
-            <div className="third bg-black w-[350px] fixed right-[6rem] max-h-[1000px]   h-[100%] inline-flex justify-center   overflow-y-auto scrollbar-hide  ">
+            <div className="third bg-black lg:w-[350px] fixed xl:right-0 lg:right-[6rem] max-h-[1000px]   h-[100%] inline-flex justify-center   overflow-y-auto scrollbar-hide  ">
                 <div className="m-4 overflow-y-auto scrollbar-hide overflow-hidden flex justify-center flex-col">
                     <div className=" fixed top-0 w-full bg-black  mt-3 h-12  mb-3 ">
                         <div className=' flex flex-row bg-black w-[300px] rounded-full border-[0.5px] border-white/20  items-center mb-3  outline-none'>
