@@ -153,26 +153,27 @@ const UserProfile = ({ userId }) => {
                 <span className="text-[1rem] text-white/30">{dataUser.username}</span>
                 <span className="flex gap-3 my-2 text-white/30 items-center">
                     <Image src="/calendar.png" alt="calendar" width={20} height={20} className="invert w-5 h-5 opacity-30" />
-                    Joined {date}
+                    Joined {dateJoined}
                 </span>
                 <div className="text-white/30 flex gap-7">
                     <span>{dataUser?.following?.length ?? 0} Following</span>
                     <span>{dataUser?.followers?.length ?? 0} Followers</span>
                 </div>
 
-                <div className="flex justify-center">
-                    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
-                        {dataUser.bio.map((item, index) => (
-                            <div key={index}>
-                                <div
-
-                                    className="mt-2 text-white flex items-center justify-center h-8 border border-white rounded-3xl w-fit px-8 py-3">
-                                    {item}<span>Hi</span>
+                {!dataUser.bio ? (
+                        <p className="text-white">Loading...</p>
+                    ) : (
+                        <div>
+                            {(dataUser.bio || []).map((item, index) => (
+                                <div key={index} className='flex flex-row'>
+                                    <div className='mt-2 text-white flex  items-center justify-center h-8 border border-white rounded-3xl w-fit px-8 py-3'>
+                                        {item}
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
+                            ))}
+                        </div>
+                    )}
+
 
             </div>
             <div className="mt-10 text-white/30">

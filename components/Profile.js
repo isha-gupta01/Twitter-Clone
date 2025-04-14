@@ -155,8 +155,8 @@ const Profile = () => {
                     ) : (
                         <div>
                             {(dataUser.bio || []).map((item, index) => (
-                                <div key={index}>
-                                    <div className='mt-2 text-white flex items-center justify-center h-8 border border-white rounded-3xl w-fit px-8 py-3'>
+                                <div key={index} className='flex flex-row'>
+                                    <div className='mt-2 text-white flex  items-center justify-center h-8 border border-white rounded-3xl w-fit px-8 py-3'>
                                         {item}
                                     </div>
                                 </div>
