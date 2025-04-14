@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import LikeButton from './LikeButton'
 import Image from 'next/image';
+// import CommentBox from './Comments';
 const PostCard = () => {
     const [data, setData] = useState([]);
     // const [content, setContent] = useState("")
@@ -33,7 +34,7 @@ const PostCard = () => {
                 const data = await response.json();
                 setData(data); // Store the fetched data of tweets
             } catch (error) {
-                setError(error.message);
+                console.error(error);
             }
             finally {
                 setLoading(false);
@@ -47,9 +48,9 @@ const PostCard = () => {
         <div className="section-mid-part3  w-full h-auto">
             {data.map((item) => (
                 <div key={item._id} className="flex md:mr-10 lg:mr-0 flex-col relative gap-5">
-                    <div className='flex m-3 md:ml-10 ml-6 lg:ml-6 items-center '>
-                        <Link href={`/userProfile/${item.user_id}`}><Image className="w-10 h-10 rounded-full cursor-pointer" src={item.profileImage} width={100} height={100} alt="Profile Pic" /></Link>
-                        <div className='ml-2   flex flex-col'>
+                    <div className='flex m-3 md:ml-10 ml-5 lg:ml-6 items-center '>
+                        <Link href={`/userProfile/${item.user_id}`} ><Image className="w-10 h-10 rounded-full cursor-pointer" src={item.profileImage} width={100} height={100} alt="Profile Pic" /></Link>
+                        <div className='ml-5   flex flex-col'>
                             <div className='flex flex-row items-center justify-between'>
                                 <div className="flex flex-row items-center">
                                     <Link href="/userProfile"><h3 className="font-bold text-sm cursor-pointer"> {item.Name} </h3>
@@ -63,7 +64,7 @@ const PostCard = () => {
                                             </path>
                                         </g>
                                     </svg>
-                                    <span className="text-gray-400 text-sm cursor-pointer" > {item.username}  </span>
+                                    <span className="text-gray-400 text-xs cursor-pointer" > {item.username}  </span>
                                     <div className="text-gray-500"><span className='text-xl font-bold '> · </span>{item.tweetTime}</div>
                                     <svg viewBox="0 0 24 24" aria-hidden="true"
                                         className="w-5 absolute md:hidden right-4  fill-gray-500 r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-lrvibr r-m6rgpd r-1xvli5t r-1hdv0qi">
@@ -85,7 +86,7 @@ const PostCard = () => {
                                     </svg>
                                 </div>
                             </div>
-                            <div className="">{item.content}</div>
+                            <div className="text-xs">{item.content}</div>
                         </div>
                         <div>
 
@@ -94,20 +95,40 @@ const PostCard = () => {
 
 
                     <div className="h-auto ml-8 md:ml-0  justify-center items-center md:justify-between  flex flex-col">
-                        {item.image && <img src={item.image} alt="Tweet Image" className="w-[90%] md:w-[80%] h-[20rem] rounded-3xl mt-2" />}
+                        {item.image && /\.(jpg|jpeg|png|gif|webp)$/i.test(item.image) ? (
+                            <Image
+                                src={item.image}
+                                alt="Tweet Image"
+                                width={200}
+                                height={200}
+                                className="w-[90%] md:w-[60%] h-[20rem] rounded-3xl mt-2"
+                            />
+                        ) : item.image && /\.(mp4|webm|ogg)$/i.test(item.image) ? (
+                            <video
+                                src={item.image}
+                                autoPlay
+                                loop
+                                muted
+                                playsInline
+                                className="w-[90%] md:w-[80%] h-[20rem] rounded-3xl mt-2"
+                            />
+                        ) : null}
+
                         <ul className="flex flex-row gap-5 md:gap-7 mt-4">
                             <div className="flex flex-row gap-[1.5rem] md:gap-[4rem]">
-                                <li
-                                    className="flex flex-row text-white/50 fill-white/50 hover:fill-blue-500 hover:text-blue-500 hover:shadow-[0_0_12px_2px_rgba(0,89,255)] transition-shadow">
-                                    <svg viewBox="0 0 24 24" aria-hidden="true" className="w-4 r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-lrvibr r-m6rgpd r-1xvli5t r-1hdv0qi">
-                                        <g>
-                                            <path
-                                                d="M1.751 10c0-4.42 3.584-8 8.005-8h4.366c4.49 0 8.129 3.64 8.129 8.13 0 2.96-1.607 5.68-4.196 7.11l-8.054 4.46v-3.69h-.067c-4.49.1-8.183-3.51-8.183-8.01zm8.005-6c-3.317 0-6.005 2.69-6.005 6 0 3.37 2.77 6.08 6.138 6.01l.351-.01h1.761v2.3l5.087-2.81c1.951-1.08 3.163-3.13 3.163-5.36 0-3.39-2.744-6.13-6.129-6.13H9.756z">
-                                            </path>
-                                        </g>
-                                    </svg>
-                                    <span>{item.comments}</span>
-                                </li>
+                                <Link href={`/Comment/${item._id}`}>
+                                    <li
+                                        className="flex flex-row text-white/50 fill-white/50 hover:fill-blue-500 hover:text-blue-500 hover:shadow-[0_0_12px_2px_rgba(0,89,255)] transition-shadow">
+                                        <svg viewBox="0 0 24 24" aria-hidden="true" className="w-4 r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-lrvibr r-m6rgpd r-1xvli5t r-1hdv0qi">
+                                            <g>
+                                                <path
+                                                    d="M1.751 10c0-4.42 3.584-8 8.005-8h4.366c4.49 0 8.129 3.64 8.129 8.13 0 2.96-1.607 5.68-4.196 7.11l-8.054 4.46v-3.69h-.067c-4.49.1-8.183-3.51-8.183-8.01zm8.005-6c-3.317 0-6.005 2.69-6.005 6 0 3.37 2.77 6.08 6.138 6.01l.351-.01h1.761v2.3l5.087-2.81c1.951-1.08 3.163-3.13 3.163-5.36 0-3.39-2.744-6.13-6.129-6.13H9.756z">
+                                                </path>
+                                            </g>
+                                        </svg>
+                                        <span>{item.comments}</span>
+                                    </li>
+                                </Link>
                                 <li
                                     className="flex flex-row text-white/50 fill-white/50 hover:fill-blue-500 hover:text-blue-500 hover:shadow-[0_0_12px_2px_rgba(0,89,255)] transition-shadow">
                                     <svg viewBox="0 0 24 24" aria-hidden="true" className="w-4 r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-lrvibr r-m6rgpd r-1xvli5t r-1hdv0qi">

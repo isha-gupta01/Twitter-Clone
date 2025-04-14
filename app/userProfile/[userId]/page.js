@@ -5,6 +5,7 @@ import FirstSec from "@/components/FirstSec";
 import ThirdSec from "@/components/ThirdSec";
 import UserProfile from "@/components/UserProfile";
 import ProtectedRoute from "@/components/ProtectedRoute";
+import MobFirstSec from "@/components/MobFirstSec";
 
 const ProfilePage = () => {
     const { userId } = useParams(); // Get userId from URL
@@ -31,8 +32,13 @@ const ProfilePage = () => {
         <ProtectedRoute>
             <div className="black text-white">
                 <div className="flex md:container mx-auto">
-                    <FirstSec />
-                    <div className="w-px bg-gray-400 opacity-30 sticky left-[11.7rem] z-50"></div>
+                <div className='hidden md:flex'>
+                            <FirstSec />
+                        </div>
+                        <div className='md:hidden block'>
+                            <MobFirstSec />
+                        </div>
+                    <div className="w-px bg-gray-400 hidden md:flex opacity-30 sticky left-[5.7rem] z-50"></div>
                     
                     {/* Pass the selected user to UserProfile */}
                     <UserProfile userId={selectedUser} />

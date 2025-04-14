@@ -14,9 +14,9 @@ const UserProfile = ({ userId }) => {
 
     useEffect(() => {
         if (!userId) return; // Prevent fetch if userId is not available
-        // console.log(userId);
+        console.log(userId);
         const fetchUser = async () => {
-            const token = localStorage.getItem("token");
+            // const token = localStorage.getItem("token");
 
             if (!token) {
                 router.push("/LoginPage"); // Redirect to login if no token
@@ -27,7 +27,7 @@ const UserProfile = ({ userId }) => {
                 const response = await fetch(`https://twitterclonebackend-nqms.onrender.com/loggeduser/profile/${userId}`, {
                     method: "GET",
                     headers: {
-                        Authorization: `Bearer ${token}`,
+                        // Authorization: `Bearer ${token}`,
                         "Content-Type": "application/json",
                     },
                 });
@@ -37,14 +37,20 @@ const UserProfile = ({ userId }) => {
                 }
 
                 const result = await response.json();
+                console.log("Fetched user data:", result);
+                // console.log("Is bio an array?", Array.isArray(result.bio));
+                console.log("Bio:", result.bio);
                 setDataUser(result);
+                // console.log(result)
+                // console.log(Array.isArray(dataUser.bio)); // should log true
+                // console.log(dataUser.bio); 
             } catch (error) {
                 console.error("Error fetching user data:", error);
             }
         };
 
         fetchUser();
-   // Fetch data whenever userId changes
+        // Fetch data whenever userId changes
 
 
         const fetchTweetCount = async () => {
@@ -69,7 +75,7 @@ const UserProfile = ({ userId }) => {
                 }
 
                 const data = await response.json();
-                console.log(data)
+                // console.log(data)
                 setTweetCount(data.totalTweets);
             } catch (error) {
                 console.error("Error fetching tweet count:", error);
@@ -105,9 +111,12 @@ const UserProfile = ({ userId }) => {
     const dateJoined = dataUser.createdAt
         ? new Date(dataUser.createdAt).toLocaleDateString("en-US", { year: "numeric", month: "long" })
         : "Loading...";
+    // const bioData = dataUser.bio ? dataUser.bio : "No Bio"
+    // should log something like ["Developer", "Tech lover"]
+
 
     return (
-        <div className="bg-black w-[600px] min-h-screen overflow-y-auto ml-[188px] flex flex-col">
+        <div className="bg-black sm:w-[430px] md:w-[703px] md:ml-[178px] xl:ml-[188px] lg:ml-[53px] min-h-screen overflow-y-auto flex flex-col">
             <div className="flex gap-10 items-center px-4 py-2">
                 <Link href="/Twitter">
                     <Image src="/back.png" alt="back" width={20} height={20} className="invert self-center" />
@@ -132,7 +141,7 @@ const UserProfile = ({ userId }) => {
                 {/* Follow Button */}
                 <div className="absolute -bottom-14 right-4">
                     <Link href="#">
-                        <FollowButton userIdToFollow={dataUser._id}/>
+                        <FollowButton userIdToFollow={dataUser._id} />
                         {/* <div className="text-white">{dataUser._id}</div> */}
                     </Link>
                 </div>
@@ -144,16 +153,31 @@ const UserProfile = ({ userId }) => {
                 <span className="text-[1rem] text-white/30">{dataUser.username}</span>
                 <span className="flex gap-3 my-2 text-white/30 items-center">
                     <Image src="/calendar.png" alt="calendar" width={20} height={20} className="invert w-5 h-5 opacity-30" />
-                    Joined {dateJoined}
+                    Joined {date}
                 </span>
                 <div className="text-white/30 flex gap-7">
-                    <span>{dataUser?.following || 0} Following</span>
-                    <span>{dataUser?.followers || 0} Followers</span>
+                    <span>{dataUser?.following?.length ?? 0} Following</span>
+                    <span>{dataUser?.followers?.length ?? 0} Followers</span>
                 </div>
+
+                <div className="flex justify-center">
+                    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                        {dataUser.bio.map((item, index) => (
+                            <div key={index}>
+                                <div
+
+                                    className="mt-2 text-white flex items-center justify-center h-8 border border-white rounded-3xl w-fit px-8 py-3">
+                                    {item}<span>Hi</span>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
             </div>
             <div className="mt-10 text-white/30">
-                <ul className="flex gap-[3.2rem] pl-4 pr-5 border-b border-gray-700 py-4">
-                    {["Posts", "Replies", "Highlights", "Articles", "Media", "Likes"].map((tab) => (
+                <ul className="flex gap-[1rem] xl:gap-[3.2rem]   pl-4 pr-5 border-b border-gray-700 py-4">
+                    {["Posts", "Replies", "Highlights", "Articles", "Media"].map((tab) => (
                         <li
                             key={tab}
                             className={`cursor-pointer ${activeTab === tab ? "text-white font-bold border-b-2 border-white" : "text-gray-500"

@@ -18,7 +18,7 @@ const Twitter = () => {
                     <div className='md:hidden block'>
                         <MobFirstSec />
                     </div>
-                    <div className=" w-px bg-gray-400 hidden  md:flex opacity-30 sticky left-[11.7rem] z-50"></div>
+                    <div className=" w-px bg-gray-400 hidden  md:flex opacity-30 sticky left-[5.7rem] z-50"></div>
                     <SecondSec />
                     <div className=" w-px hidden  md:flex bg-gray-400 opacity-30"></div>
                     <ThirdSec />

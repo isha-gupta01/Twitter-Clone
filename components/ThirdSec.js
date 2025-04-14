@@ -1,21 +1,21 @@
 "use client"
 import React from 'react'
 import { useState, useEffect } from 'react'
-
+import SearchBar from './Search'
 const ThirdSec = () => {
     const [randomTweet, setRandomTweet] = useState([]);
     const [loading, setLoading] = useState(true)
     useEffect(() => {
         setLoading(true);
-        try{
+        try {
             fetch("https://twitterclonebackend-nqms.onrender.com/trends/trendingtweets/")
-            .then((res) => res.json())
-            .then((data) => setRandomTweet(data));
+                .then((res) => res.json())
+                .then((data) => setRandomTweet(data));
         }
-        catch(error){
-            console.log("In Fetching Randomtweet error occured ",error);
+        catch (error) {
+            console.log("In Fetching Randomtweet error occured ", error);
         }
-        finally{
+        finally {
             setLoading(false);
         }
     }, []);
@@ -23,14 +23,14 @@ const ThirdSec = () => {
     return (
         <div className='hidden lg:flex'>
 
-            <div className="third bg-black lg:w-[350px] fixed xl:right-0 lg:right-[6rem] max-h-[1000px]   h-[100%] inline-flex justify-center   overflow-y-auto scrollbar-hide  ">
+            <div className="third bg-black lg:w-[350px] md:fixed  md:w-[100vw] xl:right-0 lg:right-[6rem] max-h-[1000px]   h-[100%] inline-flex justify-center   overflow-y-auto scrollbar-hide  ">
                 <div className="m-4 overflow-y-auto scrollbar-hide overflow-hidden flex justify-center flex-col">
                     <div className=" fixed top-0 w-full bg-black  mt-3 h-12  mb-3 ">
                         <div className=' flex flex-row bg-black w-[300px] rounded-full border-[0.5px] border-white/20  items-center mb-3  outline-none'>
-                            <span className="material-symbols-outlined p-3">
+                            {/* <span className="material-symbols-outlined p-3">
                                 search
-                            </span>
-                            <div className="">Search</div>
+                            </span> */}
+                            <SearchBar />
                         </div>
                     </div>
                     <div className='mt-[36rem]'>

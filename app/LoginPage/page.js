@@ -8,11 +8,18 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
+  const [submitting, setSubmitting] = useState(false)
   const router = useRouter();
+
+  const handleClick = () => {
+    setSubmitting(true);
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(""); // Clear previous errors
+
+
 
     try {
       const response = await fetch("https://twitterclonebackend-nqms.onrender.com/api/auth/login", {
@@ -25,11 +32,12 @@ const LoginPage = () => {
 
       if (!response.ok) {
         setError(data.error || "Invalid credentials");
+        setSubmitting(false)
         return;
       }
 
       // Store JWT token (if backend sends one)
-    //   console.log(data)
+      //   console.log(data)
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
 
@@ -38,6 +46,9 @@ const LoginPage = () => {
 
     } catch (error) {
       setError("Something went wrong. Try again.");
+      setSubmitting(false)
+    }finally{
+      setSubmitting(false)
     }
   };
 
@@ -70,9 +81,12 @@ const LoginPage = () => {
             onChange={(e) => setPassword(e.target.value)}
             className="w-80 bg-gray-800 text-gray-200 placeholder-gray-500 px-4 py-2 rounded-md focus:outline-none ring-2 ring-blue-500" />
 
-          <button type="submit"
+          <button type="submit" onClick={handleClick}
+            disabled={!email || !password}
             className="w-80 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-md transition duration-200">
-            Log in
+            {submitting ? (<div className="flex justify-center items-center">
+              <div className="animate-spin h-6 w-6 border-4 border-gray-300 border-t-blue-500 rounded-full"></div>
+            </div>) : "Log in"}
           </button>
 
           {error && <p className="text-red-500 mt-2">{error}</p>}

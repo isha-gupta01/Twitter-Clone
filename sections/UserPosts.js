@@ -49,29 +49,24 @@ const UserPosts = ({ userId }) => {
     }, [userId]); // ✅ Added `userId` dependency to re-fetch when `userId` changes
 
     return (
-        <div>
-            {error && <p className="text-red-500">{error}</p>} {/* ✅ Show error message if any */}
-            <div className="">
-                <ul className="">
-                    {data.length > 0 ? (
-                        data.map((item, index) => (
-                            <li key={item._id} className="flex text-lg text-white px-8 gap-8 py-5 items-center">
-                                <div>{index + 1}.</div>
-                                <div className="flex justify-between gap-14 items-center">
-                                    <div className="w-[370px]">{item.content}</div>
-                                    {item.image && (
-                                        <div>
-                                            <Image src={item.image} alt="img" width={50} height={50} />
-                                        </div>
-                                    )}
-                                </div>
-                            </li>
-                        ))
-                    ) : (
-                        <p className="text-white">No tweets found.</p> // ✅ Show fallback message if `data` is empty
-                    )}
-                </ul>
-            </div>
+        <div className='h-screen lg:h-[50%] overflow-y-auto overflow-x-hidden'>
+            <ul className="space-y-4">
+                {data.map((item, index) => (
+                    <li key={item._id} className="flex text-lg text-white px-3 gap-8  py-5 items-center">
+                        <div>{index + 1}.</div>
+                        <div className='flex justify-between gap-14  items-center w-full'>
+                            <div className='w-[350px]'>{item.content}</div>
+                            <div className='hidden xl:flex'>
+                                {item.image && (
+                                    <div>
+                                        <Image src={item.image} alt="img" width={50} height={50} />
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </li>
+                ))}
+            </ul>
         </div>
     );
 };

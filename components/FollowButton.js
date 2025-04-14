@@ -4,67 +4,74 @@ import { useRouter } from "next/navigation";
 
 const FollowButton = ({ userIdToFollow }) => {
     const [isFollowing, setIsFollowing] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const router = useRouter();
 
-    // Get logged-in user from localStorage
-    const user = JSON.parse(localStorage.getItem("user"));
-    const followerId = user?.userId;
-
     useEffect(() => {
-        // Load follow state from localStorage
-        const storedFollowState = localStorage.getItem(`follow_${userIdToFollow}`);
-        if (storedFollowState) {
-            setIsFollowing(JSON.parse(storedFollowState)); // Convert back to boolean
-        } else {
-            // Check if user is following (API request)
-            const checkFollowingStatus = async () => {
-                try {
-                    const response = await fetch(`https://twitterclonebackend-nqms.onrender.com/loggeduser/${userIdToFollow}`);
-                    const data = await response.json();
-                    
-                    if (response.ok && data.followers.includes(followerId)) {
-                        setIsFollowing(true);
-                        localStorage.setItem(`follow_${userIdToFollow}`, JSON.stringify(true));
-                    }
-                } catch (error) {
-                    console.error("Error fetching user data:", error);
-                }
-            };
+        const user = JSON.parse(localStorage.getItem("user"));
+        const followerId = user?.userId;
 
-            checkFollowingStatus();
-        }
-    }, [userIdToFollow, followerId]);
+        if (!followerId || !userIdToFollow || followerId === userIdToFollow) return;
+
+        const checkFollowStatus = async () => {
+            try {
+                const res = await fetch(`https://twitterclonebackend-nqms.onrender.com/loggeduser/profile/${userIdToFollow}`);
+                const data = await res.json();
+
+                if (res.ok) {
+                    const isUserFollowing = data.followers.includes(followerId);
+                    setIsFollowing(isUserFollowing);
+                } else {
+                    console.error("Failed to load follow status.");
+                }
+            } catch (error) {
+                console.error("Error checking follow status:", error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        checkFollowStatus();
+    }, [userIdToFollow]);
 
     const handleFollowToggle = async () => {
-        if (!followerId) {
+        const token = localStorage.getItem("token");
+    
+        if (!token) {
             alert("Please log in first.");
-            router.push('/LoginPage');
+            router.push("/LoginPage");
             return;
         }
-
-        const url = `https://twitterclonebackend-nqms.onrender.com/loggeduser/${isFollowing ? "unfollow" : "follow"}/${userIdToFollow}`;
-        
+    
+        const action = isFollowing ? "unfollow" : "follow";
+    
         try {
-            const response = await fetch(url, {
+            const response = await fetch(`http://localhost:4000/loggeduser/${action}/${userIdToFollow}`, {
                 method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ followerId }),
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`, // JWT from localStorage
+                },
             });
-
+    
             if (response.ok) {
-                setIsFollowing(!isFollowing); // Toggle state
-                localStorage.setItem(`follow_${userIdToFollow}`, JSON.stringify(!isFollowing)); // Save state in localStorage
+                setIsFollowing(!isFollowing); // Toggle button state
             } else {
                 const data = await response.json();
-                alert(data.message);
+                alert(data.message || "Something went wrong.");
             }
         } catch (error) {
-            console.error("Error:", error);
+            console.error(`Error during ${action}:`, error);
         }
     };
+    
+    if (isLoading) return null;
 
     return (
-        <button onClick={handleFollowToggle} className={`px-4 py-2 rounded ${isFollowing ? "bg-red-500" : "bg-blue-500"} text-white`}>
+        <button
+            onClick={handleFollowToggle}
+            className={`px-4 py-2 rounded ${isFollowing ? "border border-white rounded-3xl" : "border border-white rounded-3xl"} text-white`}
+        >
             {isFollowing ? "Unfollow" : "Follow"}
         </button>
     );

@@ -8,7 +8,13 @@ const Registerpage = () => {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [submitting, setSubmitting] = useState(false)
     const router = useRouter();
+
+    const handleClick = () => {
+      setSubmitting(true);
+    }
+    
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -69,9 +75,13 @@ const Registerpage = () => {
                         onChange={(e) => setEmail(e.target.value)}
                         className="w-80 bg-gray-800 text-gray-200 placeholder-gray-500 px-4 py-2 rounded-md focus:outline-none ring-2 ring-blue-500" />
                     <button
+                        onClick={handleClick}
+                        disabled={!email || !password || submitting}
                         type="submit"
                         className=" btn w-80 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-md transition duration-200">
-                        Sign Up
+                        {submitting ? (<div className="flex justify-center items-center">
+                            <div className="animate-spin h-6 w-6 border-4 border-gray-300 border-t-blue-500 rounded-full"></div>
+                        </div>) : "Sign up"}
                     </button>
                     <br />
                 </form>

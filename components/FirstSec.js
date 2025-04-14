@@ -5,9 +5,9 @@ const FirstSec = () => {
     const user = JSON.parse(localStorage.getItem("user"))
   return (
     <div>
-      <div className="first mt-3 fixed left-0 bg-black w-[165px] z-10 h-[100vh]">
+      <div className="first mt-3 fixed left-0 bg-black w-[90px] z-10 h-[100vh]">
                     <div className="sidebar flex  items-start flex-col">
-                        <div className="logo invert my-4 lg:my-2  flex items-end ml-5 mr-7">
+                        <div className="logo invert my-4 lg:my-2  flex items-end ml-5 mr-3">
                             <svg viewBox="0 0 24 24" aria-hidden="true"
                                 className="w-8 r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-lrsllp r-1nao33i r-16y2uox r-8kz0gk">
                                 <g>
@@ -24,7 +24,7 @@ const FirstSec = () => {
                             </li>
                             <li
                                 className="flex md:justify-start items-center gap-2 justify-center  mr-2 md:w-fit  hover:bg-gray-900 hover:cursor-pointer px-5 py-3 hover:rounded-full">
-                                <Image src="/search.png" alt="search" width={30} height={30} />
+                            <Link href="/searchBar"><Image src="/search.png" alt="search" width={30} height={30} /> </Link>
                             </li>
                             <li
                                 className="flex md:justify-start items-center gap-2 justify-center  mr-2 md:w-fit  hover:bg-gray-900 hover:cursor-pointer px-5 py-3 hover:rounded-full">

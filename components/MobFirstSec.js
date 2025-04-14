@@ -21,56 +21,52 @@ const MobFirstSec = () => {
                     </div>
                     <ul className="flex flex-row  ">
                         <li
-                            className="flex md:justify-center items-center gap-2 justify-center  mr-2 md:w-fit  hover:bg-gray-900 hover:cursor-pointer pr-5 pl-[0.25rem] py-3 hover:rounded-full">
+                            className="flex md:justify-center items-center gap-2 justify-center  mr-2  md:w-fit    hover:cursor-pointer pr-5 pl-[0.25rem] py-3 ">
                             <Image src="/home.png" alt="home" width={50} height={50} />
                         </li>
+
                         <li
-                            className="flex md:justify-start items-center gap-2 justify-center  mr-2 md:w-fit  hover:bg-gray-900 hover:cursor-pointer pr-5 pl-[0.25rem] py-3 hover:rounded-full">
-                            <Image src="/search.png" alt="search" width={50} height={50} />
-                        </li>
-                        <li
-                            className="flex md:justify-start items-center gap-2 justify-center  mr-2 md:w-fit  hover:bg-gray-900 hover:cursor-pointer pr-5 pl-[0.25rem] py-3 hover:rounded-full">
-                            <Image src="/notification.png" alt="notification" width={50} height={50} />
-                        </li>
-                        <li
-                            className="flex md:justify-start items-center gap-2 justify-center  mr-2 md:w-fit  hover:bg-gray-900 hover:cursor-pointer pr-5 pl-[0.25rem] py-3 hover:rounded-full">
-                            <Image src="/chat.png" alt="message" width={50} height={50} />
-                        </li>
-                        {/* <li
-                                className="flex md:justify-start items-center gap-2 justify-center  mr-2 md:w-fit  hover:bg-gray-900 hover:cursor-pointer px-5 py-3 hover:rounded-full">
-                                <Image src="/box.png" alt="box" width={30} height={30} />
+                            className="flex md:justify-start items-center gap-2 justify-center  mr-2  md:w-fit    hover:cursor-pointer pr-5 pl-[0.25rem] py-3 ">
+                            <Link href="/searchBar"><Image src="/search.png" alt="search" width={50} height={50} /> </Link>
+                    </li>
+
+                    <li
+                        className="flex md:justify-start items-center gap-2 justify-center  mr-2  md:w-fit    hover:cursor-pointer pr-5 pl-[0.25rem] py-3 ">
+                        <Image src="/notification.png" alt="notification" width={50} height={50} />
+                    </li>
+                    <li
+                        className="flex md:justify-start items-center gap-2 justify-center  mr-2  md:w-fit    hover:cursor-pointer pr-5 pl-[0.25rem] py-3 ">
+                        <Image src="/chat.png" alt="message" width={50} height={50} />
+                    </li>
+                    {/* <li
+                                className="flex md:justify-start items-center gap-2 justify-center  mr-2  md:w-fit    hover:cursor-pointer px-5 py-3 hover:                      <Image src="/box.png" alt="box" width={30} height={30} />
                             </li> */}
-                        {/* <li
-                                className="flex md:justify-start items-center gap-2 justify-center  mr-2 md:w-fit  hover:bg-gray-900 hover:cursor-pointer px-5 py-3 hover:rounded-full">
-                                <Image src="/group.png" alt="group" width={30} height={30} />
+                    {/* <li
+                                className="flex md:justify-start items-center gap-2 justify-center  mr-2  md:w-fit    hover:cursor-pointer px-5 py-3 hover:                      <Image src="/group.png" alt="group" width={30} height={30} />
                             </li>
                             <li
-                                className="flex md:justify-start items-center gap-2 justify-center  mr-2 md:w-fit  hover:bg-gray-900 hover:cursor-pointer px-5 py-3 hover:rounded-full">
-                                <Image src="/lists.png" alt="lists" width={30} height={30} />
+                                className="flex md:justify-start items-center gap-2 justify-center  mr-2  md:w-fit    hover:cursor-pointer px-5 py-3 hover:                      <Image src="/lists.png" alt="lists" width={30} height={30} />
                             </li>
                             <li
-                                className="flex md:justify-start items-center gap-2 justify-center  mr-2 md:w-fit  hover:bg-gray-900 hover:cursor-pointer px-5 py-3 hover:rounded-full">
-                                <Image src="/bookmark.png" alt="bookmark" width={30} height={30} />
+                                className="flex md:justify-start items-center gap-2 justify-center  mr-2  md:w-fit    hover:cursor-pointer px-5 py-3 hover:                      <Image src="/bookmark.png" alt="bookmark" width={30} height={30} />
                             </li> */}
-                        <Link href="/ProfilePage"><li
-                            className="flex md:justify-start items-center gap-2 justify-center  mr-2 md:w-fit  hover:bg-gray-900 hover:cursor-pointer py-3 hover:rounded-full">
-                            <Image src="/person.png" alt="person" width={50} height={50} />
-                        </li></Link>
-                        {/* <li
-                                className="flex md:justify-start items-center gap-2 justify-center  mr-2 md:w-fit  hover:bg-gray-900 hover:cursor-pointer px-5 py-3 hover:rounded-full">
-                                <Image src="/pending.png" alt="pending" width={30} height={30} />
+                    <Link href="/ProfilePage"><li
+                        className="flex md:justify-start items-center gap-2 justify-center  mr-2  md:w-fit    hover:cursor-pointer py-3 ">        <Image src="/person.png" alt="person" width={50} height={50} />
+                    </li></Link>
+                    {/* <li
+                                className="flex md:justify-start items-center gap-2 justify-center  mr-2  md:w-fit    hover:cursor-pointer px-5 py-3 hover:                      <Image src="/pending.png" alt="pending" width={30} height={30} />
                             </li> */}
 
-                        {/* <Link href="/Logout">
+                    {/* <Link href="/Logout">
                             <li
-                                className="flex md:justify-start items-center justify-center  md:w-fit   hover:bg-gray-900 hover:cursor-pointer fixed bottom-3 left-[6.3rem] px-5 py-3 hover:rounded-full">
+                                className="flex md:justify-start items-center justify-center  md:w-fit    hover:cursor-pointer fixed bottom-3 left-[6.3er:rounded-full">
                                 <Image src={user.profileImage} alt="person" width={50} height={50} className='rounded-full' />
                             </li>
                             </Link> */}
-                    </ul>
-                </div>
+                </ul>
             </div>
         </div>
+        </div >
     )
 }
 
