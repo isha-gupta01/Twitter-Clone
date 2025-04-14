@@ -21,7 +21,7 @@ const ThirdSec = () => {
     }, []);
 
     return (
-        <div className='hidden lg:flex'>
+        <div className='hidden md:flex xl:hidden lg:flex'>
 
             <div className="third bg-black lg:w-[350px] md:fixed  md:w-[100vw] xl:right-0 lg:right-[6rem] max-h-[1000px]   h-[100%] inline-flex justify-center   overflow-y-auto scrollbar-hide  ">
                 <div className="m-4 overflow-y-auto scrollbar-hide overflow-hidden flex justify-center flex-col">

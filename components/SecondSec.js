@@ -143,9 +143,9 @@ const SecondSec = () => {
 
     return (
         <div>
-            <div className="second bg-black w-full md:w-[703px] mb-20 md:mb-0 min-h-screen  md:ml-[60px]  xl:ml-[188px] lg:ml-[59px] overflow-y-auto scrollbar-hide ">
+            <div className="second bg-black w-full md:w-[703px] xl:w-[907px] lg:w-[703px] mb-20 md:mb-0 min-h-screen  md:ml-[60px]  xl:ml-[90px] lg:ml-[59px] overflow-y-auto scrollbar-hide ">
                 <div className={`${scrolled ? "hidden":"flex flex-col fixed top-0"} md:flex md:flex-col md:fixed md:top-0 z-50 `}>
-                    <div className="backdrop-blur w-[500px] md:w-[703px] max-h-fit md:h-[53px] bg-black/30 flex flex-col md:flex-row  ">
+                    <div className="backdrop-blur w-[500px] md:w-[703px] xl:w-[907px] lg:w-[703px] max-h-fit md:h-[53px] bg-black/30 flex flex-col md:flex-row  ">
                         <div className='flex md:hidden   items-center'>
                             <Link href="/Logout">
                                 <li
@@ -156,7 +156,7 @@ const SecondSec = () => {
                             <div className=''>Home</div>
                         </div>
                         <div className='flex'>
-                            <div className="text-[1.1rem] w-[210px] md:w-[300px] h-[53px]  flex justify-center items-center flex-col text-white hover:text-white cursor-pointer text-center"><span>For you</span>
+                            <div className="text-[1.1rem] w-[210px] md:w-[300px] h-[53px] xl:w-[452px] lg:w-[300px]  flex justify-center items-center flex-col text-white hover:text-white cursor-pointer text-center"><span>For you</span>
                                 <div className='w-[4rem] h-[6px] backdrop-blur rounded-full  bg-blue-500 relative -bottom-[0.66rem]'></div>
                             </div>
                             <Link href="/following"><div className="text-[1.1rem]  md:w-[300px] h-[53px]  flex justify-center items-center text-white hover:text-white cursor-pointer text-center">Following</div></Link>

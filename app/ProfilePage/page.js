@@ -9,6 +9,9 @@ import MobFirstSec from '@/components/MobFirstSec'
 
 const ProfilePage = () => {
   // const [activeComponent, setActiveComponent] = useState()
+  const user = JSON.parse(localStorage.getItem("user"));
+  const userId = user?.userId;
+  
   return (
     <div>
       <ProtectedRoute>
@@ -22,7 +25,7 @@ const ProfilePage = () => {
               <MobFirstSec />
             </div>
             <div className=" w-px bg-gray-400 hidden md:flex opacity-30 sticky left-[5.7rem] z-50"></div>
-            <Profile />
+            <Profile userId={userId}/>
             <div className=" w-px bg-gray-400 opacity-25"></div>
             <ThirdSec />
 

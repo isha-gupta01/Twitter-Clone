@@ -52,8 +52,8 @@ const UserPosts = ({ userId }) => {
         <div className='h-screen lg:h-[50%] overflow-y-auto overflow-x-hidden'>
             <ul className="space-y-4">
                 {data.map((item, index) => (
-                    <li key={item._id} className="flex text-lg text-white px-3 gap-8  py-5 items-center">
-                        <div>{index + 1}.</div>
+                    <li key={item._id} className="flex text-lg text-white px-3 gap-4 sm:gap-8  py-5 items-center">
+                        <div className="">{index + 1}.</div>
                         <div className='flex justify-between gap-14  items-center w-full'>
                             <div className='w-[350px]'>{item.content}</div>
                             <div className='hidden xl:flex'>

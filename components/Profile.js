@@ -5,9 +5,10 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import Posts from '@/sections/posts'
+import Media from '@/sections/media'
 
 
-const Profile = () => {
+const Profile = ({userId}) => {
     const [dataUser, setDataUser] = useState([])
     const [tweetCount, setTweetCount] = useState(0);
     const router = useRouter();
@@ -25,7 +26,7 @@ const Profile = () => {
             case "Articles":
                 return <div>Your Articles will be displayed</div>;
             case "Media":
-                return <div>All your uploaded Media files</div>;
+                return <Media userId={userId}/>;
             case "Likes":
                 return <div>Here are your liked tweets</div>;
             default:
@@ -106,7 +107,7 @@ const Profile = () => {
 
     return (
         <div>
-            <div className='bg-black sm:w-[430px] md:w-[712px] md:ml-[80px] xl:w-[90.9vw] xl:ml-[93px] lg:w-[703px] lg:ml-[59px] min-h-screen overflow-y-auto flex flex-col'>
+            <div className='bg-black sm:w-[430px] md:w-[712px] md:ml-[80px] xl:w-[89.3vw] xl:ml-[93px] lg:w-[703px] lg:ml-[59px] min-h-screen overflow-y-auto flex flex-col'>
                 <div className='  flex gap-10 items-center px-4 py-2'>
                     <Link href="/Twitter"><Image src="/back.png" alt='back' width={20} height={20} className='invert self-center' /></Link>
                     <div className=' text-white flex flex-col '>
@@ -153,10 +154,10 @@ const Profile = () => {
                     {!dataUser.bio ? (
                         <p className="text-white">Loading...</p>
                     ) : (
-                        <div>
+                        <div className='flex flex-col md:flex-row gap-2'>
                             {(dataUser.bio || []).map((item, index) => (
-                                <div key={index} className='flex flex-row'>
-                                    <div className='mt-2 text-white flex  items-center justify-center h-8 border border-white rounded-3xl w-fit px-8 py-3'>
+                                <div key={index}>
+                                    <div className='mt-2 text-white flex whitespace-nowrap  items-center justify-center h-8 border border-white rounded-3xl w-fit px-8 py-3'>
                                         {item}
                                     </div>
                                 </div>
