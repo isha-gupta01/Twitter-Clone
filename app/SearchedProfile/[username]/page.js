@@ -15,7 +15,7 @@ const SearchedProfilePage = () => {
     useEffect(() => {
         const fetchUserId = async () => {
             try {
-                const res = await fetch(`http://localhost:4000/api/users/media/${username}`, {
+                const res = await fetch(`https://twitterclonebackend-nqms.onrender.com/api/users/media/${username}`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json"
