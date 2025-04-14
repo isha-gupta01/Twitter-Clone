@@ -46,7 +46,7 @@ const FollowButton = ({ userIdToFollow }) => {
         const action = isFollowing ? "unfollow" : "follow";
     
         try {
-            const response = await fetch(`http://localhost:4000/loggeduser/${action}/${userIdToFollow}`, {
+            const response = await fetch(`https://twitterclonebackend-nqms.onrender.com/loggeduser/${action}/${userIdToFollow}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",

@@ -33,7 +33,7 @@ const ChatBox = ({ messages, sendMessage, tweetId }) => {
 
     const fetchTweetData = async () => {
       try {
-        const response = await axios.get(`http://localhost:4000/tweetfetch/tweetData/${tweetId}`, {
+        const response = await axios.get(`https://twitterclonebackend-nqms.onrender.com/tweetfetch/tweetData/${tweetId}`, {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
         });
 

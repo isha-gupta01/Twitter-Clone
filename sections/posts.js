@@ -11,7 +11,7 @@ const Posts = () => {
         const token = localStorage.getItem("token");
     
         try {
-            const res = await fetch(`http://localhost:4000/tweetcrud/tweetdelete/${id}`, {
+            const res = await fetch(`https://twitterclonebackend-nqms.onrender.com/tweetcrud/tweetdelete/${id}`, {
                 method: "DELETE",
                 headers: {
                     Authorization: `Bearer ${token}`,

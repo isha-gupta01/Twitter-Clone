@@ -14,7 +14,7 @@ const SearchedPosts = ({username}) => {
             //     return;
             // }
             try {
-                const response = await fetch(`http://localhost:4000/tweetfetch/tweets/searched/${username}`, {
+                const response = await fetch(`https://twitterclonebackend-nqms.onrender.com/tweetfetch/tweets/searched/${username}`, {
                     method: "GET",
                     headers: {
                         // Authorization: `Bearer ${token}`,

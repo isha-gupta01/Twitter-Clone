@@ -2,7 +2,7 @@
 import React from 'react'
 
 const getPostById = async (id) => {
-  const res = await fetch(`http://localhost:4000/tweetfetch/posts/${id}`, {
+  const res = await fetch(`https://twitterclonebackend-nqms.onrender.com/tweetfetch/posts/${id}`, {
     cache: 'no-store', // Prevents stale data
   })
   if (!res.ok) {
@@ -36,7 +36,7 @@ const PostPage = async ({ params }) => {
   //       type: "article",
   //       images: [
   //         {
-  //           url: post.profileImage || "http://localhost:4000/default-thumbnail.png",
+  //           url: post.profileImage || "https://twitterclonebackend-nqms.onrender.com/default-thumbnail.png",
   //           width: 600,
   //           height: 400,
   //         },

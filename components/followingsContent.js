@@ -21,7 +21,7 @@ const FollowingsContent = () => {
     const delayDebounce = setTimeout(() => {
       if (query.trim()) {
         axios
-          .get(`http://localhost:4000/api/users/search?query=${query}`)
+          .get(`https://twitterclonebackend-nqms.onrender.com/api/users/search?query=${query}`)
           .then((res) => setResults(res.data))
           .catch((err) => console.error(err));
       } else {
@@ -46,7 +46,7 @@ const FollowingsContent = () => {
       }
 
       try {
-        const response = await fetch(`http://localhost:4000/loggeduser/profile/${userId}/followings`, {
+        const response = await fetch(`https://twitterclonebackend-nqms.onrender.com/loggeduser/profile/${userId}/followings`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

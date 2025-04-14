@@ -35,13 +35,13 @@ const SearchedUser = ({ username }) => {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const res = await fetch(`http://localhost:4000/loggeduser/profile/searched/${username}`);
+                const res = await fetch(`https://twitterclonebackend-nqms.onrender.com/loggeduser/profile/searched/${username}`);
                 if (!res.ok) throw new Error("User not found");
                 const user = await res.json();
                 setDataUser(user);
 
                 // Fetch their tweet count
-                const tweetRes = await fetch(`http://localhost:4000/tweetfetch/count/searched/${username}`);
+                const tweetRes = await fetch(`https://twitterclonebackend-nqms.onrender.com/tweetfetch/count/searched/${username}`);
                 const tweetData = await tweetRes.json();
                 setTweetCount(tweetData.totalTweets || 0);
             } catch (err) {

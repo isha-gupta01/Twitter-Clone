@@ -17,7 +17,7 @@ const Chat = ({  userId, username, profileImage }) => {
 
     const fetchComments = async () => {
       try {
-        const res = await axios.get(`http://localhost:4000/comment/${tweetId}`, {
+        const res = await axios.get(`https://twitterclonebackend-nqms.onrender.com/comment/${tweetId}`, {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
         });
         setComments(res.data);
@@ -61,7 +61,7 @@ const Chat = ({  userId, username, profileImage }) => {
     try {
       // ✅ Send new comment to backend API
       const response = await axios.post(
-        "http://localhost:4000/comment/add",
+        "https://twitterclonebackend-nqms.onrender.com/comment/add",
         newComment,
         {
           headers: {
