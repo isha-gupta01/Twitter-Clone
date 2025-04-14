@@ -16,7 +16,7 @@ const UserProfile = ({ userId }) => {
         if (!userId) return; // Prevent fetch if userId is not available
         console.log(userId);
         const fetchUser = async () => {
-            // const token = localStorage.getItem("token");
+            const token = localStorage.getItem("token");
 
             if (!token) {
                 router.push("/LoginPage"); // Redirect to login if no token
