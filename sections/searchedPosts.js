@@ -2,7 +2,8 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
-const SearchedPosts = ({username}) => {
+import Link from 'next/link'
+const SearchedPosts = ({ username }) => {
     const [data, setData] = useState([])
     // const [count, setCount] = useState(0)
     useEffect(() => {
@@ -36,13 +37,14 @@ const SearchedPosts = ({username}) => {
     }, [])
 
     return (
-            <div className='h-screen lg:h-[50vh] overflow-y-auto'>
-                <ul className="space-y-4">
-                    {data.map((item, index) => (
-                        <li key={item._id} className="flex text-lg text-white px-8 gap-8  py-5 items-center">
-                            <div>{index + 1}.</div>
-                            <div className='flex justify-between gap-14  items-center w-full'>
-                                <div className='w-[350px]'>{item.content}</div>
+        <div className='h-screen lg:h-[50vh] overflow-y-auto'>
+            <ul className="space-y-4">
+                {data.map((item, index) => (
+                    <li key={item._id} className="flex text-lg text-white px-8 gap-8  py-5 items-center">
+                        <div>{index + 1}.</div>
+                        <div className='flex justify-between gap-14  items-center w-full'>
+                            <Link href={`/post/${item._id}`}><div className='w-[350px]'>{item.content}</div></Link>
+                            <Link href={`/post/${item._id}`}>
                                 <div className='hidden xl:flex'>
                                     {item.image && (
                                         <div>
@@ -50,11 +52,12 @@ const SearchedPosts = ({username}) => {
                                         </div>
                                     )}
                                 </div>
-                            </div>
-                        </li>
-                    ))}
-                </ul>
-            </div>
+                            </Link>
+                        </div>
+                    </li>
+                ))}
+            </ul>
+        </div>
     )
 }
 

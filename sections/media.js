@@ -2,6 +2,7 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 const Media = ({ userId }) => {
     const [data, setData] = useState([])
 
@@ -38,15 +39,17 @@ const Media = ({ userId }) => {
                         className="text-white text-lg flex flex-col items-center"
                     >
                         {item.image && (
-                            <div className="bg-gray-500 w-full aspect-square overflow-hidden rounded-lg">
-                                <Image
-                                    src={item.image}
-                                    alt="img"
-                                    width={200}
-                                    height={200}
-                                    className="object-cover w-full h-full"
-                                />
-                            </div>
+                            <Link href={`/post/${item._id}`}>
+                                <div className="bg-gray-500 w-full aspect-square overflow-hidden rounded-lg">
+                                    <Image
+                                        src={item.image}
+                                        alt="img"
+                                        width={200}
+                                        height={200}
+                                        className="object-cover w-full h-full"
+                                    />
+                                </div>
+                            </Link>
                         )}
                     </li>
                 ))}

@@ -30,8 +30,10 @@ const Registerpage = () => {
         if (response.ok) {
             alert("Registration successful! Redirecting to login...");
             router.push("/LoginPage"); // Redirect to login page
+            setSubmitting(false);
         } else {
             alert(data.error || "Registration failed");
+            setSubmitting(false)
         }
     };
     return (
@@ -76,7 +78,7 @@ const Registerpage = () => {
                         className="w-80 bg-gray-800 text-gray-200 placeholder-gray-500 px-4 py-2 rounded-md focus:outline-none ring-2 ring-blue-500" />
                     <button
                         onClick={handleClick}
-                        disabled={!email || !password || submitting}
+                        disabled={!email || !password}
                         type="submit"
                         className=" btn w-80 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-md transition duration-200">
                         {submitting ? (<div className="flex justify-center items-center">

@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 const UserPosts = ({ userId }) => {
     const [data, setData] = useState([]);
@@ -55,14 +56,14 @@ const UserPosts = ({ userId }) => {
                     <li key={item._id} className="flex text-lg text-white px-3 gap-4 sm:gap-8  py-5 items-center">
                         <div className="">{index + 1}.</div>
                         <div className='flex justify-between gap-14  items-center w-full'>
-                            <div className='w-[350px]'>{item.content}</div>
-                            <div className='hidden xl:flex'>
+                            <Link href={`/post/${item._id}`}><div className='w-[350px]'>{item.content}</div></Link>
+                            <Link href={`/post/${item._id}`}> <div className='hidden xl:flex'>
                                 {item.image && (
                                     <div>
                                         <Image src={item.image} alt="img" width={50} height={50} />
                                     </div>
                                 )}
-                            </div>
+                            </div></Link>
                         </div>
                     </li>
                 ))}

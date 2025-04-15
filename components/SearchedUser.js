@@ -2,17 +2,18 @@
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+// import { useRouter } from 'next/navigation'
 import SearchedPosts from '@/sections/searchedPosts'
 import Media from '@/sections/media'
+import FollowButton from './FollowButton'
 
-const SearchedUser = ({ username ,userId}) => {
+const SearchedUser = ({ username, userId }) => {
     const [dataUser, setDataUser] = useState(null);
     const [tweetCount, setTweetCount] = useState(0);
     const [activeTab, setActiveTab] = useState("Posts");
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const router = useRouter();
+    // const router = useRouter();
 
     const renderContent = () => {
         switch (activeTab) {
@@ -25,7 +26,7 @@ const SearchedUser = ({ username ,userId}) => {
             case "Articles":
                 return <div>Your Articles will be displayed</div>;
             case "Media":
-                return <Media userId={userId}/>;
+                return <Media userId={userId} />;
             case "Likes":
                 return <div>Here are your liked tweets</div>;
             default:
@@ -76,7 +77,7 @@ const SearchedUser = ({ username ,userId}) => {
                     </div>
                 </div>
                 <div className="relative  h-48 bg-gray-600">
-                   
+
                     <div className="absolute left-5 z-50 -bottom-[5.5rem]">
                         <Image
                             src={dataUser.profileImage} // Change to your profile image URL
@@ -85,6 +86,13 @@ const SearchedUser = ({ username ,userId}) => {
                             height={100}
                             className="w-44 h-44 rounded-full border-4 border-black"
                         />
+                    </div>
+                    {/* Follow Button */}
+                    <div className="absolute -bottom-14 right-4">
+                        <Link href="#">
+                            <FollowButton userIdToFollow={dataUser._id} />
+                            {/* <div className="text-white">{dataUser._id}</div> */}
+                        </Link>
                     </div>
 
                 </div>
@@ -106,7 +114,7 @@ const SearchedUser = ({ username ,userId}) => {
                                     </div>
                                 </div>
                             ))}
-                        </div> 
+                        </div>
                     )}
 
                 </div>

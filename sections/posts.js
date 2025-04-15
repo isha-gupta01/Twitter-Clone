@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const Posts = () => {
     const [data, setData] = useState([]);
@@ -71,11 +72,11 @@ const Posts = () => {
                         
                         <div className="flex items-center gap-2 text-base sm:text-lg font-semibold">
                             <span className="text-gray-400 ">{index + 1}.</span>
-                            <div className="break-words max-w-full sm:max-w-[300px]">{item.content}</div>
+                            <Link href={`/post/${item._id}`}><div className="break-words max-w-full sm:max-w-[300px]">{item.content}</div></Link>
                         </div>
 
                         {item.image && (
-                            <div className="mt-2 sm:mt-0">
+                            <Link href={`/post/${item._id}`}><div className="mt-2 sm:mt-0">
                                 <Image
                                     src={item.image}
                                     alt="Tweet Image"
@@ -83,7 +84,7 @@ const Posts = () => {
                                     height={60}
                                     className="rounded-md xs:hidden lg:flex object-cover"
                                 />
-                            </div>
+                            </div></Link>
                         )}
                         <div className="sm:ml-auto flex justify-end">
                             <button onClick={() => handleDelete(item._id)} className="mt-2 sm:mt-0">

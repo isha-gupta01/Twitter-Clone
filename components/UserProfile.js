@@ -126,7 +126,7 @@ const UserProfile = ({ userId }) => {
                     </div>
                 </div>
                 <div className="relative  h-48 bg-gray-600">
-                   
+
                     <div className="absolute left-5 z-50 -bottom-[5.5rem]">
                         <Image
                             src={profileImageSrc} // Change to your profile image URL
@@ -137,12 +137,12 @@ const UserProfile = ({ userId }) => {
                         />
                     </div>
                     {/* Follow Button */}
-                <div className="absolute -bottom-14 right-4">
-                    <Link href="#">
-                        <FollowButton userIdToFollow={dataUser._id} />
-                        {/* <div className="text-white">{dataUser._id}</div> */}
-                    </Link>
-                </div>
+                    <div className="absolute -bottom-14 right-4">
+                        <Link href="#">
+                            <FollowButton userIdToFollow={dataUser._id} />
+                            {/* <div className="text-white">{dataUser._id}</div> */}
+                        </Link>
+                    </div>
 
                 </div>
                 <div className='flex flex-col mt-28 text-white ml-8'>
@@ -163,7 +163,7 @@ const UserProfile = ({ userId }) => {
                                     </div>
                                 </div>
                             ))}
-                        </div> 
+                        </div>
                     )}
 
                 </div>
@@ -186,7 +186,7 @@ const UserProfile = ({ userId }) => {
                 </div>
             </div>
         </div>
-        
+
     );
 };
 

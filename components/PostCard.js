@@ -53,7 +53,7 @@ const PostCard = () => {
                         <div className='ml-5   flex flex-col'>
                             <div className='flex flex-row items-center justify-between'>
                                 <div className="flex flex-row items-center">
-                                    <Link href="/userProfile"><h3 className="font-bold text-sm cursor-pointer"> {item.Name} </h3>
+                                    <Link href={`/userProfile/${item.user_id}`}><h3 className="font-bold text-sm cursor-pointer"> {item.Name} </h3>
                                     </Link>
                                     <svg viewBox="0 0 22 22" aria-label="Verified account" role="img"
                                         className="w-4 fill-blue-500 r-4qtqp9 r-yyyyoo r-1xvli5t r-bnwqim r-lrvibr r-m6rgpd r-1cvl2hr r-f9ja8p r-og9te1 r-3t4u6i"
@@ -64,7 +64,7 @@ const PostCard = () => {
                                             </path>
                                         </g>
                                     </svg>
-                                    <span className="text-gray-400 text-xs cursor-pointer" > {item.username}  </span>
+                                    <Link href={`/userProfile/${item.user_id}`}><span className="text-gray-400 text-xs cursor-pointer" > {item.username}  </span></Link>
                                     <div className="text-gray-500"><span className='text-xl font-bold '> · </span>{item.tweetTime}</div>
                                     <svg viewBox="0 0 24 24" aria-hidden="true"
                                         className="w-5 absolute md:hidden right-4  fill-gray-500 r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-lrvibr r-m6rgpd r-1xvli5t r-1hdv0qi">
