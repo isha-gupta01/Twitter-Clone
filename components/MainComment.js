@@ -1,52 +1,58 @@
-"use client"
+"use client";
+import { useState, useEffect, useRef } from "react";
 import { useParams } from "next/navigation";
 import ChatBox from "./Comments";
-import { useEffect, useState, useRef } from "react";
-import io from "socket.io-client";
 import axios from "axios";
+import io from "socket.io-client";
+
+let socket; // Global reference for socket
 
 const Chat = ({ userId, username, profileImage }) => {
   const [comments, setComments] = useState([]);
   const params = useParams();
-  const { tweetId } = params;
-
-  const socketRef = useRef(null); // 👈 for maintaining socket instance
+  const tweetId = params?.tweetId;
+  const socketInitialized = useRef(false); // Prevent multiple socket setups
 
   useEffect(() => {
-    if (!tweetId) return;
+    if (!tweetId || socketInitialized.current) return;
 
-    // ✅ Initialize socket inside useEffect
-    socketRef.current = io("https://twitterclonebackend-nqms.onrender.com");
+    // ✅ Connect to socket
+    socket = io("https://twitterclonebackend-nqms.onrender.com"); // Ensure this is your live backend
+    socketInitialized.current = true;
 
-    // Join the tweet-specific room
-    socketRef.current.emit("joinTweetRoom", tweetId);
+    // ✅ Join tweet room
+    socket.emit("joinTweetRoom", tweetId);
 
-    // Listen for incoming comment
-    socketRef.current.on("receiveComment", (comment) => {
-      setComments((prev) => [comment, ...prev]);
+    // ✅ Listen for new comments from backend
+    socket.on("receiveComment", (comment) => {
+      setComments((prev) => {
+        const exists = prev.some((c) => c._id === comment._id);
+        return exists ? prev : [...prev, comment]; // Append if not duplicate
+      });
     });
 
     return () => {
-      // ✅ Clean up socket on unmount
-      socketRef.current.disconnect();
+      socket.off("receiveComment");
+      socket.disconnect();
     };
   }, [tweetId]);
 
   useEffect(() => {
+    if (!tweetId) return;
+
     const fetchComments = async () => {
       try {
         const res = await axios.get(`https://twitterclonebackend-nqms.onrender.com/comment/${tweetId}`, {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         });
-        setComments(res.data);
-      } catch (error) {
-        console.error("Error fetching comments:", error);
+
+        setComments(res.data); // Assuming sorted by timestamp ascending from backend
+      } catch (err) {
+        console.error("Error fetching comments:", err);
       }
     };
 
-    if (tweetId) {
-      fetchComments();
-    }
+    fetchComments();
   }, [tweetId]);
 
   const sendComment = async (content) => {
@@ -55,7 +61,7 @@ const Chat = ({ userId, username, profileImage }) => {
     const token = localStorage.getItem("token");
     if (!token) return;
 
-    const newComment = {
+    const commentPayload = {
       tweetId,
       userId,
       username,
@@ -64,34 +70,14 @@ const Chat = ({ userId, username, profileImage }) => {
     };
 
     try {
-      const response = await axios.post(
-        "https://twitterclonebackend-nqms.onrender.com/comment/add",
-        newComment,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (response.status === 201) {
-        const savedComment = response.data.comment;
-        // ✅ Only emit through socket (don't duplicate with setComments here)
-        socketRef.current.emit("sendComment", savedComment);
-      }
-    } catch (error) {
-      console.error("Error saving comment:", error);
+      // ✅ Emit to socket directly — backend will save and rebroadcast
+      socket.emit("sendComment", commentPayload);
+    } catch (err) {
+      console.error("Error sending comment:", err);
     }
   };
 
-  return (
-    <ChatBox
-      messages={comments}
-      sendMessage={sendComment}
-      tweetId={tweetId}
-    />
-  );
+  return <ChatBox messages={comments} sendMessage={sendComment} tweetId={tweetId} />;
 };
 
 export default Chat;
