@@ -124,53 +124,67 @@ TweetCrud.post("/loggedtweet", authenticateToken, upload.single("media"), async 
   });
   
 
-TweetCrud.post("/likes", authenticateToken, async (req, res) => {
+TweetCrud.get("/tweet/:tweetId", authenticateToken, async (req, res) => {
     try {
-        const userId =req.user.userId;  // Ensure it's an ObjectId
-        const { tweetId } = req.body;
-        
-        // console.log(userId);
-        // console.log(tweetId);
-        // if (!mongoose.Types.ObjectId.isValid(tweetId)) {
-        //     return res.status(400).json({ message: "Invalid Tweet ID" });
-        // }
-        
-        
-        // Find the tweet
+        const userId = req.user.userId;
+        const { tweetId } = req.params;
+
         const tweet = await Tweets.findById(tweetId);
         if (!tweet) {
             return res.status(404).json({ message: "Tweet not found" });
         }
-        
-        // Check if user has already liked the tweet
+
         const hasLiked = tweet.likedBy.includes(userId);
-        // console.log(hasLiked);
+
+        res.status(200).json({
+            _id: tweet._id,
+            likes: tweet.likes,
+            likedBy: tweet.likedBy,
+            hasLiked,
+        });
+    } catch (error) {
+        console.error("Error fetching tweet:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+});
+
+TweetCrud.post("/likes", authenticateToken, async (req, res) => {
+    try {
+        const userId = req.user.userId;
+        const { tweetId } = req.body;
+
+        const tweet = await Tweets.findById(tweetId);
+        if (!tweet) {
+            return res.status(404).json({ message: "Tweet not found" });
+        }
+
+        const hasLiked = tweet.likedBy.includes(userId);
 
         if (hasLiked) {
-            // Unlike: Remove user from likedBy and decrease count
+            // Unlike
             tweet.likedBy = tweet.likedBy.filter(id => id.toString() !== userId);
-            tweet.likes -= 1;
+            tweet.likes = Math.max(0, tweet.likes - 1); // Prevent negative likes
         } else {
-            // Like: Add user to likedBy only if not already present
-            if (!tweet.likedBy.some(id => String(id) === String(req.user.userId))) {
-                tweet.likedBy.push(userId);
-                tweet.likes += 1;
-            }
+            // Like
+            tweet.likedBy.push(userId);
+            tweet.likes += 1;
         }
-        // Save updated tweet
+
         await tweet.save();
 
         res.status(200).json({
-            message: "Like updated",
+            message: "Like status updated",
             likes: tweet.likes,
             likedBy: tweet.likedBy,
-            hasLiked:!hasLiked
+            hasLiked: !hasLiked,
         });
     } catch (error) {
         console.error("Error updating likes:", error);
         res.status(500).json({ message: "Server error" });
     }
 });
+
+
 
 // ✅ PUT (Update a tweet)
 TweetCrud.put("/tweetupdate", async (req, res) => {
