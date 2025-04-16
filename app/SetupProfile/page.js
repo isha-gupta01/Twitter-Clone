@@ -3,13 +3,13 @@ import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
 
 const SetupProfile = () => {
-    const [form, setForm] = useState({ username: "", Name: "", bio: "" });
+    const [form, setForm] = useState({ username: "", Name: "", bio: [] });
     const [selectedFile, setSelectedFile] = useState(null);
     const [response, setResponse] = useState("");
     const [user, setUser] = useState(null);
+    const [imagePreview, setImagePreview] = useState(null);
     const router = useRouter();
-
-    // ✅ Load user data from localStorage on client-side only
+    const [submitting, setSubmitting] = useState(false)
     useEffect(() => {
         if (typeof window !== "undefined") {
             const storedUser = JSON.parse(localStorage.getItem("user"));
@@ -18,35 +18,69 @@ const SetupProfile = () => {
                 setForm({
                     username: storedUser.username || "",
                     Name: storedUser.Name || "",
-                    bio: storedUser.bio || "",
+                    bio: JSON.stringify(storedUser.bio) ? storedUser.bio : [],
                 });
+                if (storedUser.profileImage) {
+                    setImagePreview(storedUser.profileImage);
+                }
             }
         }
     }, []);
 
-    // ✅ Handle text input changes
     const handleInputChange = (e) => {
-        setForm({ ...form, [e.target.name]: e.target.value });
+        const { name, value } = e.target;
+        setForm((prev) => ({
+            ...prev,
+            [name]: name === "bio"
+                ? value.split(",").map((item) => item.trim())
+                : value,
+        }));
     };
 
-    // ✅ Handle file selection
     const handleFileChange = (event) => {
         const file = event.target.files[0];
         if (file) {
             setSelectedFile(file);
-            console.log("Selected File:", file);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setImagePreview(reader.result);
+            };
+            reader.readAsDataURL(file);
         }
     };
 
-    // ✅ Handle form submission
+    const handleRemoveImage = () => {
+        setSelectedFile(null);
+        setImagePreview(null);
+        document.getElementById("fileInput").value = "";
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setSubmitting(true);
+
+        const hasTextUpdates =
+            form.username.trim() !== "" ||
+            form.Name.trim() !== "" ||
+            (Array.isArray(form.bio) && form.bio.some((b) => b.trim() !== ""));
+
+        const hasFile = selectedFile !== null;
+
+        if (!hasFile && !hasTextUpdates) {
+            setResponse("Please update at least one field or upload a file.");
+            return;
+        }
+
         const formData = new FormData();
-        formData.append("username", form.username);
-        formData.append("Name", form.Name);
-        formData.append("bio", form.bio);
-        if (selectedFile) {
-            formData.append("media", selectedFile); // ✅ Change to "profileImage"
+
+        if (hasTextUpdates) {
+            formData.append("username", form.username);
+            formData.append("Name", form.Name);
+            formData.append("bio", JSON.stringify(form.bio));
+        }
+
+        if (hasFile) {
+            formData.append("media", selectedFile);
         }
 
         try {
@@ -61,15 +95,15 @@ const SetupProfile = () => {
             const data = await response.json();
 
             if (response.ok) {
+                setSubmitting(false);
                 setResponse("Profile Updated Successfully.");
 
-                // ✅ Update LocalStorage with new profile data
                 const updatedUser = {
                     ...user,
-                    username: data.profile.username,
-                    Name: data.profile.Name,
-                    bio: data.profile.bio,
-                    profileImage: data.profile.profileImage, // ✅ Corrected profile image URL
+                    ...(data.profile.username && { username: data.profile.username }),
+                    ...(data.profile.Name && { Name: data.profile.Name }),
+                    ...(data.profile.bio && { bio: data.profile.bio }),
+                    ...(data.profile.profileImage && { profileImage: data.profile.profileImage }),
                 };
 
                 if (typeof window !== "undefined") {
@@ -77,10 +111,9 @@ const SetupProfile = () => {
                 }
 
                 setUser(updatedUser);
-                setForm({ username: "", Name: "", bio: "" });
+                setForm({ username: "", Name: "", bio: [] });
                 setSelectedFile(null);
-
-                // ✅ Reset file input visually
+                setImagePreview(null);
                 document.getElementById("fileInput").value = "";
 
                 setTimeout(() => {
@@ -88,29 +121,64 @@ const SetupProfile = () => {
                 }, 1000);
             } else {
                 setResponse(data.message || "Error updating profile.");
+                setSubmitting(false);
             }
         } catch (error) {
             setResponse("Error: " + error.message);
+            setSubmitting(false);
         }
     };
 
     return (
         <div className="bg-gray-800 w-full text-white min-h-screen flex justify-center items-center">
-            <div className="bg-black w-[28rem] h-[40rem] rounded-2xl py-8 flex flex-col">
-                <div className="w-[27rem] p-4 xl:pl-[3rem] justify-center">
-                    <div className="invert">
+            <div className="bg-black w-[28rem] h-[48rem] sm:h-[80rem] md:h-[40rem] rounded-2xl py-8 flex flex-col">
+                <div className="w-[27rem] p-4 xl:pl-[3rem]  justify-center">
+                    <div className="invert  ">
                         <svg
                             viewBox="0 0 24 24"
                             aria-hidden="true"
-                            className="w-9 h-10 m-auto"
+                            className="w-9 h-10 my-auto mx-48 md:mx-auto"
                         >
                             <g>
                                 <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
                             </g>
                         </svg>
                     </div>
-                    <div className="text-center mt-5 text-2xl">Set Up Profile</div>
-                    <form onSubmit={handleSubmit} className="flex my-10 flex-col gap-5">
+                    <div className="text-center ml-[2rem] md:ml-0 mt-5 text-2xl">Set Up Profile</div>
+                    <form onSubmit={handleSubmit} className="flex my-10 ml-8 sm:ml-5 md:ml-0 flex-col gap-5">
+                            {imagePreview && (
+                                <div className="relative w-20 h-20 mx-auto">
+                                    <img
+                                        src={imagePreview}
+                                        alt="Preview"
+                                        className="rounded-full w-full h-full object-cover"
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={handleRemoveImage}
+                                        className="absolute top-0 -right-4 ring-1 ring-white text-white px-[0.35rem] py-[0.15rem] rounded-full text-[0.60rem]"
+                                    >
+                                        ✕
+                                    </button>
+                                </div>
+                            )}
+                            <div className="flex flex-col items-center ">
+                                <label
+                                    htmlFor="fileInput"
+                                    className="cursor-pointer px-4 py-2   text-white rounded-full border border-white/30 hover:bg-gray-300 hover:text-black transition-all duration-200"
+                                >
+                                    Update Image
+                                </label>
+
+                                <input
+                                    id="fileInput"
+                                    type="file"
+                                    name="profileImage"
+                                    accept="image/*,video/*"
+                                    onChange={handleFileChange}
+                                    className="hidden"
+                                />
+                            </div>
                         <input
                             className="py-2 px-2 rounded-2xl bg-black text-white border border-white/30"
                             onChange={handleInputChange}
@@ -130,27 +198,26 @@ const SetupProfile = () => {
                         <input
                             className="py-2 px-2 rounded-2xl bg-black text-white border border-white/30"
                             onChange={handleInputChange}
-                            value={form.bio}
+                            value={Array.isArray(form.bio) ? form.bio.join(", ") : ""}
                             type="text"
                             name="bio"
                             placeholder="Bio"
                         />
-                        <input
-                            id="fileInput"
-                            className="py-2 px-2 rounded-2xl bg-black text-white border border-white/30"
-                            accept="image/*,video/*"
-                            onChange={handleFileChange}
-                            type="file"
-                            name="profileImage"
-                            placeholder="Upload File"
-                        />
-                        <button
+
+
+
+                        {submitting? (<button
+                            type="submit"
+                            className="bg-white text-black font-semibold rounded-full w-[16rem] mx-auto py-2 mt-4"
+                        >
+                            Updating
+                        </button>):(<button
                             type="submit"
                             className="bg-white text-black font-semibold rounded-full w-[16rem] mx-auto py-2 mt-4"
                         >
                             Update
-                        </button>
-                        {response && <div className="text-red-600 text-center">{response}</div>}
+                        </button>)}
+                        {response && <div className="text-green-600 text-center">{response}</div>}
                     </form>
                 </div>
             </div>

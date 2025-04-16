@@ -6,6 +6,8 @@ import SearchedUser from '@/components/SearchedUser'
 import ProtectedRoute from '@/components/ProtectedRoute'
 import MobFirstSec from '@/components/MobFirstSec'
 import { useParams } from 'next/navigation'
+import SearchOverlay from '@/components/SearchOverlay'
+
 
 const SearchedProfilePage = () => {
     const [id, setId] = useState(null)
@@ -36,6 +38,8 @@ const SearchedProfilePage = () => {
             fetchUserId();
         }
     }, [username]);
+    const [isSearchOpen, setIsSearchOpen] = useState(false);
+
 
     return (
         <div>
@@ -44,17 +48,19 @@ const SearchedProfilePage = () => {
                     <div className="flex md:container mx-auto">
 
                         <div className='hidden md:flex'>
-                            <FirstSec />
+                            <FirstSec onSearchClick={() => setIsSearchOpen(true)} />
                         </div>
                         <div className='md:hidden block'>
                             <MobFirstSec />
                         </div>
                         <div className="w-px bg-gray-400 hidden md:flex opacity-30 sticky left-[5.7rem] z-50"></div>
-                        
+
                         <SearchedUser username={username} userId={id} />
-                        
+
                         <div className="w-px bg-gray-400 opacity-25"></div>
                         <ThirdSec />
+                        {/* Search overlay */}
+                        {isSearchOpen && <SearchOverlay open={isSearchOpen} onClose={() => setIsSearchOpen(false)} />}
 
                     </div>
                 </div>

@@ -118,7 +118,7 @@ const PostCard = () => {
                             <div className="flex flex-row gap-[1.5rem] md:gap-[4rem]">
                                 <Link href={`/Comment/${item._id}`}>
                                     <li
-                                        className="flex flex-row text-white/50 fill-white/50 hover:fill-blue-500 hover:text-blue-500 hover:shadow-[0_0_12px_2px_rgba(0,89,255)] transition-shadow">
+                                        className="flex flex-row text-white/50 fill-white/50 hover:fill-blue-500 hover:text-blue-500 ">
                                         <svg viewBox="0 0 24 24" aria-hidden="true" className="w-4 r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-lrvibr r-m6rgpd r-1xvli5t r-1hdv0qi">
                                             <g>
                                                 <path
@@ -130,7 +130,7 @@ const PostCard = () => {
                                     </li>
                                 </Link>
                                 <li
-                                    className="flex flex-row text-white/50 fill-white/50 hover:fill-blue-500 hover:text-blue-500 hover:shadow-[0_0_12px_2px_rgba(0,89,255)] transition-shadow">
+                                    className="flex flex-row text-white/50 fill-white/50 hover:fill-blue-500 hover:text-blue-500 ">
                                     <svg viewBox="0 0 24 24" aria-hidden="true" className="w-4 r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-lrvibr r-m6rgpd r-1xvli5t r-1hdv0qi">
                                         <g>
                                             <path
@@ -142,7 +142,7 @@ const PostCard = () => {
                                 </li>
                                 <LikeButton tweetId={item._id} initialLikes={item.likes} userId={item.userId} />
                                 <li
-                                    className="flex flex-row text-white/50 fill-white/50 hover:fill-blue-500 hover:text-blue-500 hover:shadow-[0_0_12px_2px_rgba(0,89,255)] transition-shadow">
+                                    className="flex flex-row text-white/50 fill-white/50 hover:fill-blue-500 hover:text-blue-500 ">
                                     <svg viewBox="0 0 24 24" aria-hidden="true" className="w-4 r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-lrvibr r-m6rgpd r-1xvli5t r-1hdv0qi">
                                         <g>
                                             <path

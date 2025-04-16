@@ -15,6 +15,12 @@ const SecondSec = () => {
     const [loading, setLoading] = useState(true)
     const [submitting, setSubmitting] = useState(false)
 
+    // const [text, setText] = useState('');
+    // const [file, setFile] = useState(null);
+
+    const isActive = content.trim() !== "" || selectedFile !== null;
+
+
 
     const [scrolled, setScrolled] = useState(false);
 
@@ -29,6 +35,7 @@ const SecondSec = () => {
             console.log("Post submitted successfully!");
         } catch (error) {
             console.error("Error submitting post:", error);
+            setSubmitting(false);
         } finally {
             setSubmitting(false); // Make sure to hide spinner after the process
         }
@@ -157,6 +164,7 @@ const SecondSec = () => {
 
     }, []);
 
+    const profileImg = user.profileImage && user.profileImage !== "undefined" ? user.profileImage : "/person2.png";
 
 
     return (
@@ -166,9 +174,18 @@ const SecondSec = () => {
                     <div className="backdrop-blur w-[500px] md:w-[703px] xl:w-[907px] lg:w-[703px] max-h-fit md:h-[53px] bg-black/30 flex flex-col md:flex-row  ">
                         <div className='flex md:hidden  items-center'>
                             <Link href="/Logout">
-                                <li className="flex md:justify-start items-center justify-center  md:w-fit   hover:bg-gray-900 hover:cursor-pointer px-5 py-3 hover:rounded-full">
-                                    <Image src={user.profileImage} alt="person" width={50} height={50} className='rounded-full' />
+                                <li className="flex md:justify-start items-center justify-center md:w-fit hover:bg-gray-900 hover:cursor-pointer px-5 py-3">
+                                    <div className="w-[50px] h-[50px] rounded-full overflow-hidden">
+                                        <Image
+                                            src={profileImg}
+                                            alt="person"
+                                            width={50}
+                                            height={50}
+                                            className="object-cover w-full h-full"
+                                        />
+                                    </div>
                                 </li>
+
                             </Link>
                             <div className=''>Home</div>
                         </div>
@@ -185,7 +202,7 @@ const SecondSec = () => {
                     <form onSubmit={handleSubmit}>
                         <div className=" flex flex-row m-5 items-center gap-3">
                             <img src={user.profileImage} className=" w-10 h-10 hidden xl:flex rounded-full" />
-                            <input className="text-xl bg-black w-full  border focus:border-blue-500 rounded-full px-3 mx-5 py-2 border-white/30 text-gray-500" placeholder='What is Happening?' name="content"
+                            <input className="text-xl bg-black w-full  border focus:border-blue-500 rounded-full px-3 mx-5 py-2 border-white/30 text-white" placeholder='What is Happening?' name="content"
                                 value={content}
                                 onChange={handleInputChange} />
                         </div>
@@ -193,7 +210,7 @@ const SecondSec = () => {
 
                             <ul className="flex flex-row  gap-2 ml-5 md:ml-24">
                                 <li onClick={handleOpenFilePicker}><svg viewBox="0 0 24 24" aria-hidden="true"
-                                    className="w-7 fill-blue-500/80 r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-lrvibr r-m6rgpd r-z80fyv r-19wmn03"
+                                    className="w-7 cursor-pointer fill-blue-500/80 r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-lrvibr r-m6rgpd r-z80fyv r-19wmn03"
                                 >
                                     <g>
                                         <path
@@ -258,22 +275,23 @@ const SecondSec = () => {
                                 onChange={handleFileChange}
                                 accept="image/*,video/*"
                                 style={{ display: "none" }}
+                                className='cursor-pointer'
                             />
 
                             {/* Display selected file name */}
                             {selectedFile && (
-                                <p className="mt-2 text-sm text-green-400">
-                                    Selected
-                                </p>
+                                <p className='text-green-400 font-bold'>Selected</p>
                             )}
 
                             <button
                                 type="submit"
                                 onClick={handlePostSubmitting}
-                                className="rounded-full hover:bg-white text-center px-5 py-1 bg-gray-500 text-black font-bold"
-                            >
-                                Post
+                                disabled={!isActive}
+                                className={`rounded-full text-center px-5 py-1 font-bold transition-colors duration-300
+                               ${isActive ? 'bg-blue-600 text-white hover:bg-blue-700 cursor-pointer': 'bg-gray-400 text-black cursor-not-allowed'}`}>
+                                {submitting ? "Posting..." : "Post"}
                             </button>
+
 
 
                         </div>

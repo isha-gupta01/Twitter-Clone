@@ -1,18 +1,93 @@
 "use client"
 import React from 'react'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import Posts from '@/sections/posts'
 import Media from '@/sections/media'
+import axios from 'axios'
 
 
-const Profile = ({userId}) => {
+const Profile = ({ userId }) => {
     const [dataUser, setDataUser] = useState([])
     const [tweetCount, setTweetCount] = useState(0);
     const router = useRouter();
     const [activeTab, setActiveTab] = useState("Posts"); // Default tab
+
+    const defaultProfileImage = '/person2.png'; // Replace with your default image in the public folder
+    const [profileImageSrc, setProfileImageSrc] = useState(null);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const fileInputRef = useRef(null);
+
+
+    // Handle profile image click (toggle menu)
+  const handleImageClick = () => {
+    setIsMenuOpen(prev => !prev);
+  };
+
+  // Handle file select
+  const handleFileChange = async (e) => {
+    const file = e.target.files[0];
+
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("imageUrl", file);
+    formData.append("userId", userId);
+
+    try {
+      const res = await fetch("http://localhost:4000/loggeduser/updateProfileImage", {
+        method: "PUT",
+        body: formData,
+      });
+
+      if (!res.ok) throw new Error("Image update failed");
+
+      const updated = await res.json();
+      setDataUser((prev) => ({
+        ...prev,
+        profileImage: updated.user.profileImage,
+      }));
+      setProfileImageSrc(updated.user.profileImage);
+      setIsMenuOpen(false);
+    } catch (err) {
+      console.error("Error updating profile image:", err);
+    }
+  };
+
+  // Handle image update (open file input)
+  const handleUpdateImage = () => {
+    fileInputRef.current?.click();
+  };
+
+  // Handle image removal (set to default)
+  const handleRemoveImage = async () => {
+    try {
+      const res = await fetch("http://localhost:4000/loggeduser/removeProfileImage", {
+        method: "PUT",
+        body: JSON.stringify({ id: userId }),
+        headers: {
+          "Content-Type": "application/json",
+
+        },
+      });
+  
+      if (!res.ok) throw new Error("Failed to remove image");
+  
+      const updated = await res.json();
+  
+      setProfileImageSrc(defaultProfileImage);
+      setDataUser((prev) => ({
+        ...prev,
+        profileImage: defaultProfileImage,
+      }));
+      setIsMenuOpen(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  
 
     // Define content for each tab
     const renderContent = () => {
@@ -26,7 +101,7 @@ const Profile = ({userId}) => {
             case "Articles":
                 return <div>Your Articles will be displayed</div>;
             case "Media":
-                return <Media userId={userId}/>;
+                return <Media userId={userId} />;
             case "Likes":
                 return <div>Here are your liked tweets</div>;
             default:
@@ -120,13 +195,37 @@ const Profile = ({userId}) => {
                     {/* Profile Picture */}
                     <div className="absolute left-5 z-50 -bottom-[5.5rem]">
                         <Image
-                            src={dataUser.profileImage} // Change to your profile image URL
+                            src={dataUser.profileImage || profileImageSrc}
+
+                            // Change to your profile image URL
                             alt="Profile Picture"
                             width={100}
                             height={100}
-                            className="w-44 h-44 rounded-full border-4 border-black"
+                            className="w-44 h-44 rounded-full border-4 cursor-pointer border-black"
+                            onClick={handleImageClick}
                         />
                     </div>
+                    {isMenuOpen && (
+                        <div className="absolute top-[10rem] right-[24rem] border z-60 bg-black  shadow-lg rounded-md p-3">
+                            <ul>
+                                <li className="cursor-pointer  text-white" onClick={handleRemoveImage}>
+                                    Remove Image
+                                </li>
+                                <hr />
+                                <li className="cursor-pointer text-white" onClick={handleUpdateImage}>
+                                    Update Image
+                                </li>
+                            </ul>
+                        </div>
+                    )}
+
+                    <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleFileChange}
+                        ref={fileInputRef}
+                        style={{ display: "none" }}
+                    />
 
                     {/* Set Up Profile Button */}
                     <div className="absolute -bottom-14 right-4">
@@ -185,6 +284,7 @@ const Profile = ({userId}) => {
                 </div>
             </div>
         </div>
+
     )
 }
 

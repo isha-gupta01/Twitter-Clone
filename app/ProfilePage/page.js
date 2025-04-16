@@ -5,9 +5,13 @@ import ThirdSec from '@/components/ThirdSec'
 import Profile from '@/components/Profile'
 import ProtectedRoute from '@/components/ProtectedRoute'
 import MobFirstSec from '@/components/MobFirstSec'
+import SearchOverlay from '@/components/SearchOverlay'
+
 
 const ProfilePage = () => {
   const [userId, setUserId] = useState(null);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -22,18 +26,20 @@ const ProfilePage = () => {
       <div className="black text-white">
         <div className="flex md:container mx-auto">
           <div className="hidden md:flex">
-            <FirstSec />
+            <FirstSec onSearchClick={() => setIsSearchOpen(true)} />
           </div>
           <div className="md:hidden block">
             <MobFirstSec />
           </div>
           <div className="w-px bg-gray-400 hidden md:flex opacity-30 sticky left-[5.7rem] z-50"></div>
-          
+
           {/* Only render Profile if userId is available */}
           {userId && <Profile userId={userId} />}
 
           <div className="w-px bg-gray-400 opacity-25"></div>
           <ThirdSec />
+          {/* Search overlay */}
+          {isSearchOpen && <SearchOverlay open={isSearchOpen} onClose={() => setIsSearchOpen(false)} />}
         </div>
       </div>
     </ProtectedRoute>
