@@ -3,7 +3,7 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-const SearchedPosts = ({ username }) => {
+const SearchedPosts = ({ userId }) => {
     const [data, setData] = useState([])
     // const [count, setCount] = useState(0)
     useEffect(() => {
@@ -15,7 +15,7 @@ const SearchedPosts = ({ username }) => {
             //     return;
             // }
             try {
-                const response = await fetch(`https://twitterclonebackend-nqms.onrender.com/tweetfetch/tweets/searched/${username}`, {
+                const response = await fetch(`https://twitterclonebackend-nqms.onrender.com/tweetfetch/tweets/searched/${userId}`, {
                     method: "GET",
                     headers: {
                         // Authorization: `Bearer ${token}`,

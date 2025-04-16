@@ -82,8 +82,12 @@ const Chat = ({ userId, username, profileImage }) => {
     };
 
     try {
-      // Emit to socket directly — backend will save and rebroadcast
-      socket.emit("sendComment", commentPayload);
+      // Ensure socket is initialized before emitting
+      if (socket) {
+        socket.emit("sendComment", commentPayload);
+      } else {
+        console.error("Socket is not initialized yet.");
+      }
     } catch (err) {
       console.error("Error sending comment:", err);
     }

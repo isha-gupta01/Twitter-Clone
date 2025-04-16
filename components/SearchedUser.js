@@ -18,7 +18,7 @@ const SearchedUser = ({ username, userId }) => {
     const renderContent = () => {
         switch (activeTab) {
             case "Posts":
-                return <SearchedPosts username={username} />;
+                return <SearchedPosts userId={userId} />;
             case "Replies":
                 return <div>Here are your Replies</div>;
             case "Highlights":
