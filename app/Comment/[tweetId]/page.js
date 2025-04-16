@@ -1,19 +1,30 @@
 "use client"
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import FirstSec from '@/components/FirstSec'
 import ThirdSec from '@/components/ThirdSec'
 import Chat from '@/components/MainComment'
-// import { useState } from 'react'
 import ProtectedRoute from '@/components/ProtectedRoute'
 import MobFirstSec from '@/components/MobFirstSec'
 
 const CommentPage = () => {
-  // const [activeComponent, setActiveComponent] = useState()
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem("user")); // Assuming you store user data
+    if (storedUser) {
+      setUser(storedUser);
+    }
+  }, []);
+
+  if (!user) {
+    return <div>Loading...</div>; // You can also show a loading state if the user data isn't ready yet
+  }
+
   return (
     <div>
       <ProtectedRoute>
         <div className='black text-white'>
-          <div className="flex md:container mx-auto  ">
+          <div className="flex md:container mx-auto">
 
             <div className='hidden md:flex'>
               <FirstSec />
@@ -22,7 +33,14 @@ const CommentPage = () => {
               <MobFirstSec />
             </div>
             <div className=" w-px bg-gray-400 hidden xl:flex opacity-30 sticky left-[5.7rem] z-50"></div>
-            <Chat />
+            
+            {/* Pass user data as props to Chat component */}
+            <Chat 
+              userId={user.userId} 
+              username={user.username} 
+              profileImage={user.profileImage} 
+            />
+            
             <div className=" w-px bg-gray-400 opacity-25"></div>
             <ThirdSec />
 
@@ -34,4 +52,3 @@ const CommentPage = () => {
 }
 
 export default CommentPage
-

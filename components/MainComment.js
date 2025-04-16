@@ -1,20 +1,38 @@
-"use client";
-import { useState, useEffect } from "react";
+"use client"
 import { useParams } from "next/navigation";
 import ChatBox from "./Comments";
+import { useEffect, useState, useRef } from "react";
 import io from "socket.io-client";
 import axios from "axios";
 
-const socket = io("http://localhost:4000");
-
-const Chat = ({  userId, username, profileImage }) => {
+const Chat = ({ userId, username, profileImage }) => {
   const [comments, setComments] = useState([]);
   const params = useParams();
-  const {tweetId} =params;
+  const { tweetId } = params;
+
+  const socketRef = useRef(null); // 👈 for maintaining socket instance
 
   useEffect(() => {
-    if (!tweetId) return; // ✅ Prevent API calls if tweetId is missing
+    if (!tweetId) return;
 
+    // ✅ Initialize socket inside useEffect
+    socketRef.current = io("https://twitterclonebackend-nqms.onrender.com");
+
+    // Join the tweet-specific room
+    socketRef.current.emit("joinTweetRoom", tweetId);
+
+    // Listen for incoming comment
+    socketRef.current.on("receiveComment", (comment) => {
+      setComments((prev) => [comment, ...prev]);
+    });
+
+    return () => {
+      // ✅ Clean up socket on unmount
+      socketRef.current.disconnect();
+    };
+  }, [tweetId]);
+
+  useEffect(() => {
     const fetchComments = async () => {
       try {
         const res = await axios.get(`https://twitterclonebackend-nqms.onrender.com/comment/${tweetId}`, {
@@ -26,30 +44,17 @@ const Chat = ({  userId, username, profileImage }) => {
       }
     };
 
-    fetchComments();
-
-    // ✅ Join the tweet chat room
-    socket.emit("joinTweetRoom", tweetId);
-
-    // ✅ Listen for new comments
-    socket.on("receiveComment", (comment) => 
-      setComments((prev) => [...prev, comment])
-    );
-
-    return () => {
-      socket.off("receiveComment"); // ✅ Cleanup event listener
-    };
+    if (tweetId) {
+      fetchComments();
+    }
   }, [tweetId]);
 
   const sendComment = async (content) => {
     if (!content.trim()) return;
-  
+
     const token = localStorage.getItem("token");
-    if (!token) {
-      console.error("No token found.");
-      return;
-    }
-  
+    if (!token) return;
+
     const newComment = {
       tweetId,
       userId,
@@ -57,9 +62,8 @@ const Chat = ({  userId, username, profileImage }) => {
       profileImage,
       content,
     };
-  
+
     try {
-      // ✅ Send new comment to backend API
       const response = await axios.post(
         "https://twitterclonebackend-nqms.onrender.com/comment/add",
         newComment,
@@ -70,23 +74,24 @@ const Chat = ({  userId, username, profileImage }) => {
           },
         }
       );
-  
+
       if (response.status === 201) {
-        const savedComment = response.data; // Get the full saved comment from the backend
-  
-        // ✅ Emit only the necessary data via WebSocket
-        socket.emit("sendComment", savedComment);
-  
-        // ✅ Update UI with correct data
-        setComments((prev) => [savedComment, ...prev]); // Ensure it's added at the top
+        const savedComment = response.data.comment;
+        // ✅ Only emit through socket (don't duplicate with setComments here)
+        socketRef.current.emit("sendComment", savedComment);
       }
     } catch (error) {
-      console.error("Error saving comment:", error.response?.data || error);
+      console.error("Error saving comment:", error);
     }
   };
-  
 
-  return <ChatBox messages={comments} sendMessage={sendComment} tweetId={tweetId}/>;
+  return (
+    <ChatBox
+      messages={comments}
+      sendMessage={sendComment}
+      tweetId={tweetId}
+    />
+  );
 };
 
 export default Chat;
