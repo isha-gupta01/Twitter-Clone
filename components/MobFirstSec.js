@@ -10,19 +10,19 @@ const MobFirstSec = () => {
 
                 <div className="sidebar flex items-center m-4  flex-row">
                     <div className="logo invert my-2 flex items-end mr-7">
-                        <svg viewBox="0 0 24 24" aria-hidden="true"
+                        <Link href="/Twitter"><svg viewBox="0 0 24 24" aria-hidden="true"
                             className="w-8 m-auto r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-lrsllp r-1nao33i r-16y2uox r-8kz0gk">
                             <g>
                                 <path
                                     d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z">
                                 </path>
                             </g>
-                        </svg>
+                        </svg></Link>
                     </div>
                     <ul className="flex flex-row  ">
                         <li
                             className="flex md:justify-center items-center gap-2 justify-center  mr-2  md:w-fit    hover:cursor-pointer pr-5 pl-[0.25rem] py-3 ">
-                            <Image src="/home.png" alt="home" width={50} height={50} />
+                            <Link href="/Twitter"><Image src="/home.png" alt="home" width={50} height={50} /></Link>
                         </li>
 
                         <li

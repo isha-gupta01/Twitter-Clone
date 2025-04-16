@@ -9,14 +9,14 @@ const FirstSec = ({ onSearchClick }) => {
             <div className="first mt-3 fixed left-0 bg-black w-[90px] z-10 h-[100vh]">
                 <div className="sidebar flex  items-start flex-col">
                     <div className="logo invert my-4 lg:my-2  flex items-end ml-6 mr-3">
-                        <svg viewBox="0 0 24 24" aria-hidden="true"
+                        <Link href="/Twitter"><svg viewBox="0 0 24 24" aria-hidden="true"
                             className="w-8 r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-lrsllp r-1nao33i r-16y2uox r-8kz0gk">
                             <g>
                                 <path
                                     d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z">
                                 </path>
                             </g>
-                        </svg>
+                        </svg></Link>
                     </div>
                     <ul className="flex flex-col gap-6 ml-3 lg:gap-0">
                         <li

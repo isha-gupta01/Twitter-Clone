@@ -49,7 +49,7 @@ const PostCard = () => {
             {data.map((item) => (
                 <div key={item._id} className="flex md:mr-10 lg:mr-0 flex-col relative gap-5">
                     <div className='flex m-3 md:ml-10 ml-5 lg:ml-6 items-center '>
-                        <Link href={`/userProfile/${item.user_id}`} ><Image className="w-10 h-10 rounded-full cursor-pointer" src={item.profileImage} width={100} height={100} alt="Profile Pic" /></Link>
+                        <Link href={`/userProfile/${item.user_id}`} className='flex' ><Image className="w-10 h-10 rounded-full object-cover cursor-pointer" src={item.profileImage} width={100} height={100} alt="Profile Pic" /></Link>
                         <div className='ml-5   flex flex-col'>
                             <div className='flex flex-row items-center justify-between'>
                                 <div className="flex flex-row items-center">
@@ -101,7 +101,7 @@ const PostCard = () => {
                                 alt="Tweet Image"
                                 width={200}
                                 height={200}
-                                className="w-[90%] md:w-[60%] h-[20rem] rounded-3xl mt-2"
+                                className="w-[90%] md:w-[60%] h-[20rem] object-cover rounded-3xl mt-2"
                             />
                         ) : item.image && /\.(mp4|webm|ogg)$/i.test(item.image) ? (
                             <video

@@ -39,10 +39,12 @@ const SearchedUser = ({ username, userId }) => {
             try {
                 const res = await fetch(`https://twitterclonebackend-nqms.onrender.com/loggeduser/profile/searched/${username}`);
                 if (!res.ok) throw new Error("User not found");
+                
                 const user = await res.json();
                 setDataUser(user);
-
-                // Fetch their tweet count
+                const userId = user._id; // ✅ Extract userId from the response
+    
+                // ✅ Fetch their tweet count using the correct userId
                 const tweetRes = await fetch(`https://twitterclonebackend-nqms.onrender.com/tweetfetch/count/searched/${userId}`);
                 const tweetData = await tweetRes.json();
                 setTweetCount(tweetData.totalTweets || 0);
@@ -53,9 +55,10 @@ const SearchedUser = ({ username, userId }) => {
                 setLoading(false);
             }
         };
-
+    
         fetchUserData();
     }, [username]);
+    
 
     if (loading) return <div className="flex mx-auto mt-20 md:w-[703px] justify-center items-center">
         <div className="animate-spin h-6 w-6  border-4 border-gray-300 border-t-blue-500 rounded-full"></div>

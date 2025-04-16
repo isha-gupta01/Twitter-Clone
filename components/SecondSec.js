@@ -201,7 +201,14 @@ const SecondSec = () => {
                 <div className="section-mid-part2 mt-[130px] md:mt-[53px]  w-full h-28 flex flex-col mb-5">
                     <form onSubmit={handleSubmit}>
                         <div className=" flex flex-row m-5 items-center gap-3">
-                            <img src={user.profileImage} className=" w-10 h-10 hidden xl:flex rounded-full" />
+                            <Link href="/ProfilePage" className="hidden w-[3rem] xl:flex">
+                                <img
+                                    src={user.profileImage}
+                                    alt="Profile"
+                                    className="w-10 h-10 rounded-full object-cover"
+                                />
+                            </Link>
+
                             <input className="text-xl bg-black w-full  border focus:border-blue-500 rounded-full px-3 mx-5 py-2 border-white/30 text-white" placeholder='What is Happening?' name="content"
                                 value={content}
                                 onChange={handleInputChange} />
@@ -288,7 +295,7 @@ const SecondSec = () => {
                                 onClick={handlePostSubmitting}
                                 disabled={!isActive}
                                 className={`rounded-full text-center px-5 py-1 font-bold transition-colors duration-300
-                               ${isActive ? 'bg-blue-600 text-white hover:bg-blue-700 cursor-pointer': 'bg-gray-400 text-black cursor-not-allowed'}`}>
+                               ${isActive ? 'bg-blue-600 text-white hover:bg-blue-700 cursor-pointer' : 'bg-gray-400 text-black cursor-not-allowed'}`}>
                                 {submitting ? "Posting..." : "Post"}
                             </button>
 

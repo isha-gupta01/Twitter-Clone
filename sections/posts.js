@@ -2,9 +2,12 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import DeleteConfirmationModal from '@/components/DeleteConfirmationModal';
 
 const Posts = () => {
     const [data, setData] = useState([]);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [tweetToDelete, setTweetToDelete] = useState(null);
 
     const handleDelete = async (id) => {
         const token = localStorage.getItem("token");
@@ -23,9 +26,21 @@ const Posts = () => {
             }
 
             setData((prevData) => prevData.filter((tweet) => tweet._id !== id));
+            setIsModalOpen(false);
+            setTweetToDelete(null);
         } catch (error) {
             console.error("Error deleting tweet:", error);
         }
+    };
+
+    const openModal = (id) => {
+        setTweetToDelete(id);
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setTweetToDelete(null);
     };
 
     useEffect(() => {
@@ -64,38 +79,46 @@ const Posts = () => {
         <div className="h-screen lg:h-[50vh] overflow-y-auto scrollbar-hide px-2 sm:px-4">
             <ul className="space-y-4">
                 {data.map((item, index) => (
-
                     <li
                         key={item._id}
-                        className="flex flex-col  sm:flex-row text-white gap-3 sm:gap-6 p-4  rounded-md shadow-sm"
+                        className="flex flex-col sm:flex-row text-white gap-3 sm:gap-6 p-4 rounded-md shadow-sm"
                     >
-                        
                         <div className="flex items-center gap-2 text-base sm:text-lg font-semibold">
-                            <span className="text-gray-400 ">{index + 1}.</span>
-                            <Link href={`/post/${item._id}`}><div className="break-words max-w-full sm:max-w-[300px]">{item.content}</div></Link>
+                            <span className="text-gray-400">{index + 1}.</span>
+                            <Link href={`/post/${item._id}`}>
+                                <div className="break-words max-w-full sm:max-w-[300px]">{item.content}</div>
+                            </Link>
                         </div>
 
                         {item.image && (
-                            <Link href={`/post/${item._id}`}><div className="mt-2 sm:mt-0">
-                                <Image
-                                    src={item.image}
-                                    alt="Tweet Image"
-                                    width={60}
-                                    height={60}
-                                    className="rounded-md xs:hidden lg:flex object-cover"
-                                />
-                            </div></Link>
+                            <Link href={`/post/${item._id}`}>
+                                <div className="mt-2 sm:mt-0">
+                                    <Image
+                                        src={item.image}
+                                        alt="Tweet Image"
+                                        width={60}
+                                        height={60}
+                                        className="rounded-md xs:hidden lg:flex object-cover"
+                                    />
+                                </div>
+                            </Link>
                         )}
+
                         <div className="sm:ml-auto flex justify-end">
-                            <button onClick={() => handleDelete(item._id)} className="mt-2 sm:mt-0">
+                            <button onClick={() => openModal(item._id)} className="mt-2 sm:mt-0">
                                 <Image src="/delete.png" alt="Delete" width={24} height={24} className="invert" />
                             </button>
                         </div>
-
-
                     </li>
                 ))}
             </ul>
+
+            {/* Confirmation Modal */}
+            <DeleteConfirmationModal
+                isOpen={isModalOpen}
+                onCancel={closeModal}
+                onConfirm={() => handleDelete(tweetToDelete)}
+            />
         </div>
     );
 };

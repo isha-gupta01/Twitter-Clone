@@ -36,7 +36,7 @@ const ProfilePage = () => {
           {/* Only render Profile if userId is available */}
           {userId && <Profile userId={userId} />}
 
-          <div className="w-px bg-gray-400 opacity-25"></div>
+          <div className="w-px bg-gray-400  opacity-25"></div>
           <ThirdSec />
           {/* Search overlay */}
           {isSearchOpen && <SearchOverlay open={isSearchOpen} onClose={() => setIsSearchOpen(false)} />}

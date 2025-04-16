@@ -25,9 +25,9 @@ tweetcount.get("/count/searched/:userId", async (req, res) => {
     const {userId} = req.params; // Extracted from JWT token
     // console.log(userId)
     // Count tweets for the logged-in user
-    const tweetCount = await Tweets.countDocuments({ user_id:userId });
+    const tweetCount = await Tweets.countDocuments({ user_id:new mongoose.Types.ObjectId(userId) });
     // console.log(tweetCount)
-    res.json({username, totalTweets: tweetCount });
+    res.json({userId, totalTweets: tweetCount });
   } catch (error) {
     console.error("Error fetching tweet count:", error);
     res.status(500).json({ error: "Server error" });
@@ -61,14 +61,22 @@ tweetcount.get("/profile/:userId", async (req, res) => {
 });
 
 tweetcount.get("/tweets", authenticateToken, async (req, res) => {
+  const { userId } = req.user;
+
   try {
-    const userId = req.user.userId;
-    const user = await Tweets.find({ user_id: { $ne: userId } });
-    // console.log(user)
-    if (!user) return res.status(404).json({ message: "User not found" });
-    res.json(user);
-  } catch (error) {
-    res.status(500).json({ message: "Server error" });
+    const ownTweets = await Tweets.find({ user_id: userId });
+    const othersTweets = await Tweets.find({ user_id: { $ne: userId } });
+
+    ownTweets.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+    othersTweets.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+    const finalFeed = [...ownTweets, ...othersTweets];
+    finalFeed.sort((a, b) => new Date(b.created_at) - new Date(a.created_at)); 
+
+    res.json(finalFeed);
+  } catch (err) {
+    console.error("Feed fetch error:", err);
+    res.status(500).json({ error: "Server error" }); 
   }
 });
 
@@ -100,19 +108,13 @@ tweetcount.get("/posts/:id", async (req, res) => {
 
     if (!post) return res.status(404).json({ message: "Post not found" });
 
-    res.json({
-      _id: post._id,
-      content: post.content,
-      username: post.user_id.username,
-      profileImage: post.user_id.profileImage,
-      image:post.image,
-    });
+    res.json(post);
   } catch (err) {
     res.status(500).json({ message: "Server error", error: err.message });
   }
 });
 
-
+ 
 
 tweetcount.get("/usertweets", authenticateToken, async (req, res) => {
   try {
