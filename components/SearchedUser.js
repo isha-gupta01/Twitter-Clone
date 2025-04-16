@@ -43,7 +43,7 @@ const SearchedUser = ({ username, userId }) => {
                 setDataUser(user);
 
                 // Fetch their tweet count
-                const tweetRes = await fetch(`https://twitterclonebackend-nqms.onrender.com/tweetfetch/count/searched/${username}`);
+                const tweetRes = await fetch(`https://twitterclonebackend-nqms.onrender.com/tweetfetch/count/searched/${userId}`);
                 const tweetData = await tweetRes.json();
                 setTweetCount(tweetData.totalTweets || 0);
             } catch (err) {
