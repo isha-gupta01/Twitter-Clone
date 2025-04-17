@@ -1,34 +1,43 @@
-// ❌ REMOVE THIS LINE
-// "use client"
-
-// import FirstSec from '@/components/FirstSec'
-// import ThirdSec from '@/components/ThirdSec'
-// import MobFirstSec from '@/components/MobFirstSec'
+"use client"
 import ProtectedRoute from '@/components/ProtectedRoute'
-// import SearchOverlay from '@/components/SearchOverlay'
-// import Link from 'next/link'
-// import Image from 'next/image'
-import PostViewClient from './PostViewClient' // 👉 We'll create this
+import FirstSec from '@/components/FirstSec';
+import MobFirstSec from '@/components/MobFirstSec';
+import ThirdSec from '@/components/ThirdSec';
+import PostViewClient from '@/components/PostViewClient';
+import SearchOverlay from '@/components/SearchOverlay';
+import { useState } from 'react';
+import React from 'react';
 
-const getPostById = async (id) => {
-  const res = await fetch(`https://twitterclonebackend-nqms.onrender.com/tweetfetch/posts/${id}`, {
-    cache: 'no-store',
-  })
-  console.log("Fetching:", res);
-  if (!res.ok) {
-    console.log("Status Code:", res.status); // ✅ Add this
-    throw new Error("Failed to fetch post")
-  }
-  return res.json()
-}
 
-const PostPage = async ({ params }) => {
-  const post = await getPostById(params.id);
+const PostPage =  () => {
+  // const post = await getPostById(params.id);
+      const [isSearchOpen, setIsSearchOpen] = useState(false);
+  
 
   return (
     <ProtectedRoute>
-      <PostViewClient post={post} />
-    </ProtectedRoute>
+                <div className='black text-white'>
+                    <div className="flex md:container mx-auto">
+                        {/* Desktop FirstSec */}
+                        <div className='hidden md:flex'>
+                            <FirstSec onSearchClick={() => setIsSearchOpen(true)} />
+                        </div>
+    
+                        {/* Mobile FirstSec */}
+                        <div className='md:hidden block'>
+                            <MobFirstSec />
+                        </div>
+    
+                        <div className="w-px bg-gray-400 hidden md:flex opacity-30 sticky left-[5.7rem] z-50"></div>
+                        <PostViewClient />
+                        <div className="w-px hidden md:flex bg-gray-400 opacity-30"></div>
+                        <ThirdSec />
+    
+                        {/* Search overlay */}
+                        {isSearchOpen && <SearchOverlay open={isSearchOpen} onClose={() => setIsSearchOpen(false)} />}
+                    </div>
+                </div>
+            </ProtectedRoute>
   );
 }
 

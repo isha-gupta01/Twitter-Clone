@@ -193,7 +193,7 @@ const Profile = ({ userId }) => {
                 <div className="relative  h-48 bg-gray-600">
                     {/* <Image src="/hqdefault.png" alt='cover image'width={600} height={200} className='object-fit z-0 h-[192px]'/> */}
                     {/* Profile Picture */}
-                    <div className="absolute left-5 z-50 flex -bottom-[5.5rem]">
+                    <div className="absolute left-5 z-50 -bottom-[5.5rem]">
                         <Image
                             src={dataUser.profileImage || profileImageSrc}
 
@@ -201,7 +201,7 @@ const Profile = ({ userId }) => {
                             alt="Profile Picture"
                             width={100}
                             height={100}
-                            className="w-44 h-44 rounded-full border-4 cursor-pointer object-cover border-black"
+                            className="w-44 h-44 rounded-full border-4 cursor-pointer border-black"
                             onClick={handleImageClick}
                         />
                     </div>

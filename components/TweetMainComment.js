@@ -1,16 +1,14 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
-import { useParams } from "next/navigation";
-import ChatBox from "./Comments";
 import axios from "axios";
 import io from "socket.io-client";
+import TweetChatBox from "./TweetComment";
 
 let socket; // Global reference for socket
 
-const Chat = ({ userId, username, profileImage }) => {
+const TweetMainChat = ({ userId, username, profileImage,Id }) => {
   const [comments, setComments] = useState([]);
-  const params = useParams();
-  const tweetId = params?.tweetId;
+  const tweetId = Id ;
   const socketInitialized = useRef(false); // Prevent multiple socket setups
   const messagesEndRef = useRef(null); // Used for auto-scrolling
 
@@ -95,7 +93,7 @@ const Chat = ({ userId, username, profileImage }) => {
 
   return (
     <>
-      <ChatBox
+      <TweetChatBox
         messages={comments}
         sendMessage={sendComment}
         tweetId={tweetId}
@@ -105,4 +103,4 @@ const Chat = ({ userId, username, profileImage }) => {
   );
 };
 
-export default Chat;
+export default TweetMainChat;
