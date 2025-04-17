@@ -10,11 +10,17 @@ import TweetChatBox from './TweetComment';
 // import CommentBox from './Comments';
 const TweetPostCard = () => {
     const [item, setPost] = useState(null);
+    const [data, setData] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
     const params = useParams();
     //fetching tweets
     useEffect(() => {
+        const fetchUserData = ()=>{
+            const user = localStorage.getItem("user");
+            setData(user);
+        }
+        fetchUserData();
         const fetchPost = async () => {
             try {
                 const res = await fetch(`https://twitterclonebackend-nqms.onrender.com/tweetfetch/posts/${params.id}`, {
@@ -170,7 +176,7 @@ const TweetPostCard = () => {
                     <hr className="opacity-25 w-full" />
                 </div>
             </div>
-            <TweetMainChat Id={item._id} userId={item.user_id._id} username={item.username} profileImage={item.profileImage}/>
+            <TweetMainChat Id={item._id} userId={data.userId} username={data.username} profileImage={data.profileImage}/>
             
         </div>
     )
