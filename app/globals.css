@@ -25,3 +25,43 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* Global styles (e.g., globals.css) */
+.custom-toast {
+  background-color: #1d9bf0 !important; /* Twitter blue */
+  color: white !important;
+  /* border-radius: 9999px !important; pill-shaped */
+  padding: 0.75rem 1.25rem !important;
+  font-weight: 700 !important;
+  color:white;
+  font-size: 0.9rem !important;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+}
+
+.custom-toast-body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color:white;
+
+}
+
+
+.twitter-toast {
+  background-color: #0c88e0 !important; /* Twitter light blue */
+  color: #0f1419 !important;            /* Twitter dark text */
+  /* border-radius: 9999px !important;     pill shape */
+  padding: 0.6rem 1rem !important;
+  font-size: 0.9rem !important;
+  font-weight: 500 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  color:white;
+
+}
+
+.twitter-toast-body {
+  display: flex;
+  align-items: center;
+  color:white;
+
+  justify-content: center;
+}

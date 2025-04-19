@@ -65,7 +65,7 @@ const TweetPostCard = () => {
             <div className="section-mid-part3 mt-16   w-full h-auto">
                 <div  className="flex md:mr-10 lg:mr-0 flex-col relative gap-5">
                     <div className='flex m-3 px-14 md:ml-10 ml-5 lg:ml-6 items-center '>
-                        <Link href={`/userProfile/${item.user_id._id}`} className='flex' ><Image className="w-10 h-10 rounded-full object-cover cursor-pointer" src={item.profileImage} width={100} height={100} alt="Profile Pic" /></Link>
+                        <Link href={`/userProfile/${item.user_id._id}`} className='flex w-14 h-10' ><Image className="w-10 h-10 rounded-full object-cover cursor-pointer" src={item.profileImage} width={100} height={100} alt="Profile Pic" /></Link>
                         <div className='ml-5   flex flex-col'>
                             <div className='flex flex-row items-center justify-between'>
                                 <div className="flex flex-row items-center">

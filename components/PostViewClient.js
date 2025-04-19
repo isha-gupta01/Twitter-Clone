@@ -37,7 +37,7 @@ const PostViewClient = ({tweetId}) => {
                 <div className={`${scrolled ? "hidden" : "flex flex-col fixed top-0"} md:flex md:flex-col md:fixed md:top-0 z-50 `}>
                     <div className="backdrop-blur w-[500px] md:w-[703px] xl:w-[907px] lg:w-[703px] max-h-fit md:h-[53px] bg-black/30 flex flex-col md:flex-row  ">
                         <div className='flex gap-3 px-10 py-5'>
-                            <Link href="/ProfilePage"><Image src="/back.png" alt='back' width={20} height={20} className='invert self-center' /></Link>
+                            <Link href="/Twitter"><Image src="/back.png" alt='back' width={20} height={20} className='invert self-center' /></Link>
                             <div className=''>Post</div>
                         </div>
 

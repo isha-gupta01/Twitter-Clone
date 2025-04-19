@@ -2,9 +2,10 @@
 import React from 'react'
 import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
-import LikeButton from './LikeButton'
 import Link from 'next/link'
 import PostCard from './PostCard'
+import { ToastContainer, toast } from 'react-toastify';
+import { getTweetTime } from '@/utils/TweetTime'
 
 const SecondSec = () => {
     const [data, setData] = useState([]);
@@ -115,7 +116,19 @@ const SecondSec = () => {
             const result = await response.json();
             console.log(result)
             if (response.ok) {
-                alert("Tweet posted successfully:", result);
+                toast('Tweet Posted Successfully!', {
+                    position: "bottom-right",
+                    autoClose: 3000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: false,
+                    theme: "light",
+                    className: "twitter-toast ",
+                    bodyClassName: "twitter-toast-body",
+                    icon: "✅", // optional: gives a subtle Twitter vibe
+                  });
+                  
                 setContent(""); // Clear input
                 setSelectedFile(null); // Clear file
 
@@ -169,6 +182,22 @@ const SecondSec = () => {
 
     return (
         <div>
+            <ToastContainer
+                position="bottom-center"
+                autoClose={3000}
+                hideProgressBar={true}
+                newestOnTop={false}
+                closeOnClick={true}
+                rtl={false}
+                pauseOnFocusLoss={false}
+                draggable={false}
+                pauseOnHover={true}
+                theme="colored"
+                toastClassName="custom-toast"
+                bodyClassName="custom-toast-body"
+                className="text-white"
+            />
+
             <div className="second bg-black w-full md:w-[703px] xl:w-[907px] lg:w-[703px] mb-20 md:mb-0 min-h-screen  md:ml-[60px]  xl:ml-[90px] lg:ml-[59px] overflow-y-auto scrollbar-hide ">
                 <div className={`${scrolled ? "hidden" : "flex flex-col fixed top-0"} md:flex md:flex-col md:fixed md:top-0 z-50 `}>
                     <div className="backdrop-blur w-[500px] md:w-[703px] xl:w-[907px] lg:w-[703px] max-h-fit md:h-[53px] bg-black/30 flex flex-col md:flex-row  ">
@@ -280,7 +309,7 @@ const SecondSec = () => {
                                 type="file"
                                 ref={fileInputRef}
                                 onChange={handleFileChange}
-                                accept="image/*,video/*"
+                                accept="image/*"
                                 style={{ display: "none" }}
                                 className='cursor-pointer'
                             />
