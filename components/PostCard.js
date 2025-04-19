@@ -43,6 +43,14 @@ const PostCard = () => {
 
         fetchTweets();
 
+        const fetchCommentsCount = async()=>{
+            try {
+                
+            } catch (error) {
+                
+            }
+        }
+
     }, []);
     return (
         <div className="section-mid-part3  w-full h-auto">

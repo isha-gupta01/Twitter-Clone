@@ -1,8 +1,15 @@
+"use client"
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useState,useEffect } from 'react'
 const FirstSec = ({ onSearchClick }) => {
-    const user = JSON.parse(localStorage.getItem("user"))
+    const [user, setUser] = useState([])
+    useEffect(() => {
+        const data = JSON.parse(localStorage.getItem("user"))
+        setUser(data);
+    }, [])
+    
     const profileImg = user.profileImage && user.profileImage !== "undefined" ? user.profileImage : "/person2.png";
     return (
         <div>

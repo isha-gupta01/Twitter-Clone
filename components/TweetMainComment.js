@@ -6,9 +6,8 @@ import TweetChatBox from "./TweetComment";
 
 let socket; // Global reference for socket
 
-const TweetMainChat = ({ userId, username, profileImage,Id }) => {
+const TweetMainChat = ({ userId, username, profileImage,tweetId }) => {
   const [comments, setComments] = useState([]);
-  const tweetId = Id ;
   const socketInitialized = useRef(false); // Prevent multiple socket setups
   const messagesEndRef = useRef(null); // Used for auto-scrolling
 

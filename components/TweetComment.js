@@ -75,7 +75,7 @@ const ChatBox = ({ messages, sendMessage, tweetId }) => {
       {/* Messages */}
       <div className="flex-1 p-3  overflow-y-scroll scrollbar-hide space-y-2">
         {messages?.map((msg) => {
-          const isMe = msg.userId === user?._id;
+          const isMe = msg.userId === user?.userId;
           return (
             <motion.div
               key={msg._id}

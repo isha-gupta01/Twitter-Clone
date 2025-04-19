@@ -7,10 +7,14 @@ import PostViewClient from '@/components/PostViewClient';
 import SearchOverlay from '@/components/SearchOverlay';
 import { useState } from 'react';
 import React from 'react';
+import { useParams } from 'next/navigation';
 
 
 const PostPage =  () => {
   // const post = await getPostById(params.id);
+  const params = useParams();
+  const tweetId = params;
+
       const [isSearchOpen, setIsSearchOpen] = useState(false);
   
 
@@ -29,7 +33,7 @@ const PostPage =  () => {
                         </div>
     
                         <div className="w-px bg-gray-400 hidden md:flex opacity-30 sticky left-[5.7rem] z-50"></div>
-                        <PostViewClient />
+                        <PostViewClient tweetId={tweetId}/>
                         <div className="w-px hidden md:flex bg-gray-400 opacity-30"></div>
                         <ThirdSec />
     

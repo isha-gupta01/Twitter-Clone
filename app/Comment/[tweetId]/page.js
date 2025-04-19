@@ -5,13 +5,10 @@ import ThirdSec from '@/components/ThirdSec'
 import Chat from '@/components/MainComment'
 import ProtectedRoute from '@/components/ProtectedRoute'
 import MobFirstSec from '@/components/MobFirstSec'
-import { useParams } from 'next/navigation'
 
 const CommentPage = () => {
   const [user, setUser] = useState(null);
-  // const params = useParams();
 
-  // const tweetId = params.tweetId;
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("user")); // Assuming you store user data
@@ -25,8 +22,8 @@ const CommentPage = () => {
   }
 
   return (
-    <div>
-      <ProtectedRoute>
+    <ProtectedRoute>
+      <div>
         <div className='black text-white'>
           <div className="flex md:container mx-auto">
 
@@ -37,21 +34,21 @@ const CommentPage = () => {
               <MobFirstSec />
             </div>
             <div className=" w-px bg-gray-400 hidden xl:flex opacity-30 sticky left-[5.7rem] z-50"></div>
-            
+
             {/* Pass user data as props to Chat component */}
-            <Chat 
-              userId={user.userId} 
-              username={user.username} 
-              profileImage={user.profileImage} 
+            <Chat
+              userId={user.userId}
+              username={user.username}
+              profileImage={user.profileImage}
             />
-            
+
             <div className=" w-px bg-gray-400 opacity-25"></div>
             <ThirdSec />
 
           </div>
         </div>
-      </ProtectedRoute>
-    </div>
+      </div>
+    </ProtectedRoute>
   )
 }
 

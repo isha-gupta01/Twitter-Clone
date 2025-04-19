@@ -11,7 +11,7 @@ import Image from 'next/image'
 import Chat from './MainComment'
 // import ProtectedRoute from '@/components/ProtectedRoute'
 import { useParams } from 'next/navigation'
-const PostViewClient = () => {
+const PostViewClient = ({tweetId}) => {
 
     const [scrolled, setScrolled] = useState(false)
 
@@ -50,7 +50,7 @@ const PostViewClient = () => {
 
 
             </div>
-            <TweetPostCard />
+            <TweetPostCard tweetId={tweetId}/>
         </div>
 
     )

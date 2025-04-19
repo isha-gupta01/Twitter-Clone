@@ -8,7 +8,7 @@ import { useParams } from 'next/navigation';
 import TweetMainChat from './TweetMainComment';
 import TweetChatBox from './TweetComment';
 // import CommentBox from './Comments';
-const TweetPostCard = () => {
+const TweetPostCard = ({tweetId}) => {
     const [item, setPost] = useState(null);
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(true)
@@ -176,7 +176,7 @@ const TweetPostCard = () => {
                     <hr className="opacity-25 w-full" />
                 </div>
             </div>
-            <TweetMainChat Id={item._id} userId={data.userId} username={data.username} profileImage={data.profileImage}/>
+            <TweetMainChat tweetId={tweetId} userId={data.userId} username={data.username} profileImage={data.profileImage}/>
             
         </div>
     )

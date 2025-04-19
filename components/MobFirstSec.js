@@ -2,7 +2,6 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 const MobFirstSec = () => {
-    const user = JSON.parse(localStorage.getItem("user"))
     return (
         <div>
             <div className="first mt-3 fixed -bottom-1 bg-black w-full z-10 h-20">
