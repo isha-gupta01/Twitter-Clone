@@ -8,9 +8,7 @@ import React, { useState, useEffect } from 'react'
 import TweetPostCard from './TweetPostCart'
 import Link from 'next/link'
 import Image from 'next/image'
-import Chat from './MainComment'
-// import ProtectedRoute from '@/components/ProtectedRoute'
-import { useParams } from 'next/navigation'
+
 const PostViewClient = ({tweetId}) => {
 
     const [scrolled, setScrolled] = useState(false)

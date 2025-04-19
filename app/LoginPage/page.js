@@ -91,7 +91,7 @@ const LoginPage = () => {
 
           {error && <p className="text-red-500 mt-2">{error}</p>}
 
-          <Link href="#" className="text-sm text-gray-400 hover:text-gray-300">Forgot password?</Link>
+          <Link href="/forget-password" className="text-sm text-gray-400 hover:text-gray-300">Forgot password?</Link>
         </form>
       </div>
     </div>

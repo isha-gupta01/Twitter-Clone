@@ -37,7 +37,7 @@ const Profile = ({ userId }) => {
     formData.append("userId", userId);
 
     try {
-      const res = await fetch("http://localhost:4000/loggeduser/updateProfileImage", {
+      const res = await fetch("https://twitterclonebackend-nqms.onrender.com/loggeduser/updateProfileImage", {
         method: "PUT",
         body: formData,
       });
@@ -64,7 +64,7 @@ const Profile = ({ userId }) => {
   // Handle image removal (set to default)
   const handleRemoveImage = async () => {
     try {
-      const res = await fetch("http://localhost:4000/loggeduser/removeProfileImage", {
+      const res = await fetch("https://twitterclonebackend-nqms.onrender.com/loggeduser/removeProfileImage", {
         method: "PUT",
         body: JSON.stringify({ id: userId }),
         headers: {
