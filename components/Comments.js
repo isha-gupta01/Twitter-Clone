@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Send } from "lucide-react";
 import Image from "next/image";
 import axios from "axios";
+import Link from "next/link";
 
 const ChatBox = ({ messages, sendMessage, tweetId }) => {
   const [message, setMessage] = useState("");
@@ -51,7 +52,8 @@ const ChatBox = ({ messages, sendMessage, tweetId }) => {
     <div className="h-[100vh] mb-20 md:mb-0 w-[703px] lg:ml-[51px] md:ml-[98px] xl:ml-[92px] bg-black shadow-lg flex flex-col">
       {/* Chat Header */}
       <div className="p-3 flex justify-between items-center px-10 border-b bg-black text-white font-semibold">
-        <div className="flex items-center">
+        <div className="flex  items-center">
+        <Link href={`/Twitter`}><Image src="/back.png" alt='back' width={20} height={20} className='invert self-center flex mr-2' /></Link>
           <Image
             src={data?.profileImage || "/person2.png"}
             alt="img"

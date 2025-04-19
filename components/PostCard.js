@@ -6,8 +6,9 @@ import Image from 'next/image';
 // import CommentBox from './Comments';
 const PostCard = () => {
     const [data, setData] = useState([]);
-    // const [content, setContent] = useState("")
+    const [commentCounts, setCommentCounts] = useState({});
     const [loading, setLoading] = useState(true)
+
     //fetching tweets
     useEffect(() => {
         const fetchTweets = async () => {
@@ -33,6 +34,13 @@ const PostCard = () => {
 
                 const data = await response.json();
                 setData(data); // Store the fetched data of tweets
+                const commentCountsObj = {};
+                await Promise.all(
+                    data.map(async (tweet) => {
+                        commentCountsObj[tweet._id] = await fetchCommentCount(tweet._id);
+                    })
+                );
+                setCommentCounts(commentCountsObj);
             } catch (error) {
                 console.error(error);
             }
@@ -43,13 +51,18 @@ const PostCard = () => {
 
         fetchTweets();
 
-        const fetchCommentsCount = async()=>{
+        const fetchCommentCount = async (tweetId) => {
             try {
-                
-            } catch (error) {
-                
+              const res = await fetch(`https://twitterclonebackend-nqms.onrender.com/comment/commentcount/${tweetId}`);
+              if (!res.ok) throw new Error("Failed to fetch comment count");
+              const data = await res.json();
+              return data.commentCount;
+            } catch (err) {
+              console.error("Error fetching comment count for", tweetId, err);
+              return 0;
             }
-        }
+          };
+          
 
     }, []);
     return (
@@ -134,7 +147,7 @@ const PostCard = () => {
                                                 </path>
                                             </g>
                                         </svg>
-                                        <span>{item.comments}</span>
+                                        <span>{commentCounts[item._id]}</span>
                                     </li>
                                 </Link>
                                 <li

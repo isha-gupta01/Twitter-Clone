@@ -8,44 +8,62 @@ import { useParams } from 'next/navigation';
 import TweetMainChat from './TweetMainComment';
 import TweetChatBox from './TweetComment';
 // import CommentBox from './Comments';
-const TweetPostCard = ({tweetId}) => {
+const TweetPostCard = () => {
     const [item, setPost] = useState(null);
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(true)
+    const [commentCounts, setCommentCounts] = useState({});
     const [error, setError] = useState(null)
     const params = useParams();
     //fetching tweets
     useEffect(() => {
-        const fetchUserData = ()=>{
+        const fetchUserData = () => {
             const user = localStorage.getItem("user");
-            setData(user);
-        }
+            setData(JSON.parse(user));
+        };
         fetchUserData();
+    
+        const fetchCommentCount = async (tweetId) => {
+            try {
+                const res = await fetch(`https://twitterclonebackend-nqms.onrender.com/comment/commentcount/${tweetId}`);
+                if (!res.ok) throw new Error("Failed to fetch comment count");
+                const data = await res.json();
+                return data.commentCount;
+            } catch (err) {
+                console.error("Error fetching comment count for", tweetId, err);
+                return 0;
+            }
+        };
+    
         const fetchPost = async () => {
             try {
                 const res = await fetch(`https://twitterclonebackend-nqms.onrender.com/tweetfetch/posts/${params.id}`, {
                     cache: 'no-store',
-                })
-                if (!res.ok) throw new Error("Failed to fetch post")
-                const data = await res.json()
-                setPost(data)
+                });
+                if (!res.ok) throw new Error("Failed to fetch post");
+                const data = await res.json();
+                setPost(data);
+    
+                const count = await fetchCommentCount(data._id);
+                setCommentCounts({ [data._id]: count });
+    
             } catch (err) {
-                setError(err.message)
+                setError(err.message);
             } finally {
-                setLoading(false)
+                setLoading(false);
             }
-        }
-
-        if (params.id) fetchPost()
-    }, [params.id])
-
+        };
+    
+        if (params.id) fetchPost();
+    }, [params.id]);
+    
     if (loading) return <div className="text-center text-white mt-16 p-10">Loading post...</div>
     if (error) return <div className="text-center text-red-500 p-10">Error: {error}</div>
     if (!item) return null
     return (
         <div className=''>
             <div className="section-mid-part3 mt-16   w-full h-auto">
-                <div key={item._id} className="flex md:mr-10 lg:mr-0 flex-col relative gap-5">
+                <div  className="flex md:mr-10 lg:mr-0 flex-col relative gap-5">
                     <div className='flex m-3 px-14 md:ml-10 ml-5 lg:ml-6 items-center '>
                         <Link href={`/userProfile/${item.user_id._id}`} className='flex' ><Image className="w-10 h-10 rounded-full object-cover cursor-pointer" src={item.profileImage} width={100} height={100} alt="Profile Pic" /></Link>
                         <div className='ml-5   flex flex-col'>
@@ -114,7 +132,7 @@ const TweetPostCard = ({tweetId}) => {
 
                         <ul className="flex flex-row gap-5 md:gap-7 mt-4">
                             <div className="flex flex-row gap-[1.5rem] md:gap-[4rem]">
-                                <Link href={`/Comment/${item._id}`}>
+                                <Link href={`/TweetComment/${item._id}`}>
                                     <li
                                         className="flex flex-row text-white/50 fill-white/50 hover:fill-blue-500 hover:text-blue-500 ">
                                         <svg viewBox="0 0 24 24" aria-hidden="true" className="w-4 r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-lrvibr r-m6rgpd r-1xvli5t r-1hdv0qi">
@@ -124,7 +142,7 @@ const TweetPostCard = ({tweetId}) => {
                                                 </path>
                                             </g>
                                         </svg>
-                                        <span>{item.comments}</span>
+                                        <span>{commentCounts[item._id]}</span>
                                     </li>
                                 </Link>
                                 <li
@@ -176,7 +194,6 @@ const TweetPostCard = ({tweetId}) => {
                     <hr className="opacity-25 w-full" />
                 </div>
             </div>
-            <TweetMainChat tweetId={tweetId} userId={data.userId} username={data.username} profileImage={data.profileImage}/>
             
         </div>
     )

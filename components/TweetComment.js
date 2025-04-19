@@ -4,8 +4,9 @@ import { motion } from "framer-motion";
 import { Send } from "lucide-react";
 import Image from "next/image";
 import axios from "axios";
+import Link from "next/link";
 
-const ChatBox = ({ messages, sendMessage, tweetId }) => {
+const TweetChatBox = ({ messages, sendMessage, tweetId }) => {
   const [message, setMessage] = useState("");
   const [data, setData] = useState({});
   const [user, setUser] = useState(null);
@@ -48,19 +49,20 @@ const ChatBox = ({ messages, sendMessage, tweetId }) => {
   }, [tweetId]);
 
   return (
-    <div className="h-fit mb-20 md:mb-0 w-[703px] lg:ml-[59px] md:ml-[98px] xl:ml-[92px]  bg-black shadow-lg flex flex-col">
+    <div className="h-[100vh] mb-20 md:mb-0 w-[703px] lg:ml-[51px] md:ml-[98px] xl:ml-[92px] bg-black shadow-lg flex flex-col">
       {/* Chat Header */}
-      {/* <div className="p-3 flex justify-between items-center px-10 border-b bg-black text-white font-semibold">
-        <div className="flex items-center">
+      <div className="p-3 flex justify-between items-center px-10 border-b bg-black text-white font-semibold">
+        <div className="flex  items-center">
+        <Link href={`/post/${tweetId}`}><Image src="/back.png" alt='back' width={20} height={20} className='invert self-center flex mr-2' /></Link>
           <Image
-            src={data?.profileImage || "/defaultProfile.png"}
+            src={data?.profileImage || "/person2.png"}
             alt="img"
             width={40}
             height={40}
             className="w-10 h-10 mr-2 rounded-full"
           />
           <span>{data?.content || "Loading..."}</span>
-        </div>
+        </div> 
         {data?.image && (
           <Image
             src={data.image}
@@ -70,10 +72,10 @@ const ChatBox = ({ messages, sendMessage, tweetId }) => {
             className="w-10 h-10 rounded-md"
           />
         )}
-      </div> */}
+      </div>
 
       {/* Messages */}
-      <div className="flex-1 p-3  overflow-y-scroll scrollbar-hide space-y-2">
+      <div className="flex-1 p-3 overflow-y-auto space-y-2">
         {messages?.map((msg) => {
           const isMe = msg.userId === user?.userId;
           return (
@@ -85,7 +87,7 @@ const ChatBox = ({ messages, sendMessage, tweetId }) => {
             >
               {!isMe && (
                 <Image
-                  src={msg.profileImage || "/person2.png"}
+                  src={msg.profileImage || "/defaultProfile.png"}
                   alt="profile"
                   width={32}
                   height={32}
@@ -131,4 +133,4 @@ const ChatBox = ({ messages, sendMessage, tweetId }) => {
   );
 };
 
-export default ChatBox;
+export default TweetChatBox;

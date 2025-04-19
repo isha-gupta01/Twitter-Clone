@@ -1,14 +1,16 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
+import { useParams } from "next/navigation";
+import ChatBox from "./Comments";
 import axios from "axios";
 import io from "socket.io-client";
 import TweetChatBox from "./TweetComment";
 
-let socket; // Global reference for socket
-
-const TweetMainChat = ({ userId, username, profileImage,tweetId }) => {
+const TweetChat = ({ userId, username, profileImage }) => {
   const [comments, setComments] = useState([]);
-  const socketInitialized = useRef(false); // Prevent multiple socket setups
+  const params = useParams();
+  const tweetId = params?.tweetId;
+  const socketRef = useRef(null); // Maintain socket instance
   const messagesEndRef = useRef(null); // Used for auto-scrolling
 
   // Auto-scroll to latest message
@@ -18,27 +20,29 @@ const TweetMainChat = ({ userId, username, profileImage,tweetId }) => {
 
   // Initialize socket connection
   useEffect(() => {
-    if (!tweetId || socketInitialized.current) return;
+    if (!tweetId) return;
 
-    // Connect to socket
-    socket = io("https://twitterclonebackend-nqms.onrender.com"); // Your backend URL
-    socketInitialized.current = true;
+    // Create socket connection
+    socketRef.current = io("https://twitterclonebackend-nqms.onrender.com");
 
-    // Join tweet room
-    socket.emit("joinTweetRoom", tweetId);
+    // Join the tweet's specific room
+    socketRef.current.emit("joinTweetRoom", tweetId);
 
-    // Listen for new comments from backend
-    socket.on("receiveComment", (comment) => {
+    // Listen for incoming comments
+    socketRef.current.on("receiveComment", (comment) => {
       setComments((prev) => {
         const exists = prev.some((c) => c._id === comment._id);
-        return exists ? prev : [...prev, comment]; // Append if not duplicate
+        return exists ? prev : [...prev, comment];
       });
     });
 
-    // Cleanup socket connection on component unmount
+    // Cleanup on component unmount
     return () => {
-      socket.off("receiveComment");
-      socket.disconnect();
+      if (socketRef.current) {
+        socketRef.current.off("receiveComment");
+        socketRef.current.emit("leaveTweetRoom", tweetId);
+        socketRef.current.disconnect();
+      }
     };
   }, [tweetId]);
 
@@ -54,7 +58,7 @@ const TweetMainChat = ({ userId, username, profileImage,tweetId }) => {
             headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
           }
         );
-        setComments(res.data); // Assuming sorted by timestamp ascending from backend
+        setComments(res.data);
       } catch (err) {
         console.error("Error fetching comments:", err);
       }
@@ -79,11 +83,10 @@ const TweetMainChat = ({ userId, username, profileImage,tweetId }) => {
     };
 
     try {
-      // Ensure socket is initialized before emitting
-      if (socket) {
-        socket.emit("sendComment", commentPayload);
+      if (socketRef.current) {
+        socketRef.current.emit("sendComment", commentPayload);
       } else {
-        console.error("Socket is not initialized yet.");
+        console.error("Socket not connected yet.");
       }
     } catch (err) {
       console.error("Error sending comment:", err);
@@ -97,9 +100,9 @@ const TweetMainChat = ({ userId, username, profileImage,tweetId }) => {
         sendMessage={sendComment}
         tweetId={tweetId}
       />
-      <div ref={messagesEndRef} /> {/* For auto-scroll */}
+      <div ref={messagesEndRef} />
     </>
   );
 };
 
-export default TweetMainChat;
+export default TweetChat;
