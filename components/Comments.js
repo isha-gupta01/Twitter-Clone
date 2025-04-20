@@ -125,7 +125,7 @@ const ChatBox = ({ messages, sendMessage, tweetId }) => {
       </div>
 
       {/* Input Field */}
-      <div className="border-t p-2 fixed bottom-[4.6rem] md:relative md:bottom-0  bg-white md:bg-black w-full flex items-center">
+      <div className="border-t p-2 fixed bottom-[3.3rem] md:relative md:bottom-0  bg-white md:bg-black w-full flex items-center">
         <input
           type="text"
           value={message}
