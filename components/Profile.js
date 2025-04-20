@@ -191,7 +191,7 @@ const Profile = ({ userId }) => {
                     </div>
                 </div>
                 <div className="relative  h-48 bg-gray-600">
-                    {/* <Image src="/hqdefault.png" alt='cover image'width={600} height={200} className='object-fit z-0 h-[192px]'/> */}
+                    <Image src={dataUser.coverImage} alt='cover image'width={703} height={200} className='object-cover z-0 h-[192px] w-full'/>
                     {/* Profile Picture */}
                     <div className="absolute left-5 z-50 -bottom-[5.5rem]">
                         <Image
@@ -206,7 +206,7 @@ const Profile = ({ userId }) => {
                         />
                     </div>
                     {isMenuOpen && (
-                        <div className="absolute right-[7rem] top-[7rem] md:top-[10rem] md:right-[24rem] border z-60 bg-black  shadow-lg rounded-md p-3">
+                        <div className="absolute right-[3rem] top-[5rem] sm:right-[7rem] sm:top-[7rem] md:top-[10rem] md:right-[24rem] border z-90 bg-black  shadow-lg rounded-md p-3">
                             <ul>
                                 <li className="cursor-pointer  text-white" onClick={handleRemoveImage}>
                                     Remove Image
@@ -228,7 +228,7 @@ const Profile = ({ userId }) => {
                     />
 
                     {/* Set Up Profile Button */}
-                    <div className="absolute -bottom-14 right-12 md:right-5">
+                    <div className="absolute -bottom-14 right-1 sm:right-12 md:right-5">
                         <Link href="/SetupProfile"><button className="px-6 py-2 border border-gray-500 text-white rounded-full z-0 hover:bg-gray-700">
                             Set up profile
                         </button></Link>
