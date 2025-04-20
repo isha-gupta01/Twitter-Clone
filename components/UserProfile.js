@@ -89,7 +89,7 @@ const UserProfile = ({ userId }) => {
         switch (activeTab) {
             case "Posts":
                 return <UserPosts userId={userId} />;
-                // return <div>n/o</div>
+            // return <div>n/o</div>
             case "Replies":
                 return <div>Here are your Replies</div>;
             case "Highlights":
@@ -127,7 +127,7 @@ const UserProfile = ({ userId }) => {
                     </div>
                 </div>
                 <div className="relative  h-48 bg-gray-600">
-
+                    <Image src={dataUser.coverImage} alt='cover image' width={703} height={200} className='object-cover z-0 h-[192px] w-full' />
                     <div className="absolute left-5 z-50 -bottom-[5.5rem]">
                         <Image
                             src={profileImageSrc} // Change to your profile image URL

@@ -175,7 +175,7 @@ const SetupProfile = () => {
                             </g>
                         </svg>
                     </div>
-                    <div className="text-center ml-[2rem] md:ml-0 mt-5 text-2xl">Set Up Profile</div>
+                    <div className="text-center ml-[2rem] md:ml-0 mt-5 text-2xl">Setup Profile</div>
 
                     <form onSubmit={handleSubmit} className="flex my-10 ml-8 sm:ml-5 md:ml-0 flex-col gap-5">
                         <div className="flex">
