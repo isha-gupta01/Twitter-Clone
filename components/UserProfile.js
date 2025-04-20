@@ -89,6 +89,7 @@ const UserProfile = ({ userId }) => {
         switch (activeTab) {
             case "Posts":
                 return <UserPosts userId={userId} />;
+                // return <div>n/o</div>
             case "Replies":
                 return <div>Here are your Replies</div>;
             case "Highlights":
@@ -137,7 +138,7 @@ const UserProfile = ({ userId }) => {
                         />
                     </div>
                     {/* Follow Button */}
-                    <div className="absolute -bottom-14 right-4">
+                    <div className="absolute right-20 -bottom-14 md:right-4">
                         <Link href="#">
                             <FollowButton userIdToFollow={dataUser._id} />
                             {/* <div className="text-white">{dataUser._id}</div> */}

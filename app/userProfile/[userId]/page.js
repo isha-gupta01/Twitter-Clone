@@ -34,7 +34,7 @@ const ProfilePage = () => {
 
     return (
         <ProtectedRoute>
-            <div className="black text-white">
+            <div className="black text-white overflow-x-hidden">
                 <div className="flex md:container mx-auto">
                     <div className='hidden md:flex'>
                         <FirstSec onSearchClick={() => setIsSearchOpen(true)} />

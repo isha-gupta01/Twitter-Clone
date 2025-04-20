@@ -40,7 +40,7 @@ const SearchedPosts = ({ userId }) => {
         <div className="w-full max-w-screen-sm md:max-w-screen-lg mx-auto text-white px-4 sm:px-5 pb-20">
             <ul className="space-y-6">
                 {data.map((item, index) => (
-                    <li key={item._id} className="border-b border-gray-800 pb-4">
+                    <li key={item._id} className="border-b border-gray-800 sm:px-5 lg:px-0 pb-4">
                         <div className="flex gap-3 sm:gap-4 items-start">
                             <div className="text-gray-500 mt-1">{index + 1}.</div>
 

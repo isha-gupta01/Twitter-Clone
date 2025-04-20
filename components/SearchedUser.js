@@ -91,7 +91,7 @@ const SearchedUser = ({ username, userId }) => {
                         />
                     </div>
                     {/* Follow Button */}
-                    <div className="absolute -bottom-14 right-6">
+                    <div className="absolute -bottom-14 right-12 md:right-6">
                         <Link href="#">
                             <FollowButton userIdToFollow={dataUser._id} />
                             {/* <div className="text-white">{dataUser._id}</div> */}

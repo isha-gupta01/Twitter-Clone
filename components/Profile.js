@@ -228,7 +228,7 @@ const Profile = ({ userId }) => {
                     />
 
                     {/* Set Up Profile Button */}
-                    <div className="absolute -bottom-14 right-5">
+                    <div className="absolute -bottom-14 right-12 md:right-5">
                         <Link href="/SetupProfile"><button className="px-6 py-2 border border-gray-500 text-white rounded-full z-0 hover:bg-gray-700">
                             Set up profile
                         </button></Link>

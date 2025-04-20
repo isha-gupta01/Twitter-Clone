@@ -50,7 +50,7 @@ const UserPosts = ({ userId }) => {
     }, [userId]); // ✅ Added `userId` dependency to re-fetch when `userId` changes
 
     return (
-        <div className="w-full max-w-screen-sm md:max-w-screen-lg mx-auto text-white px-4 sm:px-5 pb-20">
+        <div className="w-full max-w-screen-sm md:max-w-screen-lg mx-auto text-white px-4 sm:px-8 pb-20">
             <ul className="space-y-6">
                 {data.map((item, index) => (
                     <li key={item._id} className="border-b border-gray-800 pb-4">
@@ -70,10 +70,10 @@ const UserPosts = ({ userId }) => {
                                             <Image
                                                 src={item.image}
                                                 alt="Tweet"
-                                                width={500}
-                                                height={300}
+                                                width={100}
+                                                height={100}
                                                 className="rounded-lg object-cover w-full max-h-[300px]"
-                                                style={{ maxWidth: '100%', height: 'auto' }}
+                                                // style={{ maxWidth: '100%', height: 'auto' }}
                                             />
                                         </div>
                                     </Link>
