@@ -76,38 +76,41 @@ const Posts = () => {
     }, []);
 
     return (
-        <div className="h-screen lg:h-[50vh] overflow-y-auto scrollbar-hide px-2 sm:px-4">
-            <ul className="space-y-4">
+        <div className="w-full max-w-screen-sm md:max-w-screen-lg mx-auto text-white px-4 sm:px-5 pb-20">
+            <ul className="space-y-6">
                 {data.map((item, index) => (
-                    <li
-                        key={item._id}
-                        className="flex flex-col sm:flex-row text-white gap-3 sm:gap-6 p-4 rounded-md shadow-sm"
-                    >
-                        <div className="flex items-center gap-2 text-base sm:text-lg font-semibold">
-                            <span className="text-gray-400">{index + 1}.</span>
-                            <Link href={`/post/${item._id}`}>
-                                <div className="break-words max-w-full sm:max-w-[300px]">{item.content}</div>
-                            </Link>
-                        </div>
+                    <li key={item._id} className="border-b border-gray-800 pb-4">
+                        <div className="flex gap-3 sm:gap-4 items-start">
+                            <div className="text-gray-500 mt-1">{index + 1}.</div>
 
-                        {item.image && (
-                            <Link href={`/post/${item._id}`}>
-                                <div className="mt-2 sm:mt-0">
-                                    <Image
-                                        src={item.image}
-                                        alt="Tweet Image"
-                                        width={60}
-                                        height={60}
-                                        className="rounded-md xs:hidden lg:flex object-cover"
-                                    />
-                                </div>
-                            </Link>
-                        )}
+                            <div className="flex-1 overflow-hidden">
+                                <Link href={`/post/${item._id}`}>
+                                    <div className="text-white text-sm sm:text-base break-words whitespace-pre-wrap w-full">
+                                        {item.content}
+                                    </div>
+                                </Link>
 
-                        <div className="sm:ml-auto flex justify-end">
-                            <button onClick={() => openModal(item._id)} className="mt-2 sm:mt-0">
-                                <Image src="/delete.png" alt="Delete" width={24} height={24} className="invert" />
-                            </button>
+                                {item.image && (
+                                    <Link href={`/post/${item._id}`}>
+                                        <div className="mt-3 w-full">
+                                            <Image
+                                                src={item.image}
+                                                alt="Tweet"
+                                                width={500}
+                                                height={300}
+                                                className="rounded-lg object-cover w-full max-h-[300px]"
+                                                style={{ maxWidth: '100%', height: 'auto' }}
+                                            />
+                                        </div>
+                                    </Link>
+                                )}
+                            </div>
+
+                            <div className="ml-auto">
+                                <button onClick={() => openModal(item._id)}>
+                                    <Image src="/delete.png" alt="Delete" width={20} height={20} className="invert" />
+                                </button>
+                            </div>
                         </div>
                     </li>
                 ))}
@@ -120,6 +123,7 @@ const Posts = () => {
                 onConfirm={() => handleDelete(tweetToDelete)}
             />
         </div>
+
     );
 };
 

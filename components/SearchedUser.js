@@ -71,7 +71,7 @@ const SearchedUser = ({ username, userId }) => {
 
     return (
         <div>
-            <div className='bg-black sm:w-[430px] md:w-[712px] md:ml-[80px] xl:w-[90.9vw] xl:ml-[93px] lg:w-[703px] lg:ml-[59px] min-h-screen overflow-y-auto flex flex-col'>
+            <div className='bg-black sm:w-[430px] md:w-[712px] md:ml-[80px] xl:w-[90.9vw] xl:ml-[93px] lg:w-[703px] lg:ml-[59px] min-h-screen overflow-y-auto overflow-x-hidden flex flex-col'>
                 <div className='  flex gap-10 items-center px-4 py-2'>
                     <Link href="/Twitter"><Image src="/back.png" alt='back' width={20} height={20} className='invert self-center' /></Link>
                     <div className=' text-white flex flex-col '>
@@ -91,7 +91,7 @@ const SearchedUser = ({ username, userId }) => {
                         />
                     </div>
                     {/* Follow Button */}
-                    <div className="absolute -bottom-14 right-4">
+                    <div className="absolute -bottom-14 right-6">
                         <Link href="#">
                             <FollowButton userIdToFollow={dataUser._id} />
                             {/* <div className="text-white">{dataUser._id}</div> */}
@@ -122,7 +122,7 @@ const SearchedUser = ({ username, userId }) => {
 
                 </div>
                 <div className='mt-10 text-white/30 '>
-                    <ul className="flex gap-[2rem] xl:gap-[3.2rem]  pl-4 pr-5 border-b border-gray-700 py-4">
+                    <ul className="flex gap-[0.9rem] xl:gap-[3.2rem]  pl-4 pr-5 border-b border-gray-700 py-4">
                         {["Posts", "Replies", "Highlights", "Articles", "Media"].map((tab) => (
                             <li
                                 key={tab}

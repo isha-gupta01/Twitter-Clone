@@ -168,7 +168,7 @@ const UserProfile = ({ userId }) => {
 
                 </div>
                 <div className='mt-10 text-white/30 '>
-                    <ul className="flex gap-[2rem] xl:gap-[3.2rem]  pl-4 pr-5 border-b border-gray-700 py-4">
+                    <ul className="flex gap-[0.9rem] xl:gap-[3.2rem]  pl-4 pr-5 border-b border-gray-700 py-4">
                         {["Posts", "Replies", "Highlights", "Articles", "Media"].map((tab) => (
                             <li
                                 key={tab}
