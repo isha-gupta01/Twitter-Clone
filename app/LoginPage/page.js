@@ -92,7 +92,7 @@ const LoginPage = () => {
           {error && <p className="text-red-500 mt-2">{error}</p>}
 
           <Link href="/forget-password" className="text-sm text-gray-400 hover:text-gray-300">Forgot password?</Link>
-          <Link href="/RegisterPage" className="text-sm text-gray-400 hover:text-gray-300">New User? Create Account</Link>
+          <Link href="/RegisterPage" className="text-sm text-gray-400 hover:text-gray-300">New User? <span className="text-blue-500">Create Account</span></Link>
         </form>
       </div>
     </div>
