@@ -138,7 +138,7 @@ const UserProfile = ({ userId }) => {
                         />
                     </div>
                     {/* Follow Button */}
-                    <div className="absolute right-20 -bottom-14 md:right-4">
+                    <div className="absolute right-12 -bottom-14 md:right-4">
                         <Link href="#">
                             <FollowButton userIdToFollow={dataUser._id} />
                             {/* <div className="text-white">{dataUser._id}</div> */}
