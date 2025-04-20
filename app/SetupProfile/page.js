@@ -15,21 +15,42 @@ const SetupProfile = () => {
 
     useEffect(() => {
         if (typeof window !== "undefined") {
-            const storedUser = JSON.parse(localStorage.getItem("user"));
-            if (storedUser) {
-                setUser(storedUser);
-                setForm({
-                    username: storedUser.username || "",
-                    Name: storedUser.Name || "",
-                    bio: JSON.stringify(storedUser.bio) ? storedUser.bio : [],
-                });
-                if (storedUser.profileImage) {
-                    setImagePreview(storedUser.profileImage);
+            
+            const fetchUserdata = async()=>{
+                try {
+                    const response = await fetch(
+                        "https://twitterclonebackend-nqms.onrender.com/loggeduser/me",
+                        {
+                            method: "GET",
+                            headers: {
+                                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                            },
+                        }
+                    );
+        
+                    const storedUser = await response.json();
+                    if (storedUser) {
+                        setUser(storedUser);
+                        setForm({
+                            username: storedUser.username || "",
+                            Name: storedUser.Name || "",
+                            bio: Array.isArray(storedUser.bio) ? storedUser.bio : [],
+                        });
+                        if (storedUser.profileImage) {
+                            setImagePreview(storedUser.profileImage);
+                        }
+                        if (storedUser.coverImage) {
+                            setCoverImagePreview(storedUser.coverImage);
+                        }
+                    }
+
                 }
-                if (storedUser.coverImage) {
-                    setCoverImagePreview(storedUser.coverImage);
+                catch(error){
+                    console.error(error);
                 }
             }
+            
+            fetchUserdata();
         }
     }, []);
 
@@ -37,9 +58,13 @@ const SetupProfile = () => {
         const { name, value } = e.target;
         setForm((prev) => ({
             ...prev,
-            [name]: name === "bio"
-                ? value.split(",").map((item) => item.trim())
-                : value,
+            [name]:
+                name === "bio"
+                    ? value
+                          .split(",")
+                          .map((item) => item.trim())
+                          .filter((item) => item !== "")
+                    : value,
         }));
     };
 
@@ -100,8 +125,8 @@ const SetupProfile = () => {
         const formData = new FormData();
 
         if (hasTextUpdates) {
-            formData.append("username", form.username);
-            formData.append("Name", form.Name);
+            formData.append("username", form.username.trim());
+            formData.append("Name", form.Name.trim());
             formData.append("bio", JSON.stringify(form.bio));
         }
 
@@ -114,27 +139,35 @@ const SetupProfile = () => {
         }
 
         try {
-            const response = await fetch("https://twitterclonebackend-nqms.onrender.com/usercrud/setupprofile", {
-                method: "POST",
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`,
-                },
-                body: formData,
-            });
+            const response = await fetch(
+                "https://twitterclonebackend-nqms.onrender.com/usercrud/setupprofile",
+                {
+                    method: "POST",
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    },
+                    body: formData,
+                }
+            );
 
             const data = await response.json();
 
             if (response.ok) {
                 setSubmitting(false);
                 setResponse("Profile Updated Successfully.");
+                window.scrollTo({ top: 0, behavior: "smooth" });
 
                 const updatedUser = {
                     ...user,
                     ...(data.profile.username && { username: data.profile.username }),
                     ...(data.profile.Name && { Name: data.profile.Name }),
                     ...(data.profile.bio && { bio: data.profile.bio }),
-                    ...(data.profile.profileImage && { profileImage: data.profile.profileImage }),
-                    ...(data.profile.coverImage && { coverImage: data.profile.coverImage }),
+                    ...(data.profile.profileImage && {
+                        profileImage: data.profile.profileImage,
+                    }),
+                    ...(data.profile.coverImage && {
+                        coverImage: data.profile.coverImage,
+                    }),
                 };
 
                 if (typeof window !== "undefined") {
@@ -157,10 +190,12 @@ const SetupProfile = () => {
             } else {
                 setResponse(data.message || "Error updating profile.");
                 setSubmitting(false);
+                window.scrollTo({ top: 0, behavior: "smooth" });
             }
         } catch (error) {
             setResponse("Error: " + error.message);
             setSubmitting(false);
+            window.scrollTo({ top: 0, behavior: "smooth" });
         }
     };
 
@@ -169,19 +204,32 @@ const SetupProfile = () => {
             <div className="bg-black w-[28rem] h-[48rem] sm:h-[80rem] md:h-[40rem] rounded-2xl py-8 flex flex-col">
                 <div className="w-[27rem] p-4 xl:pl-[3rem] justify-center">
                     <div className="invert">
-                        <svg viewBox="0 0 24 24" aria-hidden="true" className="w-9 h-10 my-auto mx-48 md:mx-auto">
+                        <svg
+                            viewBox="0 0 24 24"
+                            aria-hidden="true"
+                            className="w-9 h-10 my-auto mx-48 md:mx-auto"
+                        >
                             <g>
                                 <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
                             </g>
                         </svg>
                     </div>
-                    <div className="text-center ml-[2rem] md:ml-0 mt-5 text-2xl">Setup Profile</div>
+                    <div className="text-center ml-[2rem] md:ml-0 mt-5 text-2xl">
+                        Setup Profile
+                    </div>
 
-                    <form onSubmit={handleSubmit} className="flex my-10 ml-8 sm:ml-5 md:ml-0 flex-col gap-5">
+                    <form
+                        onSubmit={handleSubmit}
+                        className="flex my-10 ml-8 sm:ml-5 md:ml-0 flex-col gap-5"
+                    >
                         <div className="flex">
                             {imagePreview && (
                                 <div className="relative w-20 h-20 mx-auto">
-                                    <img src={imagePreview} alt="Profile Preview" className="rounded-full w-full h-full object-cover" />
+                                    <img
+                                        src={imagePreview}
+                                        alt="Profile Preview"
+                                        className="rounded-full w-full h-full object-cover"
+                                    />
                                     <button
                                         type="button"
                                         onClick={handleRemoveImage}
@@ -194,7 +242,11 @@ const SetupProfile = () => {
 
                             {coverImagePreview && (
                                 <div className="relative w-30 h-20 mx-auto">
-                                    <img src={coverImagePreview} alt="Cover Preview" className=" w-full h-full rounded-lg object-cover" />
+                                    <img
+                                        src={coverImagePreview}
+                                        alt="Cover Preview"
+                                        className=" w-full h-full rounded-lg object-cover"
+                                    />
                                     <button
                                         type="button"
                                         onClick={handleRemoveCoverImage}
@@ -268,12 +320,17 @@ const SetupProfile = () => {
 
                         <button
                             type="submit"
-                            className="bg-white text-black font-semibold rounded-full w-[16rem] mx-auto py-2 mt-4"
+                            disabled={submitting}
+                            className={`bg-white text-black font-semibold rounded-full w-[16rem] mx-auto py-2 mt-4 ${
+                                submitting ? "opacity-50 cursor-not-allowed" : ""
+                            }`}
                         >
                             {submitting ? "Updating..." : "Update"}
                         </button>
 
-                        {response && <div className="text-green-600 text-center">{response}</div>}
+                        {response && (
+                            <div className="text-green-600 text-center">{response}</div>
+                        )}
                     </form>
                 </div>
             </div>
