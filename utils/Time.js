@@ -20,9 +20,9 @@ export function getChatTime(timestamp) {
       time.getFullYear() === yesterday.getFullYear();
   
     if (isYesterday) {
-      return `Yesterday at ${time.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`;
+      return `${time.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`;
     }
   
-    return ` ${time.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`;
+    return `${time.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`;
   }
   
