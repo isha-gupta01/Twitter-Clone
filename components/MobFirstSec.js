@@ -8,7 +8,7 @@ const MobFirstSec = () => {
             {/* Thin top border line */}
             <div className="w-full bg-gray-500 opacity-30 h-[1px]"></div>
 
-            <div className="flex items-center justify-start px-6 py-3 gap-10 overflow-x-auto whitespace-nowrap">
+            <div className="flex items-center justify-start px-3 py-3 gap-10  whitespace-nowrap">
                 {/* Twitter Logo */}
                 <Link href="/Twitter" className="shrink-0 invert">
                     <svg viewBox="0 0 24 24" aria-hidden="true" className="w-6 h-6">
