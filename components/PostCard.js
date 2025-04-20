@@ -54,16 +54,16 @@ const PostCard = () => {
 
         const fetchCommentCount = async (tweetId) => {
             try {
-              const res = await fetch(`https://twitterclonebackend-nqms.onrender.com/comment/commentcount/${tweetId}`);
-              if (!res.ok) throw new Error("Failed to fetch comment count");
-              const data = await res.json();
-              return data.commentCount;
+                const res = await fetch(`https://twitterclonebackend-nqms.onrender.com/comment/commentcount/${tweetId}`);
+                if (!res.ok) throw new Error("Failed to fetch comment count");
+                const data = await res.json();
+                return data.commentCount;
             } catch (err) {
-              console.error("Error fetching comment count for", tweetId, err);
-              return 0;
+                console.error("Error fetching comment count for", tweetId, err);
+                return 0;
             }
-          };
-          
+        };
+
 
     }, []);
     return (
@@ -75,7 +75,12 @@ const PostCard = () => {
                         <div className='ml-5   flex flex-col'>
                             <div className='flex flex-row items-center justify-between'>
                                 <div className="flex flex-row items-center">
-                                    <Link href={`/userProfile/${item.user_id}`}><h3 className="font-bold text-sm cursor-pointer"> {item.Name} </h3>
+                                    <Link href={`/userProfile/${item.user_id}`}>
+                                        <h3 className="font-bold text-sm cursor-pointer" title={item.Name}>
+                                            {item.Name.split(" ").length > 7
+                                                ? item.Name.split(" ")[0]
+                                                : item.Name}
+                                        </h3>
                                     </Link>
                                     <svg viewBox="0 0 22 22" aria-label="Verified account" role="img"
                                         className="w-4 fill-blue-500 r-4qtqp9 r-yyyyoo r-1xvli5t r-bnwqim r-lrvibr r-m6rgpd r-1cvl2hr r-f9ja8p r-og9te1 r-3t4u6i"
