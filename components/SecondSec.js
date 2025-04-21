@@ -5,6 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import PostCard from './PostCard'
 import { ToastContainer, toast } from 'react-toastify';
+import { getTweetTime } from '@/utils/TweetTime'
 
 const SecondSec = () => {
     const [data, setData] = useState([]);
@@ -15,7 +16,8 @@ const SecondSec = () => {
     const [loading, setLoading] = useState(true)
     const [submitting, setSubmitting] = useState(false)
 
-  
+    // const [text, setText] = useState('');
+    // const [file, setFile] = useState(null);
 
     const isActive = content.trim() !== "" || selectedFile !== null;
 
@@ -23,6 +25,63 @@ const SecondSec = () => {
 
     const [scrolled, setScrolled] = useState(false);
 
+    const handlePostSubmitting = async () => {
+        setSubmitting(true);
+        event.preventDefault();
+        const user = JSON.parse(localStorage.getItem("user"));
+
+        if (!content.trim() && !selectedFile) {
+            alert("Tweet content or media is required!");
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append("tweetContent", content);
+        if (selectedFile) {
+            formData.append("media", selectedFile); // Attach file
+        }
+        formData.append("username", user.username);
+        formData.append("Name", user.Name);
+        formData.append("profileImage", user.profileImage);
+
+        try {
+            alert("going to post")
+            const response = await fetch("https://twitterclonebackend-nqms.onrender.com/tweetcrud/loggedtweet", {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`, // Add Auth Token
+                },
+                body: formData, // Send form data
+            });
+
+            const result = await response.json();
+            console.log(result)
+            alert("REspodcks")
+            if (response.ok) {
+                alert("posted")
+                toast('Tweet Posted Successfully!', {
+                    position: "bottom-right",
+                    autoClose: 3000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: false,
+                    theme: "light",
+                    className: "twitter-toast ",
+                    bodyClassName: "twitter-toast-body",
+                    icon: "✅", // optional: gives a subtle Twitter vibe
+                  });
+                  
+                setContent(""); // Clear input
+                setSelectedFile(null); // Clear file
+
+            } else {
+                console.error("Error posting tweet:", result);
+            }
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    };
 
 
     useEffect(() => {
@@ -87,6 +146,7 @@ const SecondSec = () => {
         formData.append("profileImage", user.profileImage);
 
         try {
+            alert("going to post")
             const response = await fetch("https://twitterclonebackend-nqms.onrender.com/tweetcrud/loggedtweet", {
                 method: "POST",
                 headers: {
@@ -97,8 +157,9 @@ const SecondSec = () => {
 
             const result = await response.json();
             console.log(result)
+            alert("REspodcks")
             if (response.ok) {
-                setSubmitting(false);
+                alert("posted")
                 toast('Tweet Posted Successfully!', {
                     position: "bottom-right",
                     autoClose: 3000,
@@ -117,11 +178,9 @@ const SecondSec = () => {
 
             } else {
                 console.error("Error posting tweet:", result);
-                setSubmitting(false)
             }
         } catch (error) {
             console.error("Error:", error);
-            setSubmitting(false)
         }
     };
 
@@ -306,7 +365,7 @@ const SecondSec = () => {
 
                             <button
                                 type="submit"
-                                onClick={handleSubmit}
+                                onClick={handlePostSubmitting}
                                 disabled={!isActive}
                                 className={`rounded-full text-center px-5 py-1 font-bold transition-colors duration-300
                                ${isActive ? 'bg-blue-600 text-white hover:bg-blue-700 cursor-pointer' : 'bg-gray-400 text-black cursor-not-allowed'}`}>

@@ -183,9 +183,9 @@ const SetupProfile = () => {
                     }),
                 };
 
-                // if (typeof window !== "undefined") {
-                //     localStorage.setItem("user", JSON.stringify(updatedUser));
-                // }
+                if (typeof window !== "undefined") {
+                    localStorage.setItem("user", JSON.stringify(updatedUser));
+                }
 
                 setUser(updatedUser);
                 // setForm({ username: "", Name: "", bio: [] });
