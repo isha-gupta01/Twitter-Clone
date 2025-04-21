@@ -112,7 +112,7 @@ const ChatBox = ({ messages, sendMessage, tweetId }) => {
                         }`}
                     >
                       {msg.content}
-                      <span className="text-[10px]  ">
+                      <span className="text-[10px] whitespace-nowrap  ">
                         {getChatTime(msg.timestamp)}
                       </span>
                     </div>
