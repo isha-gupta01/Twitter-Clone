@@ -5,7 +5,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import PostCard from './PostCard'
 import { ToastContainer, toast } from 'react-toastify';
-import { getTweetTime } from '@/utils/TweetTime'
 
 const SecondSec = () => {
     const [data, setData] = useState([]);
