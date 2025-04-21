@@ -1,21 +1,12 @@
 "use client"
 import React from 'react'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
-import LikeButton from './LikeButton'
 import FollowingsContent from './followingsContent'
 import Link from 'next/link'
-// import PostCard from './PostCard'
 
 const Following = () => {
-    const [data, setData] = useState([]);
-    const [error, setError] = useState(null);
-    const fileInputRef = useRef(null);
-    const [selectedFile, setSelectedFile] = useState(null);
-    const [content, setContent] = useState("")
     const [loading, setLoading] = useState(true)
-
-
     const [scrolled, setScrolled] = useState(false);
 
     useEffect(() => {
@@ -39,70 +30,7 @@ const Following = () => {
 
 
 
-    // Handle tweet content change
-    const handleInputChange = (event) => {
-        setContent(event.target.value);
-    };
-
-
-    // Function to trigger file input when clicking on the li
-    const handleOpenFilePicker = () => {
-        fileInputRef.current.click(); // Click the hidden file input
-    };
-
-
-    // Function to handle file selection
-    const handleFileChange = (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            setSelectedFile(file);
-            console.log("Selected File:", file);
-        }
-    };
-
-    // Handle Tweet Submission
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        const user = JSON.parse(localStorage.getItem("user"));
-
-        if (!content.trim() && !selectedFile) {
-            alert("Tweet content or media is required!");
-            return;
-        }
-
-        const formData = new FormData();
-        formData.append("tweetContent", content);
-        if (selectedFile) {
-            formData.append("media", selectedFile); // Attach file
-        }
-        formData.append("username", user.username);
-        formData.append("Name", user.Name);
-        formData.append("profileImage", user.profileImage);
-
-        try {
-            const response = await fetch("https://twitterclonebackend-nqms.onrender.com/tweetcrud/loggedtweet", {
-                method: "POST",
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`, // Add Auth Token
-                },
-                body: formData, // Send form data
-            });
-
-            const result = await response.json();
-            console.log(result)
-            if (response.ok) {
-                alert("Tweet posted successfully:", result);
-                setContent(""); // Clear input
-                setSelectedFile(null); // Clear file
-
-            } else {
-                console.error("Error posting tweet:", result);
-            }
-        } catch (error) {
-            console.error("Error:", error);
-        }
-    };
-
+    
     //fetching tweets
     useEffect(() => {
         const fetchTweets = async () => {

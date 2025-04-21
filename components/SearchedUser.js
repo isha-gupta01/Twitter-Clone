@@ -60,7 +60,7 @@ const SearchedUser = ({ username, userId }) => {
     }, [username]);
     
 
-    if (loading) return <div className="flex mx-auto mt-20 md:w-[703px] justify-center items-center">
+    if (loading) return <div className="flex mx-auto  mt-20 md:w-[703px] justify-center items-center">
         <div className="animate-spin h-6 w-6  border-4 border-gray-300 border-t-blue-500 rounded-full"></div>
     </div>
     if (error || !dataUser) return <div className="text-red-500 p-4">{error}</div>;
