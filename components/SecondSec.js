@@ -45,7 +45,6 @@ const SecondSec = () => {
         formData.append("profileImage", user.profileImage);
 
         try {
-            alert("going to post")
             const response = await fetch("https://twitterclonebackend-nqms.onrender.com/tweetcrud/loggedtweet", {
                 method: "POST",
                 headers: {
@@ -56,9 +55,7 @@ const SecondSec = () => {
 
             const result = await response.json();
             console.log(result)
-            alert("REspodcks")
             if (response.ok) {
-                alert("posted")
                 toast('Tweet Posted Successfully!', {
                     position: "bottom-right",
                     autoClose: 3000,
