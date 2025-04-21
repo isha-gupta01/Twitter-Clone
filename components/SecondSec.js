@@ -15,8 +15,7 @@ const SecondSec = () => {
     const [loading, setLoading] = useState(true)
     const [submitting, setSubmitting] = useState(false)
 
-    // const [text, setText] = useState('');
-    // const [file, setFile] = useState(null);
+  
 
     const isActive = content.trim() !== "" || selectedFile !== null;
 
@@ -24,22 +23,6 @@ const SecondSec = () => {
 
     const [scrolled, setScrolled] = useState(false);
 
-    // const handlePostSubmitting = async () => {
-    //     setSubmitting(true);
-
-    //     try {
-    //         // Simulate async request (e.g., API call)
-    //         await new Promise((resolve) => setTimeout(resolve, 2000)); // replace with your real API logic
-
-    //         // Success logic here (e.g., reset form, show toast, etc.)
-    //         console.log("Post submitted successfully!");
-    //     } catch (error) {
-    //         console.error("Error submitting post:", error);
-    //         setSubmitting(false);
-    //     } finally {
-    //         setSubmitting(false); // Make sure to hide spinner after the process
-    //     }
-    // };
 
 
     useEffect(() => {
@@ -115,6 +98,7 @@ const SecondSec = () => {
             const result = await response.json();
             console.log(result)
             if (response.ok) {
+                setSubmitting(false);
                 toast('Tweet Posted Successfully!', {
                     position: "bottom-right",
                     autoClose: 3000,
@@ -133,9 +117,11 @@ const SecondSec = () => {
 
             } else {
                 console.error("Error posting tweet:", result);
+                setSubmitting(false)
             }
         } catch (error) {
             console.error("Error:", error);
+            setSubmitting(false)
         }
     };
 
