@@ -8,7 +8,7 @@ const UserSchema = new mongoose.Schema({
     Name: { type: String },
     bio: [{ type: String }],
     profileImage: { type: String, default: "/person2.png" },
-    coverImage: { type: String, default: "" },
+    coverImage: { type: String, default: "/coverImage.png" },
     followers: [{ type: mongoose.Schema.Types.ObjectId, ref: "UserInfo" }],
     following: [{ type: mongoose.Schema.Types.ObjectId, ref: "UserInfo" }],
   },
