@@ -224,8 +224,53 @@ TweetCrud.delete("/tweetdelete/:id", authenticateToken, async (req, res) => {
     }
 });
 
-
-
+function formatNumber(num) {
+    if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+    if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+    return num.toString(); // keeps it as "360" for small numbers
+  }
+  
+  TweetCrud.put('/fix-formatted-tweets', async (req, res) => {
+    try {
+      const tweets = await Tweets.find({
+        $or: [
+          { retweets: { $type: 'number' } },
+          { views: { $type: 'number' } }
+        ]
+      });
+  
+      console.log('Tweets found:', tweets); // Debugging line
+  
+      let updatedCount = 0;
+  
+      for (let tweet of tweets) {
+        let updated = false;
+  
+        if (typeof tweet.views === 'number') {
+          console.log(`Formatting views: ${tweet.views}`); // Debugging line
+          tweet.views = formatNumber(tweet.views);
+          updated = true;
+        }
+  
+        if (typeof tweet.retweets === 'number') {
+          console.log(`Formatting retweets: ${tweet.retweets}`); // Debugging line
+          tweet.retweets = formatNumber(tweet.retweets);
+          updated = true;
+        }
+  
+        if (updated) {
+          await tweet.save();
+          updatedCount++;
+        }
+      }
+  
+      res.status(200).json({ message: `✅ Formatted and updated ${updatedCount} tweets.` });
+    } catch (error) {
+      console.error('Error formatting tweets:', error);
+      res.status(500).json({ error: 'Server error while formatting tweets' });
+    }
+  });
+  
 
 
 export default TweetCrud;

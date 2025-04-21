@@ -54,8 +54,8 @@ const ThirdSec = () => {
                                         <div className="text-xs text-white/25">{item.posts} posts</div>
                                     </div>
 
-                                    {item.image ? <div className=" rounded-3xl"><img src="WhatsApp Image 2024-02-19 at 00.43.31_082ab663.jpg" alt=""
-                                        className="w-10 h-10 rounded" /></div> : <div className="fill-gray-600 ml-10">···</div>}
+                                    {item.image ? <div className=" rounded-3xl"><img src="/human1.jpg" alt=""
+                                        className="w-10 h-10 object-cover rounded" /></div> : <div className="fill-gray-600 ml-10">···</div>}
                                 </div>
                             ))
 
@@ -91,8 +91,8 @@ const ThirdSec = () => {
                             <div className="font-bold text-sm">Who to Follow</div>
                             <div className="flex flex-row justify-between items-center">
                                 <div className="flex flex-row items-center gap-2">
-                                    <div className=""><img src="WhatsApp Image 2024-02-19 at 00.43.31_082ab663.jpg" alt=""
-                                        className="w-9 h-9 rounded" /></div>
+                                    <div className=""><img src="/human2.jpg" alt=""
+                                        className="w-9 h-9 object-cover rounded" /></div>
                                     <div className="flex flex-col">
                                         <div className="text-xs">Visit Maldives</div>
                                         <div className="text-xs">@visitmaldives</div>
@@ -104,7 +104,7 @@ const ThirdSec = () => {
                             </div>
                             <div className="flex flex-row justify-between items-center">
                                 <div className="flex flex-row items-center gap-2">
-                                    <div className=""><img src="hqdefault.png" alt="" className="w-9 h-9 rounded" />
+                                    <div className=""><img src="/human3.jpg" alt="" className="w-9 h-9 object-cover rounded" />
                                     </div>
                                     <div className="flex flex-col">
                                         <div className="flex flex-row">
@@ -128,7 +128,7 @@ const ThirdSec = () => {
                             </div>
                             <div className="flex flex-row justify-between items-center">
                                 <div className="flex flex-row items-center gap-2">
-                                    <div className=""><img src="hqdefault.png" alt="" className="w-9 h-9 rounded" /></div>
+                                    <div className=""><img src="/human4.jpg" alt="" className="w-9 h-9 object-cover rounded" /></div>
                                     <div className="flex flex-col">
                                         <div className="flex flex-row">
                                             <div className="text-xs">Richa Singh</div>
@@ -155,8 +155,8 @@ const ThirdSec = () => {
                             <div className="font-bold text-sm">Who to Follow</div>
                             <div className="flex flex-row justify-between items-center">
                                 <div className="flex flex-row items-center gap-2">
-                                    <div className=""><img src="WhatsApp Image 2024-02-19 at 00.43.31_082ab663.jpg" alt=""
-                                        className="w-9 h-9 rounded" /></div>
+                                    <div className=""><img src="/human5.jpg" alt=""
+                                        className="w-9 h-9 object-cover rounded" /></div>
                                     <div className="flex flex-col">
                                         <div className="text-xs">Visit Maldives</div>
                                         <div className="text-xs">@visitmaldives</div>
@@ -168,7 +168,7 @@ const ThirdSec = () => {
                             </div>
                             <div className="flex flex-row justify-between items-center">
                                 <div className="flex flex-row items-center gap-2">
-                                    <div className=""><img src="hqdefault.png" alt="" className="w-9 h-9 rounded" />
+                                    <div className=""><img src="/human6.jpg" alt="" className="w-9 h-9 object-cover rounded" />
                                     </div>
                                     <div className="flex flex-col">
                                         <div className="flex flex-row">
@@ -192,7 +192,7 @@ const ThirdSec = () => {
                             </div>
                             <div className="flex flex-row justify-between items-center">
                                 <div className="flex flex-row items-center gap-2">
-                                    <div className=""><img src="hqdefault.png" alt="" className="w-9 h-9 rounded" /></div>
+                                    <div className=""><img src="/human1.jpg" alt="" className="w-9 h-9 object-cover rounded" /></div>
                                     <div className="flex flex-col">
                                         <div className="flex flex-row">
                                             <div className="text-xs">Richa Singh</div>

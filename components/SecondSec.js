@@ -24,22 +24,22 @@ const SecondSec = () => {
 
     const [scrolled, setScrolled] = useState(false);
 
-    const handlePostSubmitting = async () => {
-        setSubmitting(true);
+    // const handlePostSubmitting = async () => {
+    //     setSubmitting(true);
 
-        try {
-            // Simulate async request (e.g., API call)
-            await new Promise((resolve) => setTimeout(resolve, 2000)); // replace with your real API logic
+    //     try {
+    //         // Simulate async request (e.g., API call)
+    //         await new Promise((resolve) => setTimeout(resolve, 2000)); // replace with your real API logic
 
-            // Success logic here (e.g., reset form, show toast, etc.)
-            console.log("Post submitted successfully!");
-        } catch (error) {
-            console.error("Error submitting post:", error);
-            setSubmitting(false);
-        } finally {
-            setSubmitting(false); // Make sure to hide spinner after the process
-        }
-    };
+    //         // Success logic here (e.g., reset form, show toast, etc.)
+    //         console.log("Post submitted successfully!");
+    //     } catch (error) {
+    //         console.error("Error submitting post:", error);
+    //         setSubmitting(false);
+    //     } finally {
+    //         setSubmitting(false); // Make sure to hide spinner after the process
+    //     }
+    // };
 
 
     useEffect(() => {
@@ -320,7 +320,7 @@ const SecondSec = () => {
 
                             <button
                                 type="submit"
-                                onClick={handlePostSubmitting}
+                                onClick={handleSubmit}
                                 disabled={!isActive}
                                 className={`rounded-full text-center px-5 py-1 font-bold transition-colors duration-300
                                ${isActive ? 'bg-blue-600 text-white hover:bg-blue-700 cursor-pointer' : 'bg-gray-400 text-black cursor-not-allowed'}`}>

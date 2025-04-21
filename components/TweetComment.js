@@ -5,6 +5,8 @@ import { Send } from "lucide-react";
 import Image from "next/image";
 import axios from "axios";
 import Link from "next/link";
+import { getChatTime } from "@/utils/Time";
+import { groupMessagesByDate } from "@/utils/groupMessageByDate";
 
 const TweetChatBox = ({ messages, sendMessage, tweetId }) => {
   const [message, setMessage] = useState("");
@@ -48,12 +50,16 @@ const TweetChatBox = ({ messages, sendMessage, tweetId }) => {
     fetchTweetData();
   }, [tweetId]);
 
+  const groupedMessages = groupMessagesByDate(messages || []);
+
   return (
     <div className="h-[100vh] mb-20 md:mb-0 w-[703px] lg:ml-[51px] md:ml-[98px] xl:ml-[92px] bg-black shadow-lg flex flex-col">
       {/* Chat Header */}
       <div className="p-3 flex justify-between items-center px-10 border-b bg-black text-white font-semibold">
-        <div className="flex  items-center">
-        <Link href={`/post/${tweetId}`}><Image src="/back.png" alt='back' width={20} height={20} className='invert self-center flex mr-2' /></Link>
+        <div className="flex items-center">
+          <Link href={`/Twitter`}>
+            <Image src="/back.png" alt="back" width={20} height={20} className="invert mr-4" />
+          </Link>
           <Image
             src={data?.profileImage || "/person2.png"}
             alt="img"
@@ -62,52 +68,63 @@ const TweetChatBox = ({ messages, sendMessage, tweetId }) => {
             className="w-10 h-10 mr-2 rounded-full"
           />
           <span>{data?.content || "Loading..."}</span>
-        </div> 
+        </div>
         {data?.image && (
           <Image
             src={data.image}
             alt="tweet image"
             width={40}
             height={40}
-            className="w-10 h-10 rounded-md"
+            className="w-10 h-10 hidden md:flex rounded-md"
           />
         )}
       </div>
 
       {/* Messages */}
-      <div className="flex-1 p-3 overflow-y-auto space-y-2">
-        {messages?.map((msg) => {
-          const isMe = msg.userId === user?.userId;
-          return (
-            <motion.div
-              key={msg._id}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className={`flex ${isMe ? "justify-end" : "justify-start"}`}
-            >
-              {!isMe && (
-                <Image
-                  src={msg.profileImage || "/defaultProfile.png"}
-                  alt="profile"
-                  width={32}
-                  height={32}
-                  className="w-8 h-8 rounded-full mr-2"
-                />
-              )}
-              <div
-                className={`p-2 px-4 rounded-xl text-sm shadow-md max-w-xs ${
-                  isMe ? "bg-blue-500 text-black" : "bg-gray-200 text-gray-800"
-                }`}
-              >
-                {msg.content}
-              </div>
-            </motion.div>
-          );
-        })}
+      <div className="flex-1 p-3 mb-10 md:mb-0 overflow-y-auto scrollbar-hide space-y-4">
+        {Object.entries(groupedMessages).map(([dateLabel, msgs]) => (
+          <div key={dateLabel}>
+            <div className="text-center text-gray-400 text-xs mb-2">{dateLabel}</div>
+
+            {msgs.map((msg) => {
+              const isMe = msg.userId === user?.userId;
+
+              return (
+                <motion.div
+                  key={msg._id}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className={`flex ${isMe ? "justify-end" : "justify-start"} mb-1`}
+                >
+                  {!isMe && (
+                    <Image
+                      src={msg.profileImage || "/defaultProfile.png"}
+                      alt="profile"
+                      width={32}
+                      height={32}
+                      className="w-8 h-8 rounded-full mr-2"
+                    />
+                  )}
+                  <div className="  w-fit mb-5">
+                    <div
+                      className={`p-2 px-4 flex gap-10 rounded-xl text-sm shadow-md max-w-xs ${isMe ? "bg-blue-500 text-black" : "bg-gray-200 text-black"
+                        }`}
+                    >
+                      {msg.content}
+                      <span className="text-[10px] whitespace-nowrap  ">
+                        {getChatTime(msg.timestamp)}
+                      </span>
+                    </div>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+        ))}
       </div>
 
       {/* Input Field */}
-      <div className="border-t p-2 flex items-center">
+      <div className="border-b p-2 fixed bottom-[3.3rem] md:relative md:bottom-0 bg-black w-full flex items-center">
         <input
           type="text"
           value={message}
@@ -118,7 +135,7 @@ const TweetChatBox = ({ messages, sendMessage, tweetId }) => {
               handleSend();
             }
           }}
-          className="flex-1 p-2 border rounded-full text-black text-sm outline-none"
+          className="flex-1 p-2 px-3 border-[1.5px] rounded-full bg-black  text-white text-sm outline-none"
           placeholder="Type a message..."
         />
         <button
