@@ -6,6 +6,7 @@ import LikeButton from './LikeButton'
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import ShareDropdown from './ShareDropdown';
+import { getTweetTime } from '@/utils/TweetTime';
 
 const TweetPostCard = () => {
     const [item, setPost] = useState(null);
@@ -80,7 +81,7 @@ const TweetPostCard = () => {
                                         </g>
                                     </svg>
                                     <Link href={`/userProfile/${item.user_id._id}`}><span className="text-gray-400 text-sm  cursor-pointer" > {item.username}  </span></Link>
-                                    <div className=" flex items-center text-gray-500"><span className='text-lg font-bold '> · </span>{item.tweetTime}</div>
+                                    <div className=" flex items-center text-gray-500"><span className='text-lg font-bold '> · </span>{getTweetTime(item.created_at)}</div>
                                     <svg viewBox="0 0 24 24" aria-hidden="true"
                                         className="w-5 absolute md:hidden right-4  fill-gray-500 r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-lrvibr r-m6rgpd r-1xvli5t r-1hdv0qi">
                                         <g>

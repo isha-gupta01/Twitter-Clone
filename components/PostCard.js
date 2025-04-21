@@ -73,7 +73,7 @@ const PostCard = () => {
                 <div key={item._id} className="flex md:mr-10 lg:mr-0 flex-col relative gap-5">
                     <div className='flex m-3 md:ml-10 ml-5 lg:ml-6 items-center '>
                         <Link href={`/userProfile/${item.user_id}`} className='flex' ><Image className="w-12 h-12 rounded-full object-cover cursor-pointer" src={item.profileImage} width={150} height={150} alt="Profile Pic" /></Link>
-                        <div className='ml-5   flex flex-col'>
+                        <div className='ml-3 md:ml-5 flex flex-col'>
                             <div className='flex flex-row items-center justify-between'>
                                 <div className="flex flex-row items-center">
                                     <Link href={`/userProfile/${item.user_id}`}><h3 className="font-bold text-lg cursor-pointer">{item.Name} </h3>
