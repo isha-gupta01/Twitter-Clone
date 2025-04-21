@@ -137,8 +137,8 @@ const PostCard = () => {
                             />
                         ) : null}
 
-                        <ul className="flex flex-row gap-5 md:gap-7 mt-4">
-                            <div className="flex flex-row gap-[1.5rem] md:gap-[4rem]">
+                        <ul className="flex text-sm items-center flex-row md:ml-2 gap-5 md:gap-7 mt-4">
+                            <div className="flex flex-row gap-[1.5rem] md:gap-[2.5rem]">
                                 <Link href={`/Comment/${item._id}`}>
                                     <li
                                         className="flex flex-row text-white/50 fill-white/50 hover:fill-blue-500 hover:text-blue-500 ">
