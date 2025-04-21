@@ -52,12 +52,15 @@ UserCrud.post("/setupprofile", authenticateToken, multiUpload, async (req, res) 
       try {
         profileImageUrl = await uploadToCloudinary(files.profileImage[0].buffer);
       } catch (error) {
-        return res.status(500).json({ message: "Error uploading profile image" });
-      }
+        return res.status(500).json({
+          message: "Error uploading profile image",
+          error: error.message || error.toString(),
+        });
+              }
     }
 
     // Upload coverImage
-    if (files.coverImage && files.coverImage[0]) {
+    if (files.coverImage && files.coverImage[0]) { 
       try {
         coverImageUrl = await uploadToCloudinary(files.coverImage[0].buffer);
       } catch (error) {

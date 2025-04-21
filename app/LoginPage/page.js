@@ -55,7 +55,7 @@ const LoginPage = () => {
   return (
     <div className="bg-gray-900 flex justify-center items-center sm:h-screen text-white">
       <div className="bg-black rounded-lg h-[90vh] md:h-[60vh] xl:h-[70vh] flex items-center justify-center flex-col shadow-lg p-8 w-[30rem] max-w-md text-center">
-        <div className="mb-6">
+        <div className="">
           <div className="flex invert justify-center items-center">
             <Link href="/"><svg viewBox="0 0 24 24" aria-hidden="true"
               className="w-12 r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-lrsllp r-1nao33i r-16y2uox r-8kz0gk">
@@ -67,12 +67,12 @@ const LoginPage = () => {
           </div>
           <h2 className="text-2xl my-5 font-bold">Sign in to X</h2>
         </div>
-        <button className="px-[3.7rem] mt-8 flex items-center bg-white justify-center border border-gray-300 rounded-full py-1 text-xs font-bold text-black ">
+        {/* <button className="px-[3.7rem] mt-3 flex items-center bg-white justify-center border border-gray-300 rounded-full py-1 text-xs font-bold text-black ">
           <Link href="#" className="font-bold text-base hover:no-underline flex justify-center items-center">
             <Image src="/google.png" alt="Google Icon" width={30} height={30} className="h-8 w-8 mr-2" /> Sign up with Google
           </Link>
-        </button>
-        <span className="my-2">or</span>
+        </button> */}
+        {/* <span className="my-2">or</span> */}
         <form onSubmit={handleSubmit} className="space-y-4 flex flex-col">
           <input type="text" name="email" placeholder="Email" required value={email}
             onChange={(e) => setEmail(e.target.value)}

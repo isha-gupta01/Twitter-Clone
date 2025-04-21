@@ -15,8 +15,8 @@ const SetupProfile = () => {
 
     useEffect(() => {
         if (typeof window !== "undefined") {
-            
-            const fetchUserdata = async()=>{
+
+            const fetchUserdata = async () => {
                 try {
                     const response = await fetch(
                         "https://twitterclonebackend-nqms.onrender.com/loggeduser/me",
@@ -27,7 +27,7 @@ const SetupProfile = () => {
                             },
                         }
                     );
-        
+
                     const storedUser = await response.json();
                     if (storedUser) {
                         setUser(storedUser);
@@ -45,11 +45,11 @@ const SetupProfile = () => {
                     }
 
                 }
-                catch(error){
+                catch (error) {
                     console.error(error);
                 }
             }
-            
+
             fetchUserdata();
         }
     }, []);
@@ -61,9 +61,9 @@ const SetupProfile = () => {
             [name]:
                 name === "bio"
                     ? value
-                          .split(",")
-                          .map((item) => item.trim())
-                          .filter((item) => item !== "")
+                        .split(",")
+                        .map((item) => item.trim())
+                        .filter((item) => item !== "")
                     : value,
         }));
     };
@@ -131,26 +131,39 @@ const SetupProfile = () => {
         }
 
         if (hasProfileFile) {
-            formData.append("media", selectedFile);
+            formData.append("profileImage", selectedFile);
         }
 
         if (hasCoverFile) {
             formData.append("coverImage", coverSelectedFile);
         }
+        for (let pair of formData.entries()) {
+            console.log(pair[0], pair[1]);
+        }
 
         try {
-            const response = await fetch(
-                "https://twitterclonebackend-nqms.onrender.com/usercrud/setupprofile",
-                {
-                    method: "POST",
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("token")}`,
-                    },
-                    body: formData,
-                }
-            );
+            const response = await fetch("http://localhost:4000/usercrud/setupprofile", {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+                body: formData,
+            });
 
-            const data = await response.json();
+            let data;
+            try {
+                data = await response.json(); // Only works if server returns JSON
+            } catch (err) {
+                console.error("Failed to parse JSON:", err);
+                throw new Error("Server did not return valid JSON");
+            }
+
+            if (response.ok) {
+                // success logic
+            } else {
+                setResponse(data?.message || "Unknown error occurred.");
+            }
+
 
             if (response.ok) {
                 setSubmitting(false);
@@ -170,12 +183,12 @@ const SetupProfile = () => {
                     }),
                 };
 
-                if (typeof window !== "undefined") {
-                    localStorage.setItem("user", JSON.stringify(updatedUser));
-                }
+                // if (typeof window !== "undefined") {
+                //     localStorage.setItem("user", JSON.stringify(updatedUser));
+                // }
 
                 setUser(updatedUser);
-                setForm({ username: "", Name: "", bio: [] });
+                // setForm({ username: "", Name: "", bio: [] });
                 setSelectedFile(null);
                 setImagePreview(null);
                 document.getElementById("fileInput").value = "";
@@ -193,7 +206,7 @@ const SetupProfile = () => {
                 window.scrollTo({ top: 0, behavior: "smooth" });
             }
         } catch (error) {
-            setResponse("Error: " + error.message);
+            setResponse("Error okay: " + error.message);
             setSubmitting(false);
             window.scrollTo({ top: 0, behavior: "smooth" });
         }
@@ -321,16 +334,18 @@ const SetupProfile = () => {
                         <button
                             type="submit"
                             disabled={submitting}
-                            className={`bg-white text-black font-semibold rounded-full w-[16rem] mx-auto py-2 mt-4 ${
-                                submitting ? "opacity-50 cursor-not-allowed" : ""
-                            }`}
+                            className={`bg-white text-black font-semibold rounded-full w-[16rem] mx-auto py-2 mt-4 ${submitting ? "opacity-50 cursor-not-allowed" : ""
+                                }`}
                         >
                             {submitting ? "Updating..." : "Update"}
                         </button>
 
                         {response && (
-                            <div className="text-green-600 text-center">{response}</div>
+                            <div className={`text-center ${response.includes("Error") ? "text-red-500" : "text-green-600"}`}>
+                                {response}
+                            </div>
                         )}
+
                     </form>
                 </div>
             </div>
