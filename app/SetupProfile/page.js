@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
 
 const SetupProfile = () => {
-    const [form, setForm] = useState({ username: "", Name: "", bio: [] });
+    const [form, setForm] = useState({ username: "", Name: "", bio: "" });
     const [selectedFile, setSelectedFile] = useState(null);
     const [coverSelectedFile, setCoverSelectedFile] = useState(null);
     const [response, setResponse] = useState("");
@@ -34,7 +34,7 @@ const SetupProfile = () => {
                         setForm({
                             username: storedUser.username || "",
                             Name: storedUser.Name || "",
-                            bio: Array.isArray(storedUser.bio) ? storedUser.bio : [],
+                            bio: storedUser.bio || "",
                         });
                         if (storedUser.profileImage) {
                             setImagePreview(storedUser.profileImage);
@@ -58,15 +58,10 @@ const SetupProfile = () => {
         const { name, value } = e.target;
         setForm((prev) => ({
             ...prev,
-            [name]:
-                name === "bio"
-                    ? value
-                        .split(",")
-                        .map((item) => item.trim())
-                        .filter((item) => item !== "")
-                    : value,
+            [name]: value,
         }));
     };
+
 
     const handleFileChange = (event) => {
         const file = event.target.files[0];
@@ -107,11 +102,11 @@ const SetupProfile = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setSubmitting(true);
-
         const hasTextUpdates =
             form.username.trim() !== "" ||
             form.Name.trim() !== "" ||
-            (Array.isArray(form.bio) && form.bio.some((b) => b.trim() !== ""));
+            form.bio.trim() !== "";
+
 
         const hasProfileFile = selectedFile !== null;
         const hasCoverFile = coverSelectedFile !== null;
@@ -127,7 +122,7 @@ const SetupProfile = () => {
         if (hasTextUpdates) {
             formData.append("username", form.username.trim());
             formData.append("Name", form.Name.trim());
-            formData.append("bio", JSON.stringify(form.bio));
+            formData.append("bio", form.bio);  // just the string
         }
 
         if (hasProfileFile) {
@@ -184,8 +179,22 @@ const SetupProfile = () => {
                 };
 
                 if (typeof window !== "undefined") {
+                    // Get the current data from localStorage
+                    const currentUser = JSON.parse(localStorage.getItem("user"));
+
+                    // Update only the specific field (e.g., profileImage)
+                    const updatedUser = {
+                        ...currentUser,
+                        username: data.profile.username,
+                        Name: data.profile.Name,
+                        bio: data.profile.bio,
+                        profileImage: data.profile.profileImage, // Assuming 'updated.user.profileImage' contains the new URL
+                    };
+
+                    // Set the updated user object back into localStorage
                     localStorage.setItem("user", JSON.stringify(updatedUser));
                 }
+
 
                 setUser(updatedUser);
                 // setForm({ username: "", Name: "", bio: [] });
@@ -325,11 +334,12 @@ const SetupProfile = () => {
                         <input
                             className="py-2 px-2 rounded-2xl bg-black text-white border border-white/30"
                             onChange={handleInputChange}
-                            value={Array.isArray(form.bio) ? form.bio.join(", ") : ""}
+                            value={form.bio}
                             type="text"
                             name="bio"
-                            placeholder="Bio"
+                            placeholder="Bio (comma separated)"
                         />
+
 
                         <button
                             type="submit"
