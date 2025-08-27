@@ -69,7 +69,7 @@ export default function SearchOverlay({ open, onClose }) {
                             onClick={() => handleUserClick(user.username)}
                             className="p-3 hover:bg-gray-700 rounded-xl cursor-pointer"
                         >
-                            <div className="font-semibold">{user.username.startsWith("@") ? user.username : "@" + user.username}</div>
+                            <div className="font-semibold">{user.username}</div>
                             <div className="text-sm text-gray-400">{user.Name}</div>
                         </div>
                     ))}

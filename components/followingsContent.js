@@ -102,7 +102,7 @@ const FollowingsContent = () => {
                     {/* <p className="text-white font-medium text-lg group-hover:text-cyan-300">
                 {user.name}
               </p> */}
-                    <p className="text-sm text-white/50">{user.username.startsWith("@") ? user.username : "@" + user.username}</p>
+                    <p className="text-sm text-white/50">{user.username}</p>
                   </div>
                 </div>
               </li>

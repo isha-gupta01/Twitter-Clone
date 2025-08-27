@@ -87,7 +87,7 @@ const PostCard = () => {
                                             </path>
                                         </g>
                                     </svg>
-                                    <Link href={`/userProfile/${item.user_id}`}><span className="text-gray-400 hidden md:flex text-sm cursor-pointer" > {item.username.startsWith("@") ? item.username : "@" + item.username} </span></Link>
+                                    <Link href={`/userProfile/${item.user_id}`}><span className="text-gray-400 hidden md:flex text-sm cursor-pointer" > {item.username}  </span></Link>
                                     <div className="text-gray-500"><span className='text-lg font-bold '> · </span>{getTweetTime(item.created_at)}</div>
                                     <svg viewBox="0 0 24 24" aria-hidden="true"
                                         className="w-5 absolute md:hidden right-4  fill-gray-500 r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-lrvibr r-m6rgpd r-1xvli5t r-1hdv0qi">
