@@ -8,7 +8,7 @@ const roboto = Roboto({
 });
 
 export const metadata = {
-  title: "Twitteron",
+  title: "TwitterOn",
   description: "A Clone of Twitter. Made by Isha Gupta ❤️",
   icons: {
     icon: "/twitteron.ico",
