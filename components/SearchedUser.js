@@ -101,7 +101,7 @@ const SearchedUser = ({ username, userId }) => {
 
                 </div>
                 <div className='flex flex-col mt-28 text-white ml-8'>
-                    <span className='text-[1rem] text-white/30'>{dataUser.username}</span>
+                    <span className='text-[1rem] text-white/30'>{dataUser.username.startsWith("@") ? dataUser.username : "@" + dataUser.username}</span>
                     <span className='flex gap-3 my-2 text-white/30 items-center'><Image src="/calendar.png" alt='calender' width={20} height={20} className='invert w-5 h-5 opacity-30' />Joined {joinDate}</span>
                     <div className='text-white/30 flex gap-7'>
                         <span>{dataUser?.following?.length ?? 0}  Following </span>

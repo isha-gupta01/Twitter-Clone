@@ -49,7 +49,7 @@ export default function SearchBar() {
             <div className="mt-2 bg-gray-800 shadow rounded-2xl">
                 {results.map((user) => (
                     <div key={user._id} onClick={() => handleUserClick(user.username)} className="p-2 hover:bg-gray-900 hover:rounded-2xl cursor-pointer">
-                        {user.username} - {user.Name}
+                        {user.username.startsWith("@") ? user.username : "@" + user.username} - {user.Name}
                     </div>
                 ))}
             </div>
