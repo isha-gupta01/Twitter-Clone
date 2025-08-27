@@ -123,9 +123,9 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 ## 🧑 About the Developer
 
-Hi, I'm [**Isha Gupta**](https://next-portfolio-theta-smoky-94.vercel.app) — a passionate full-stack developer. I love building scalable applications with real-time and user-centric features. This project demonstrates my skills in backend architecture, frontend UI, and advanced integrations.
+Hi, I'm [**Isha Gupta**](https://next-portfolio-ishagupta.vercel.app) — a passionate full-stack developer. I love building scalable applications with real-time and user-centric features. This project demonstrates my skills in backend architecture, frontend UI, and advanced integrations.
 
-- 📫 [Portfolio](https://next-portfolio-theta-smoky-94.vercel.app)
+- 📫 [Portfolio](https://next-portfolio-ishagupta.vercel.app/)
 - 🧑‍💻 [GitHub](https://github.com/isha-gupta01)
 - 📮 Feel free to fork, star, or connect!
 
