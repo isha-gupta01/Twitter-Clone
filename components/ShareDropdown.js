@@ -15,7 +15,7 @@ export default function ShareDropdown({ id }) {
     const copyToClipboard = () => {
         navigator.clipboard.writeText(postUrl);
         setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
+        setTimeout(() => setCopied(false), 5000);
     };
 
     // 🔒 Close on outside click

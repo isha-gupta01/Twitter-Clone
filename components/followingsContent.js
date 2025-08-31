@@ -9,7 +9,7 @@ const FollowingsContent = () => {
   const [error, setError] = useState(null);
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
-  const [userData, setUserData] = useState([]);
+  
   const router = useRouter();
 
 
@@ -85,7 +85,7 @@ const FollowingsContent = () => {
               <li
                 key={user._id}
                 onClick={() => handleUserClick(user.username)}
-                className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 shadow-lg hover:shadow-cyan-400/20 transition-all duration-300 transform hover:-translate-y-1 hover:scale-[1.02] group"
+                className="bg-white/10 cursor-pointer backdrop-blur-md border border-white/20 rounded-2xl p-6 shadow-lg hover:shadow-cyan-400/20 transition-all duration-300 transform hover:-translate-y-1 hover:scale-[1.02] group"
               >
                 <div className="flex flex-col items-center gap-4">
                   <div className="relative w-14 h-14 rounded-full overflow-hidden border-2 border-cyan-400 group-hover:border-white transition duration-300">

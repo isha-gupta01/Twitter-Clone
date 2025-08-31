@@ -2,7 +2,8 @@
 import React, { useEffect, useState } from 'react'
 import FirstSec from '@/components/FirstSec'
 import ThirdSec from '@/components/ThirdSec'
-import Chat from '@/components/MainComment'
+// import Chat from '@/components/MainComment'
+import TweetComments from '@/components/TweetComment'
 import ProtectedRoute from '@/components/ProtectedRoute'
 import MobFirstSec from '@/components/MobFirstSec'
 
@@ -36,10 +37,10 @@ const CommentPage = () => {
             <div className=" w-px bg-gray-400 hidden xl:flex opacity-30 sticky left-[5.7rem] z-50"></div>
 
             {/* Pass user data as props to Chat component */}
-            <Chat
-              userId={user.userId}
-              username={user.username}
-              profileImage={user.profileImage}
+            <TweetComments
+              userId={user?.userId}
+              username={user?.username}
+              profileImage={user?.profileImage}
             />
 
             <div className=" w-px bg-gray-400 opacity-25"></div>

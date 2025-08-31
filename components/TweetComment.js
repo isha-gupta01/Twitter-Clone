@@ -1,153 +1,300 @@
 "use client";
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import { Send } from "lucide-react";
-import Image from "next/image";
+import { useState, useEffect, useRef } from "react";
+import { useParams } from "next/navigation";
 import axios from "axios";
-import Link from "next/link";
-import { getChatTime } from "@/utils/Time";
-import { groupMessagesByDate } from "@/utils/groupMessageByDate";
+import io from "socket.io-client";
+import CommentUI from "./CommentUI";
 
-const TweetChatBox = ({ messages, sendMessage, tweetId }) => {
-  const [message, setMessage] = useState("");
-  const [data, setData] = useState({});
-  const [user, setUser] = useState(null);
+const TweetComments = ({ userId, username, profileImage }) => {
+  const [comments, setComments] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [connectionStatus, setConnectionStatus] = useState("connecting");
+  
+  const socketRef = useRef(null);
+  const messagesEndRef = useRef(null);
+  const messagesContainerRef = useRef(null); // ✅ Add container ref
+  const isUnmountedRef = useRef(false);
+  const [shouldAutoScroll, setShouldAutoScroll] = useState(true); // ✅ Track if user scrolled up
+  
+  const params = useParams();
+  const tweetId = params?.tweetId;
 
-  // Fetch user from localStorage
+  // ✅ Improved auto-scroll with multiple methods
+  const scrollToBottom = (behavior = "smooth") => {
+    // Method 1: Scroll using ref element
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ 
+        behavior, 
+        block: "end",
+        inline: "nearest"
+      });
+    }
+    
+    // Method 2: Scroll container to bottom (fallback)
+    if (messagesContainerRef.current) {
+      const container = messagesContainerRef.current;
+      container.scrollTop = container.scrollHeight;
+    }
+    
+    // Method 3: Force scroll with timeout (final fallback)
+    setTimeout(() => {
+      if (messagesContainerRef.current) {
+        const container = messagesContainerRef.current;
+        container.scrollTo({
+          top: container.scrollHeight,
+          behavior: 'smooth'
+        });
+      }
+    }, 100);
+  };
+
+  // ✅ Check if user is at bottom (to determine auto-scroll)
+  const checkIfAtBottom = () => {
+    if (!messagesContainerRef.current) return true;
+    
+    const container = messagesContainerRef.current;
+    const threshold = 100; // pixels from bottom
+    const isAtBottom = container.scrollHeight - container.scrollTop - container.clientHeight < threshold;
+    
+    return isAtBottom;
+  };
+
+  // ✅ Handle scroll events to track user position
+  const handleScroll = () => {
+    const isAtBottom = checkIfAtBottom();
+    setShouldAutoScroll(isAtBottom);
+  };
+
+  // ✅ Auto-scroll when messages change
   useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem("user"));
-    if (storedUser) setUser(storedUser);
-  }, []);
+    if (!loading && comments.length > 0 && shouldAutoScroll) {
+      // Use timeout to ensure DOM is updated
+      const timeoutId = setTimeout(() => {
+        scrollToBottom();
+      }, 50);
+      
+      return () => clearTimeout(timeoutId);
+    }
+  }, [comments, loading, shouldAutoScroll]);
 
-  // Handle sending comment
-  const handleSend = () => {
-    if (message.trim()) {
-      sendMessage(message);
-      setMessage("");
+  // ✅ Always scroll to bottom on initial load
+  useEffect(() => {
+    if (!loading && comments.length > 0) {
+      scrollToBottom("auto"); // Instant scroll on load
+      setShouldAutoScroll(true);
+    }
+  }, [loading]);
+
+  // Initialize socket connection and fetch initial data
+  useEffect(() => {
+    if (!tweetId || !userId) return;
+
+    isUnmountedRef.current = false;
+    initializeSocket();
+    fetchInitialComments();
+
+    return () => {
+      isUnmountedRef.current = true;
+      cleanupSocket();
+    };
+  }, [tweetId, userId]);
+
+  // Initialize Socket.IO connection
+  const initializeSocket = () => {
+    try {
+      socketRef.current = io("https://twitterclonebackend-nqms.onrender.com", {
+        transports: ['websocket', 'polling'],
+        timeout: 10000,
+        forceNew: true
+      });
+
+      socketRef.current.on("connect", () => {
+        console.log("Socket connected");
+        setConnectionStatus("connected");
+        setError("");
+        socketRef.current.emit("joinTweetRoom", tweetId);
+      });
+
+      socketRef.current.on("disconnect", () => {
+        console.log("Socket disconnected");
+        setConnectionStatus("disconnected");
+      });
+
+      socketRef.current.on("connect_error", (err) => {
+        console.error("Socket connection error:", err);
+        setConnectionStatus("error");
+        setError("Connection failed. Comments may not update in real-time.");
+      });
+
+      socketRef.current.on("receiveComment", handleNewComment);
+
+      socketRef.current.on("commentError", (errorMsg) => {
+        setError(errorMsg);
+      });
+
+    } catch (err) {
+      console.error("Failed to initialize socket:", err);
+      setError("Failed to connect to real-time chat.");
     }
   };
 
-  // Fetch tweet data
-  useEffect(() => {
-    if (!tweetId) return;
+  // ✅ Handle new comment with auto-scroll logic
+  const handleNewComment = (comment) => {
+    if (isUnmountedRef.current) return;
+    
+    // Check if user is at bottom before adding message
+    const wasAtBottom = checkIfAtBottom();
+    
+    setComments((prevComments) => {
+      const exists = prevComments.some((c) => c._id === comment._id);
+      if (exists) return prevComments;
+      
+      const updatedComments = [...prevComments, comment];
+      return updatedComments.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+    });
+    
+    // Only auto-scroll if user was at bottom or it's their own message
+    if (wasAtBottom || comment.userId === userId) {
+      setShouldAutoScroll(true);
+    }
+  };
 
-    const fetchTweetData = async () => {
-      try {
-        const response = await axios.get(
-          `https://twitterclonebackend-nqms.onrender.com/tweetfetch/tweetData/${tweetId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
-        setData(response.data);
-      } catch (error) {
-        console.error("Error fetching tweet:", error);
+  // Fetch initial comments from API
+  const fetchInitialComments = async () => {
+    try {
+      setLoading(true);
+      const token = localStorage.getItem("token");
+      
+      if (!token) {
+        throw new Error("No authentication token found");
       }
-    };
 
-    fetchTweetData();
-  }, [tweetId]);
+      const response = await axios.get(
+        `https://twitterclonebackend-nqms.onrender.com/comment/${tweetId}`,
+        {
+          headers: { 
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json"
+          },
+          timeout: 10000
+        }
+      );
 
-  const groupedMessages = groupMessagesByDate(messages || []);
+      if (!isUnmountedRef.current) {
+        setComments(response.data || []);
+        setError("");
+      }
+    } catch (err) {
+      console.error("Error fetching comments:", err);
+      if (!isUnmountedRef.current) {
+        if (err.response?.status === 401) {
+          setError("Please log in to view comments.");
+        } else if (err.response?.status === 404) {
+          setError("Tweet not found.");
+        } else {
+          setError("Failed to load comments. Please try refreshing.");
+        }
+      }
+    } finally {
+      if (!isUnmountedRef.current) {
+        setLoading(false);
+      }
+    }
+  };
+
+  // ✅ Send comment with immediate auto-scroll
+  const sendComment = async (content) => {
+    if (!content?.trim()) {
+      setError("Comment cannot be empty.");
+      return false;
+    }
+
+    if (!socketRef.current?.connected) {
+      setError("Not connected to chat. Please refresh the page.");
+      return false;
+    }
+
+    if (!userId || !username) {
+      setError("User information missing. Please log in again.");
+      return false;
+    }
+
+    try {
+      const commentPayload = {
+        tweetId,
+        userId,
+        username,
+        profileImage: profileImage || "/defaultProfile.png",
+        content: content.trim(),
+        timestamp: new Date().toISOString()
+      };
+
+      // Emit comment to backend via socket
+      socketRef.current.emit("sendComment", commentPayload);
+      
+      // Ensure auto-scroll for own messages
+      setShouldAutoScroll(true);
+      
+      // Force scroll after a short delay
+      setTimeout(() => scrollToBottom(), 100);
+      
+      setError("");
+      return true;
+
+    } catch (err) {
+      console.error("Error sending comment:", err);
+      setError("Failed to send comment. Please try again.");
+      return false;
+    }
+  };
+
+  // Cleanup socket connection
+  const cleanupSocket = () => {
+    if (socketRef.current) {
+      console.log("Cleaning up socket connection");
+      
+      socketRef.current.off("connect");
+      socketRef.current.off("disconnect");
+      socketRef.current.off("connect_error");
+      socketRef.current.off("receiveComment");
+      socketRef.current.off("commentError");
+      
+      socketRef.current.emit("leaveTweetRoom", tweetId);
+      socketRef.current.disconnect();
+      socketRef.current = null;
+    }
+  };
+
+  // Retry connection
+  const retryConnection = () => {
+    setError("");
+    setConnectionStatus("connecting");
+    cleanupSocket();
+    setTimeout(() => {
+      initializeSocket();
+      fetchInitialComments();
+    }, 1000);
+  };
 
   return (
-    <div className="h-[100vh] mb-20 md:mb-0 w-[703px] lg:ml-[51px] md:ml-[98px] xl:ml-[92px] bg-black shadow-lg flex flex-col">
-      {/* Chat Header */}
-      <div className="p-3 flex justify-between items-center px-10 border-b bg-black text-white font-semibold">
-        <div className="flex items-center">
-          <Link href={`/Twitter`}>
-            <Image src="/back.png" alt="back" width={20} height={20} className="invert mr-4" />
-          </Link>
-          <Image
-            src={data?.profileImage || "/person2.png"}
-            alt="img"
-            width={40}
-            height={40}
-            className="w-10 h-10 mr-2 rounded-full"
-          />
-          <span>{data?.content || "Loading..."}</span>
-        </div>
-        {data?.image && (
-          <Image
-            src={data.image}
-            alt="tweet image"
-            width={40}
-            height={40}
-            className="w-10 h-10 hidden md:flex rounded-md"
-          />
-        )}
-      </div>
-
-      {/* Messages */}
-      <div className="flex-1 p-3 mb-10 md:mb-0 overflow-y-auto scrollbar-hide space-y-4">
-        {Object.entries(groupedMessages).map(([dateLabel, msgs]) => (
-          <div key={dateLabel}>
-            <div className="text-center text-gray-400 text-xs mb-2">{dateLabel}</div>
-
-            {msgs.map((msg) => {
-              const isMe = msg.userId === user?.userId;
-
-              return (
-                <motion.div
-                  key={msg._id}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className={`flex ${isMe ? "justify-end" : "justify-start"} mb-1`}
-                >
-                  {!isMe && (
-                    <Image
-                      src={msg.profileImage || "/defaultProfile.png"}
-                      alt="profile"
-                      width={32}
-                      height={32}
-                      className="w-8 h-8 rounded-full mr-2"
-                    />
-                  )}
-                  <div className="  w-fit mb-5">
-                    <div
-                      className={`p-2 px-4 flex gap-10 rounded-xl text-sm shadow-md max-w-xs ${isMe ? "bg-blue-500 text-black" : "bg-gray-200 text-black"
-                        }`}
-                    >
-                      {msg.content}
-                      <span className="text-[10px] whitespace-nowrap  ">
-                        {getChatTime(msg.timestamp)}
-                      </span>
-                    </div>
-                  </div>
-                </motion.div>
-              );
-            })}
-          </div>
-        ))}
-      </div>
-
-      {/* Input Field */}
-      <div className="border-b p-2 fixed bottom-[3.3rem] md:relative md:bottom-0 bg-black w-full flex items-center">
-        <input
-          type="text"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" && !e.shiftKey) {
-              e.preventDefault();
-              handleSend();
-            }
-          }}
-          className="flex-1 p-2 px-3 border-[1.5px] rounded-full bg-black  text-white text-sm outline-none"
-          placeholder="Type a message..."
-        />
-        <button
-          onClick={handleSend}
-          disabled={!message.trim()}
-          className="ml-2 bg-blue-500 text-black p-2 rounded-full hover:bg-blue-600 disabled:opacity-50"
-        >
-          <Send size={18} />
-        </button>
-      </div>
-    </div>
+    <>
+      <CommentUI
+        messages={comments}
+        sendMessage={sendComment}
+        tweetId={tweetId}
+        loading={loading}
+        error={error}
+        connectionStatus={connectionStatus}
+        onRetry={retryConnection}
+        currentUserId={userId}
+        messagesContainerRef={messagesContainerRef} // ✅ Pass ref to UI
+        onScroll={handleScroll} // ✅ Pass scroll handler
+      />
+      {/* ✅ Positioned at the very end of messages */}
+      <div ref={messagesEndRef} style={{ height: 0, overflow: 'hidden' }} />
+    </>
   );
 };
 
-export default TweetChatBox;
+export default TweetComments;

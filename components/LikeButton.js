@@ -26,7 +26,7 @@ const LikeButton = ({ tweetId }) => {
 
                 const tweet = await response.json();
                 setLikes(tweet.likes);
-                setLiked(tweet.hasLiked); // Assume your backend sends this field
+                setLiked(tweet.hasLiked); 
                 setLoading(false);
             } catch (error) {
                 console.error("Error loading tweet like status:", error);
@@ -57,7 +57,7 @@ const LikeButton = ({ tweetId }) => {
         }
     };
 
-    if (loading) return null; // Optionally show skeleton or spinner
+    if (loading) return null; 
 
     return (
         <button

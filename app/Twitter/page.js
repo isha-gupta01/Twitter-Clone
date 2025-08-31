@@ -5,8 +5,7 @@ import ThirdSec from '@/components/ThirdSec';
 import SecondSec from '@/components/SecondSec';
 import FirstSec from '@/components/FirstSec';
 import MobFirstSec from '@/components/MobFirstSec';
-import SearchOverlay from '@/components/SearchOverlay'; // Import SearchOverlay
-import { useRouter } from 'next/router';
+import SearchOverlay from '@/components/SearchOverlay'; 
 
 const Twitter = () => {
     const [isSearchOpen, setIsSearchOpen] = useState(false);

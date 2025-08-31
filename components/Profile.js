@@ -194,7 +194,7 @@ const Profile = ({ userId }) => {
         <div>
             <div className='bg-black sm:w-[430px] md:w-[712px] md:ml-[72px] xl:w-[89.3vw] xl:ml-[93px] lg:w-[703px] lg:ml-[59px] min-h-screen overflow-y-auto flex flex-col'>
                 <div className='  flex gap-10 items-center px-4 py-2'>
-                    <Link href="/Twitter"><Image src="/back.png" alt='back' width={20} height={20} className='invert self-center' /></Link>
+                    <Link href="/ProfilePage"><Image src="/back.png" alt='back' width={20} height={20} className='invert self-center' /></Link>
                     <div className=' text-white flex flex-col '>
                         <span className='  text-xl'>{dataUser.Name} </span>
                         <span className='text-sm text-white/30'>{tweetCount} posts</span>

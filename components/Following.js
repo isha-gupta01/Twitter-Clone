@@ -85,12 +85,13 @@ const Following = () => {
                             <div className=''>Home</div>
                         </div>
                         <div className='flex'>
-                            <div className="text-[1.1rem] w-[210px] md:w-[300px] h-[53px]  flex justify-center items-center flex-col text-white hover:text-white cursor-pointer text-center"><Link href="/Twitter"><span>Home</span>
+                            <div className="text-[1.1rem] w-[210px] md:w-[300px] h-[53px]  flex justify-center items-center flex-col text-white hover:text-white cursor-pointer text-center">
+                                <Link href="/Twitter"><span>Home</span>
                             </Link>
 
                             </div>
                             <div className='flex'>
-                                <Link href="/following"><div className="text-[1.1rem]  md:w-[300px] h-[53px]  flex justify-center items-center text-white hover:text-white cursor-pointer text-center">Following</div></Link>
+                                <div className="text-[1.1rem]  md:w-[300px] h-[53px]  flex justify-center items-center text-white hover:text-white cursor-pointer text-center">Following</div>
                                 <div className='w-[4rem] h-[6px] backdrop-blur rounded-full  bg-blue-500 relative -bottom-[3rem] right-[4.4rem] md:-bottom-[3rem] md:right-[11.5rem]'></div>
                             </div>
                         </div>

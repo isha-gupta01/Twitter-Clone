@@ -13,6 +13,18 @@ const PostCard = () => {
 
     //fetching tweets
     useEffect(() => {
+        const fetchCommentCount = async (tweetId) => {
+            try {
+                const res = await fetch(`https://twitterclonebackend-nqms.onrender.com/comment/commentcount/${tweetId}`);
+                if (!res.ok) throw new Error("Failed to fetch comment count");
+                const data = await res.json();
+                return data.commentCount;
+            } catch (err) {
+                console.error("Error fetching comment count for", tweetId, err);
+                return 0;
+            }
+        };
+
         const fetchTweets = async () => {
             const token = localStorage.getItem("token");
 
@@ -53,18 +65,8 @@ const PostCard = () => {
 
         fetchTweets();
 
-        const fetchCommentCount = async (tweetId) => {
-            try {
-              const res = await fetch(`https://twitterclonebackend-nqms.onrender.com/comment/commentcount/${tweetId}`);
-              if (!res.ok) throw new Error("Failed to fetch comment count");
-              const data = await res.json();
-              return data.commentCount;
-            } catch (err) {
-              console.error("Error fetching comment count for", tweetId, err);
-              return 0;
-            }
-          };
-          
+
+
 
     }, []);
     return (
@@ -186,9 +188,9 @@ const PostCard = () => {
                                         </g>
                                     </svg></li>
                                 <li className="hover:fill-blue-500 fill-white/50">
-                                    
-                                    <ShareDropdown id={item._id}/>
-                                    </li>
+
+                                    <ShareDropdown id={item._id} />
+                                </li>
                             </div>
                         </ul>
                     </div>

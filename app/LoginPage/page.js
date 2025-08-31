@@ -1,6 +1,5 @@
 "use client";
 import React, { useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -17,7 +16,7 @@ const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(""); // Clear previous errors
+    setError(""); 
 
 
 
@@ -67,12 +66,9 @@ const LoginPage = () => {
           </div>
           <h2 className="text-2xl my-5 font-bold">Sign in to X</h2>
         </div>
-        {/* <button className="px-[3.7rem] mt-3 flex items-center bg-white justify-center border border-gray-300 rounded-full py-1 text-xs font-bold text-black ">
-          <Link href="#" className="font-bold text-base hover:no-underline flex justify-center items-center">
-            <Image src="/google.png" alt="Google Icon" width={30} height={30} className="h-8 w-8 mr-2" /> Sign up with Google
-          </Link>
-        </button> */}
-        {/* <span className="my-2">or</span> */}
+      
+        {/* Form Submission For Login*/}
+      
         <form onSubmit={handleSubmit} className="space-y-4 flex flex-col">
           <input type="text" name="email" placeholder="Email" required value={email}
             onChange={(e) => setEmail(e.target.value)}

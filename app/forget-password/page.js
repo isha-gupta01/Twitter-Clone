@@ -5,7 +5,7 @@ import Link from "next/link";
 export default function ForgetPasswordPage() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
-  const [submitting, setSubmitting] = useState(false)
+  const [submitting, setSubmitting] = useState(false);
 
   const handleClick = () => {
     setSubmitting(true);

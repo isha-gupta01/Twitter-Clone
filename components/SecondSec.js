@@ -25,7 +25,7 @@ const SecondSec = () => {
 
     const [scrolled, setScrolled] = useState(false);
 
-    const handlePostSubmitting = async () => {
+    const handlePostSubmitting = async (event) => {
         setSubmitting(true);
         event.preventDefault();
         const user = JSON.parse(localStorage.getItem("user"));
