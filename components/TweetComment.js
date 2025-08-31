@@ -105,7 +105,6 @@ const TweetComments = ({ userId, username, profileImage }) => {
     try {
       socketRef.current = io("https://twitterclonebackend-nqms.onrender.com", {
         transports: ['websocket', 'polling'],
-        timeout: 10000,
         forceNew: true
       });
 
@@ -177,7 +176,6 @@ const TweetComments = ({ userId, username, profileImage }) => {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json"
           },
-          timeout: 10000
         }
       );
 
