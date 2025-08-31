@@ -15,7 +15,7 @@ export default function ForgetPasswordPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("https://twitterclonebackend-nqms.onrender.com/api/password/forgot-password", {
+              const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/password/forgot-password`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),

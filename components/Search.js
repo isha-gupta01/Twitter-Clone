@@ -19,7 +19,7 @@ export default function SearchBar() {
         const delayDebounce = setTimeout(() => {
             if (query.trim()) {
                 axios
-                    .get(`https://twitterclonebackend-nqms.onrender.com/api/users/search?query=${query}`)
+                    .get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/search?query=${query}`)
                     .then((res) => setResults(res.data))
                     .catch((err) => console.error(err));
             } else {

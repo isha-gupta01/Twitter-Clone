@@ -13,7 +13,7 @@ const Posts = () => {
         const token = localStorage.getItem("token");
 
         try {
-            const res = await fetch(`https://twitterclonebackend-nqms.onrender.com/tweetcrud/tweetdelete/${id}`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/tweetcrud/tweetdelete/${id}`, {
                 method: "DELETE",
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -53,7 +53,7 @@ const Posts = () => {
             }
 
             try {
-                const response = await fetch("https://twitterclonebackend-nqms.onrender.com/tweetfetch/usertweets", {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/tweetfetch/usertweets`, {
                     method: "GET",
                     headers: {
                         Authorization: `Bearer ${token}`,

@@ -37,8 +37,11 @@ const Profile = ({ userId }) => {
         formData.append("userId", userId);
 
         try {
-            const res = await fetch("https://twitterclonebackend-nqms.onrender.com/loggeduser/updateProfileImage", {
-                method: "PUT",
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/loggeduser/updateProfileImage`, {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
                 body: formData,
             });
 
@@ -69,12 +72,10 @@ const Profile = ({ userId }) => {
     // Handle image removal (set to default)
     const handleRemoveImage = async () => {
         try {
-            const res = await fetch("https://twitterclonebackend-nqms.onrender.com/loggeduser/removeProfileImage", {
-                method: "PUT",
-                body: JSON.stringify({ id: userId }),
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/loggeduser/removeProfileImage`, {
+                method: "DELETE",
                 headers: {
-                    "Content-Type": "application/json",
-
+                    Authorization: `Bearer ${token}`,
                 },
             });
 
@@ -129,10 +130,10 @@ const Profile = ({ userId }) => {
                     return;
                 }
 
-                const response = await fetch("https://twitterclonebackend-nqms.onrender.com/tweetfetch/me", {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/tweetfetch/me`, {
                     method: "GET",
                     headers: {
-                        "Authorization": `Bearer ${token}`,  // Send token properly
+                        Authorization: `Bearer ${token}`,  // Send token properly
                         "Content-Type": "application/json",
                     },
                 });
@@ -163,7 +164,7 @@ const Profile = ({ userId }) => {
             }
 
             try {
-                const response = await fetch("https://twitterclonebackend-nqms.onrender.com/loggeduser/me", {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/loggeduser/me`, {
                     method: "GET",
                     headers: {
                         "Authorization": `Bearer ${token}`, // Include token

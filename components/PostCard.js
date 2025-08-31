@@ -1,5 +1,5 @@
-import React from 'react'
-import { useEffect, useState } from 'react';
+"use client";
+import React, { useState, useEffect } from "react";
 import Link from 'next/link';
 import LikeButton from './LikeButton'
 import Image from 'next/image';
@@ -15,7 +15,7 @@ const PostCard = () => {
     useEffect(() => {
         const fetchCommentCount = async (tweetId) => {
             try {
-                const res = await fetch(`https://twitterclonebackend-nqms.onrender.com/comment/commentcount/${tweetId}`);
+                const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/comment/commentcount/${tweetId}`);
                 if (!res.ok) throw new Error("Failed to fetch comment count");
                 const data = await res.json();
                 return data.commentCount;
@@ -34,7 +34,7 @@ const PostCard = () => {
             }
             try {
                 setLoading(true);
-                const response = await fetch("https://twitterclonebackend-nqms.onrender.com/tweetfetch/tweets", {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/tweetfetch/tweets`, {
                     method: "GET",
                     headers: {
                         Authorization: `Bearer ${token}`,

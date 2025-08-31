@@ -18,15 +18,13 @@ const SetupProfile = () => {
 
             const fetchUserdata = async () => {
                 try {
-                    const response = await fetch(
-                        "https://twitterclonebackend-nqms.onrender.com/loggeduser/me",
-                        {
-                            method: "GET",
-                            headers: {
-                                Authorization: `Bearer ${localStorage.getItem("token")}`,
-                            },
-                        }
-                    );
+                    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/loggeduser/me`, {
+                        method: "GET",
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem("token")}`,
+                            "Content-Type": "application/json",
+                        },
+                    });
 
                     const storedUser = await response.json();
                     if (storedUser) {
@@ -137,7 +135,7 @@ const SetupProfile = () => {
         }
 
         try {
-            const response = await fetch("https://twitterclonebackend-nqms.onrender.com/usercrud/setupprofile", {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/usercrud/setupprofile`, {
                 method: "POST",
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`,

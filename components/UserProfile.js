@@ -25,7 +25,7 @@ const UserProfile = ({ userId }) => {
             }
 
             try {
-                const response = await fetch(`https://twitterclonebackend-nqms.onrender.com/loggeduser/profile/${userId}`, {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/loggeduser/profile/${userId}`, {
                     method: "GET",
                     headers: {
                         // Authorization: `Bearer ${token}`,
@@ -63,10 +63,10 @@ const UserProfile = ({ userId }) => {
                     return;
                 }
 
-                const response = await fetch(`https://twitterclonebackend-nqms.onrender.com/tweetfetch/profiletweetcount/${userId}`, {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/tweetfetch/profiletweetcount/${userId}`, {
                     method: "GET",
                     headers: {
-                        // "Authorization": `Bearer ${token}`,  // Send token properly
+                        Authorization: `Bearer ${token}`,
                         "Content-Type": "application/json",
                     },
                 });

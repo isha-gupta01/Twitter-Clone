@@ -103,9 +103,13 @@ const TweetComments = ({ userId, username, profileImage }) => {
   // Initialize Socket.IO connection
   const initializeSocket = () => {
     try {
-      socketRef.current = io("https://twitterclonebackend-nqms.onrender.com", {
+      const token = localStorage.getItem("token");
+              socketRef.current = io(`${process.env.NEXT_PUBLIC_BACKEND_URL}`, {
         transports: ['websocket', 'polling'],
-        forceNew: true
+        forceNew: true,
+        auth: {
+          token: token
+        }
       });
 
       socketRef.current.on("connect", () => {
@@ -170,7 +174,7 @@ const TweetComments = ({ userId, username, profileImage }) => {
       }
 
       const response = await axios.get(
-        `https://twitterclonebackend-nqms.onrender.com/comment/${tweetId}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/comment/${tweetId}`,
         {
           headers: { 
             Authorization: `Bearer ${token}`,

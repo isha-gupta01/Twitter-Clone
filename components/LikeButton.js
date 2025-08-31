@@ -12,7 +12,7 @@ const LikeButton = ({ tweetId }) => {
         const fetchTweetLikeStatus = async () => {
             try {
                 const response = await fetch(
-                    `https://twitterclonebackend-nqms.onrender.com/tweetcrud/tweet/${tweetId}`,
+                    `${process.env.NEXT_PUBLIC_BACKEND_URL}/tweetcrud/tweet/${tweetId}`,
                     {
                         method: "GET",
                         headers: {
@@ -38,7 +38,7 @@ const LikeButton = ({ tweetId }) => {
 
     const handleLike = async () => {
         try {
-            const response = await fetch("https://twitterclonebackend-nqms.onrender.com/tweetcrud/likes", {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/tweetcrud/likes`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

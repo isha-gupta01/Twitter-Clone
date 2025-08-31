@@ -17,11 +17,11 @@ const SearchedProfilePage = () => {
     useEffect(() => {
         const fetchUserId = async () => {
             try {
-                const res = await fetch(`https://twitterclonebackend-nqms.onrender.com/api/users/media/${username}`, {
+                const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/media/${username}`, {
                     method: "GET",
                     headers: {
-                        "Content-Type": "application/json"
-                    }
+                        "Content-Type": "application/json",
+                    },
                 });
                 if (!res.ok) {
                     console.log("Failed to fetch userId");

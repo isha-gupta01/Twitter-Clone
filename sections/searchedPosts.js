@@ -15,7 +15,7 @@ const SearchedPosts = ({ userId }) => {
             //     return;
             // }
             try {
-                const response = await fetch(`https://twitterclonebackend-nqms.onrender.com/tweetfetch/tweets/searched/${userId}`, {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/tweetfetch/tweets/searched/${userId}`, {
                     method: "GET",
                     headers: {
                         // Authorization: `Bearer ${token}`,

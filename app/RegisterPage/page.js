@@ -20,7 +20,7 @@ const Registerpage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const response = await fetch("https://twitterclonebackend-nqms.onrender.com/register", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/register`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ username, email, password }),

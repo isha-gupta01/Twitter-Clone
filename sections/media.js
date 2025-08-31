@@ -9,10 +9,10 @@ const Media = ({ userId }) => {
     useEffect(() => {
         const fetchUserTweet = async () => {
             try {
-                const response = await fetch(`https://twitterclonebackend-nqms.onrender.com/tweetfetch/profile/${userId}`, {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/tweetfetch/profile/${userId}`, {
                     method: "GET",
                     headers: {
-                        // Authorization: `Bearer ${token}`,
+                        Authorization: `Bearer ${token}`,
                         "Content-Type": "application/json",
                     },
                 });

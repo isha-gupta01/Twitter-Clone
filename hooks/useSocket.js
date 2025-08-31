@@ -6,7 +6,7 @@ const useSocket = () => {
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
-    const newSocket = io("http://localhost:4000"); // Connect to backend WebSocket server
+    const newSocket = io(`${process.env.NEXT_PUBLIC_BACKEND_URL}`); // Connect to backend WebSocket server
     setSocket(newSocket);
 
     newSocket.on("receiveMessage", (message) => {

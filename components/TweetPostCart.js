@@ -25,20 +25,24 @@ const TweetPostCard = () => {
     
         const fetchCommentCount = async (tweetId) => {
             try {
-                const res = await fetch(`https://twitterclonebackend-nqms.onrender.com/comment/commentcount/${tweetId}`);
-                if (!res.ok) throw new Error("Failed to fetch comment count");
+                const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/comment/commentcount/${tweetId}`);
                 const data = await res.json();
-                return data.commentCount;
-            } catch (err) {
-                console.error("Error fetching comment count for", tweetId, err);
+                return data.count || 0;
+            } catch (error) {
+                console.error("Error fetching comment count:", error);
                 return 0;
             }
         };
     
         const fetchPost = async () => {
             try {
-                const res = await fetch(`https://twitterclonebackend-nqms.onrender.com/tweetfetch/posts/${params.id}`, {
-                    cache: 'no-store',
+                const token = JSON.parse(localStorage.getItem("user")).token;
+                const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/tweetfetch/posts/${params.id}`, {
+                    method: "GET",
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json",
+                    },
                 });
                 if (!res.ok) throw new Error("Failed to fetch post");
                 const data = await res.json();

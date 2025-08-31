@@ -45,7 +45,7 @@ const CommentUI = ({
                 if (!token) return;
 
                 const response = await axios.get(
-                    `https://twitterclonebackend-nqms.onrender.com/tweetfetch/tweetData/${tweetId}`,
+                    `${process.env.NEXT_PUBLIC_BACKEND_URL}/tweetfetch/tweetData/${tweetId}`,
                     {
                         headers: { Authorization: `Bearer ${token}` },
                         timeout: 8000

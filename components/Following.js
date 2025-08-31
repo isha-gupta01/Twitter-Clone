@@ -42,7 +42,7 @@ const Following = () => {
             }
             try {
                 setLoading(true);
-                const response = await fetch("https://twitterclonebackend-nqms.onrender.com/tweetfetch/tweets", {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/tweetfetch/tweets`, {
                     method: "GET",
                     headers: {
                         Authorization: `Bearer ${token}`,

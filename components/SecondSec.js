@@ -45,7 +45,7 @@ const SecondSec = () => {
         formData.append("profileImage", user.profileImage);
 
         try {
-            const response = await fetch("https://twitterclonebackend-nqms.onrender.com/tweetcrud/loggedtweet", {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/tweetcrud/loggedtweet`, {
                 method: "POST",
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`, // Add Auth Token
@@ -144,7 +144,7 @@ const SecondSec = () => {
 
         try {
             alert("going to post")
-            const response = await fetch("https://twitterclonebackend-nqms.onrender.com/tweetcrud/loggedtweet", {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/tweetcrud/loggedtweet`, {
                 method: "POST",
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`, // Add Auth Token
@@ -192,7 +192,7 @@ const SecondSec = () => {
             }
             try {
                 setLoading(true);
-                const response = await fetch("https://twitterclonebackend-nqms.onrender.com/tweetfetch/tweets", {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/tweetfetch/tweets`, {
                     method: "GET",
                     headers: {
                         Authorization: `Bearer ${token}`,

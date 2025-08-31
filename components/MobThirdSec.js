@@ -11,7 +11,7 @@ const MobThirdSec = () => {
     useEffect(() => {
         setLoading(true);
         try {
-            fetch("https://twitterclonebackend-nqms.onrender.com/trends/trendingtweets/")
+            fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/trends/trendingtweets/`)
                 .then((res) => res.json())
                 .then((data) => setRandomTweet(data));
         }
