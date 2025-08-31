@@ -12,7 +12,6 @@ const Media = ({ userId }) => {
                 const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/tweetfetch/profile/${userId}`, {
                     method: "GET",
                     headers: {
-                        Authorization: `Bearer ${token}`,
                         "Content-Type": "application/json",
                     },
                 });
