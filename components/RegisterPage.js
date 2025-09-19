@@ -22,7 +22,7 @@ const Registerpage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/register`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/register`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ username, email, password }),
