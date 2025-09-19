@@ -1,6 +1,7 @@
 import express from "express";
 import jwt from "jsonwebtoken";
 import UserInfo from "../models/usersModel.js";
+import Tweets from "../models/tweetsModel.js";
 import dotenv from "dotenv"
 import cloudinary from "../lib/cloudinary.js";
 import multer from "multer";
@@ -250,6 +251,11 @@ loggedUser.put("/updateProfileImage", upload.single("imageUrl"), async (req, res
       { profileImage: uploadedUrl },
       { new: true }
     );
+    const updatedTweets = await Tweets.updateMany(
+      { user_id: userId },                 // filter by user_id
+      { $set: { profileImage: uploadedUrl } }, // update profileImage field
+      { new: true }
+    );
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
@@ -264,12 +270,16 @@ loggedUser.put("/updateProfileImage", upload.single("imageUrl"), async (req, res
     res.status(500).json({ message: "Failed to update profile image", error });
   }
 });
- 
+
 loggedUser.put("/removeProfileImage", async (req, res) => {
   try {
     const { id } = req.body;  // Extract user ID from the body
     const user = await UserInfo.findById(id);  // Find the user by ID
-
+    const updatedTweets = await Tweets.updateMany(
+      { user_id: id },                 // filter by user_id
+      { $set: { profileImage: "/person2.png" } }, // update profileImage field
+      { new: true }
+    );
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }

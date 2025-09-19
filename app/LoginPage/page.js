@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
+
 const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
@@ -16,7 +17,7 @@ const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(""); 
+    setError("");
 
 
 
@@ -46,13 +47,15 @@ const LoginPage = () => {
     } catch (error) {
       setError("Something went wrong. Try again.");
       setSubmitting(false)
-    }finally{
+    } finally {
       setSubmitting(false)
     }
   };
 
+
   return (
-    <div className="bg-gray-900 flex justify-center items-center sm:h-screen text-white">
+    <div className="bg-gray-900 relative flex justify-center items-center sm:h-screen text-white">
+
       <div className="bg-black rounded-lg h-[90vh] md:h-[60vh] xl:h-[70vh] flex items-center justify-center flex-col shadow-lg p-8 w-[30rem] max-w-md text-center">
         <div className="">
           <div className="flex invert justify-center items-center">
@@ -66,9 +69,9 @@ const LoginPage = () => {
           </div>
           <h2 className="text-2xl my-5 font-bold">Sign in to X</h2>
         </div>
-      
+
         {/* Form Submission For Login*/}
-      
+
         <form onSubmit={handleSubmit} className="space-y-4 flex flex-col">
           <input type="text" name="email" placeholder="Email" required value={email}
             onChange={(e) => setEmail(e.target.value)}

@@ -62,23 +62,26 @@ tweetcount.get("/profile/:userId", async (req, res) => {
 
 tweetcount.get("/tweets", authenticateToken, async (req, res) => {
   const { userId } = req.user;
+  const page = parseInt(req.query.page) || 1;   // default page = 1
+  const limit = parseInt(req.query.limit) || 5; // default 5 tweets per page
+  const skip = (page - 1) * limit;
 
   try {
-    const ownTweets = await Tweets.find({ user_id: userId });
-    const othersTweets = await Tweets.find({ user_id: { $ne: userId } });
-
-    ownTweets.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-    othersTweets.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-
-    const finalFeed = [...ownTweets, ...othersTweets];
-    finalFeed.sort((a, b) => new Date(b.created_at) - new Date(a.created_at)); 
+    // Fetch tweets from both own and others in one query
+    const finalFeed = await Tweets.find({
+      $or: [{ user_id: userId }, { user_id: { $ne: userId } }],
+    })
+      .sort({ created_at: -1 }) // latest first
+      .skip(skip)
+      .limit(limit);
 
     res.json(finalFeed);
   } catch (err) {
     console.error("Feed fetch error:", err);
-    res.status(500).json({ error: "Server error" }); 
+    res.status(500).json({ error: "Server error" });
   }
 });
+
 
 tweetcount.get("/tweets/searched/:userId", async (req, res) => {
   try {

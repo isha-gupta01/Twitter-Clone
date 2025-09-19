@@ -100,7 +100,7 @@ const PostCard = () => {
                                         </g>
                                     </svg>
                                 </div>
-                                <div className='hidden md:flex '>
+                                {/* <div className='hidden md:flex '>
                                     <svg viewBox="0 0 24 24" aria-hidden="true"
                                         className="w-5   md:absolute md:right-2 fill-gray-500 r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-lrvibr r-m6rgpd r-1xvli5t r-1hdv0qi">
                                         <g>
@@ -109,7 +109,7 @@ const PostCard = () => {
                                             </path>
                                         </g>
                                     </svg>
-                                </div>
+                                </div> */}
                             </div>
                             <div className="text-sm">{item.content}</div>
                         </div>
@@ -165,7 +165,10 @@ const PostCard = () => {
                                     </svg>
                                     <span>{item.retweets}</span>
                                 </li>
-                                <LikeButton tweetId={item._id} initialLikes={item.likes} userId={item.userId} />
+                                <li className="w-10">
+                                    <LikeButton tweetId={item._id} initialLikes={item.likes} userId={item.userId} />
+
+                                </li>
                                 <li
                                     className="flex cursor-pointer flex-row text-white/50 fill-white/50 hover:fill-blue-500 hover:text-blue-500 ">
                                     <svg viewBox="0 0 24 24" aria-hidden="true" className="w-4 r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-lrvibr r-m6rgpd r-1xvli5t r-1hdv0qi">

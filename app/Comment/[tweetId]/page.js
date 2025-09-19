@@ -1,11 +1,10 @@
 "use client"
 import React, { useEffect, useState } from 'react'
-import FirstSec from '@/components/FirstSec'
-import ThirdSec from '@/components/ThirdSec'
-// import Chat from '@/components/MainComment'
-import TweetComments from '@/components/TweetComment'
 import ProtectedRoute from '@/components/ProtectedRoute'
+import FirstSec from '@/components/FirstSec'
 import MobFirstSec from '@/components/MobFirstSec'
+import TweetComments from '@/components/TweetComment'
+import ThirdSec from '@/components/ThirdSec'
 
 const CommentPage = () => {
   const [user, setUser] = useState(null);

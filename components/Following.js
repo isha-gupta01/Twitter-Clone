@@ -30,7 +30,7 @@ const Following = () => {
 
 
 
-    
+
     //fetching tweets
     useEffect(() => {
         const fetchTweets = async () => {
@@ -84,15 +84,32 @@ const Following = () => {
                             </Link>
                             <div className=''>Home</div>
                         </div>
-                        <div className='flex'>
-                            <div className="text-[1.1rem] w-[210px] md:w-[300px] h-[53px]  flex justify-center items-center flex-col text-white hover:text-white cursor-pointer text-center">
-                                <Link href="/Twitter"><span>Home</span>
-                            </Link>
+                        <div className='flex mt-[0.19rem]'>
+                            <div className="text-[1.1rem] w-[210px] md:w-[300px] h-[53px] xl:w-[452px] lg:w-[300px] flex justify-center items-center flex-col text-white hover:text-white cursor-pointer text-center">
+                                <Link href="/Twitter" className="relative  bottom-1 inline-block group">
+                                    {/* Background box - stays in place */}
+                                    <div className="h-7 w-[7.7rem] rounded-2xl bg-white border border-white"></div>
+
+                                    {/* Foreground text - moves on hover */}
+                                    <span className="absolute py-2 inset-0 flex items-center justify-center rounded-2xl border border-gray-600 bg-black   text-white px-8  transition-transform duration-200 group-hover:-translate-y-1">
+                                        Home
+                                    </span>
+                                </Link>
 
                             </div>
                             <div className='flex'>
-                                <div className="text-[1.1rem]  md:w-[300px] h-[53px]  flex justify-center items-center text-white hover:text-white cursor-pointer text-center">Following</div>
-                                <div className='w-[4rem] h-[6px] backdrop-blur rounded-full  bg-blue-500 relative -bottom-[3rem] right-[4.4rem] md:-bottom-[3rem] md:right-[11.5rem]'></div>
+                                <div className="text-[1.1rem]  md:w-[300px] h-[53px] flex justify-center items-center text-white hover:text-white cursor-pointer text-center">
+                                    <div className="relative inline-block group">
+                                        {/* Background box - stays in place */}
+                                        <div className="h-7 w-[7.7rem] rounded-2xl bg-white border border-white"></div>
+
+                                        {/* Foreground text - moves on hover */}
+                                        <span className="absolute inset-0 flex items-center  justify-center rounded-2xl border border-gray-600 bg-black text-white px-8 transition-transform duration-200 group-hover:-translate-y-1">
+                                            Following
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className='w-[4rem] h-[6px] backdrop-blur rounded-full bg-blue-500 relative -bottom-[3rem] right-[4.4rem] md:-bottom-[3rem] md:right-[11.5rem]'></div>
                             </div>
                         </div>
                     </div>

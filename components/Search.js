@@ -32,7 +32,7 @@ export default function SearchBar() {
     }, [query]);
 
     return (
-        <div className="w-full h-12 max-w-sm mx-auto">
+        <div className="w-full h-12  max-w-sm mx-auto">
             <div className="flex items-center">
                 <span className="material-symbols-outlined p-3">
                     search

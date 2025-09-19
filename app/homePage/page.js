@@ -6,7 +6,7 @@ import { signIn } from 'next-auth/react'
 
 const HomePage = () => {
     return (
-        <div className='flex md:container mx-auto md:mt-16 lg:mt-0 bg-black items-center justify-center xl:min-h-screen'>
+        <div className='flex md:container mx-auto md:mt-16 lg:mt-0 bg-white dark:bg-black  items-center justify-center xl:min-h-screen'>
             <div className=" rounded-lg w-full flex flex-col xl:flex-row h-96">
                 <div className="flex">
                     <svg viewBox="0 0 24 24" aria-hidden="true"
