@@ -191,7 +191,7 @@ const SecondSec = () => {
                                 <img src={user.profileImage} alt="Profile" className="w-10 h-10 rounded-full object-cover" />
                             </Link>
                             <input
-                                className="text-sm bg-black w-full border focus:border-blue-500 rounded-full px-4 mx-5 py-3 border-white/30 text-white"
+                                className="text-[1rem] bg-black w-full border focus:border-blue-500 rounded-full px-4 mx-5 py-3 border-white/30 text-white"
                                 placeholder="What is Happening?"
                                 name="content"
                                 value={content}
