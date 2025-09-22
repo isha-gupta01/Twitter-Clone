@@ -37,38 +37,17 @@ const FirstSec = ({ onSearchClick }) => {
                             className="flex md:justify-start items-center gap-2 justify-center  mr-2 md:w-fit  hover:bg-gray-900 hover:cursor-pointer px-3 py-3 rounded-full">
                             <button onClick={onSearchClick}><Image src="/search.png" alt="search" width={30} height={30} /> </button>
                         </li>
-                        <li
-                            className="flex md:justify-start items-center gap-2 justify-center  mr-2 md:w-fit  hover:bg-gray-900 hover:cursor-pointer px-3 py-3 rounded-full">
-                            <Image src="/notification.png" alt="notification" width={30} height={30} />
-                        </li>
-                        <li
-                            className="flex md:justify-start items-center gap-2 justify-center  mr-2 md:w-fit  hover:bg-gray-900 hover:cursor-pointer px-3 py-3 rounded-full">
-                            <Image src="/chat.png" alt="message" width={30} height={30} />
-                        </li>
-                        <li
-                            className="flex md:justify-start items-center gap-2 justify-center  mr-2 md:w-fit  hover:bg-gray-900 hover:cursor-pointer px-3 py-3 rounded-full">
-                            <Image src="/box.png" alt="box" width={30} height={30} />
-                        </li>
-                        <li
-                            className="flex md:justify-start items-center gap-2 justify-center  mr-2 md:w-fit  hover:bg-gray-900 hover:cursor-pointer px-3 py-3 rounded-full">
-                            <Image src="/group.png" alt="group" width={30} height={30} />
-                        </li>
-                        <li
-                            className="flex md:justify-start items-center gap-2 justify-center  mr-2 md:w-fit  hover:bg-gray-900 hover:cursor-pointer px-3 py-3 rounded-full">
-                            <Image src="/lists.png" alt="lists" width={30} height={30} />
-                        </li>
-                        <li
+                       
+                        
+                        <Link href="/saved"
                             className="flex md:justify-start items-center gap-2 justify-center  mr-2 md:w-fit  hover:bg-gray-900 hover:cursor-pointer px-3 py-3 rounded-full">
                             <Image src="/bookmark.png" alt="bookmark" width={30} height={30} />
-                        </li>
+                        </Link>
                         <Link href="/ProfilePage"><li
                             className="flex md:justify-start items-center gap-2 justify-center  mr-2 md:w-fit  hover:bg-gray-900 hover:cursor-pointer px-3 py-3 rounded-full">
                             <Image src="/person.png" alt="person" width={30} height={30} />
                         </li></Link>
-                        <li
-                            className="flex md:justify-start items-center gap-2 justify-center  mr-2 md:w-fit  hover:bg-gray-900 hover:cursor-pointer px-3 py-3 rounded-full">
-                            <Image src="/pending.png" alt="pending" width={30} height={30} />
-                        </li>
+                       
 
                         <Link href="/Logout">
                             <li className="flex md:justify-start items-center  justify-center md:w-fit  hover:cursor-pointer fixed bottom-3 left-0 px-5 py-3 ">

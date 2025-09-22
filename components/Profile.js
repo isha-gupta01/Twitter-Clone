@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Posts from "@/sections/posts";
 import Media from "@/sections/media";
+import ProfileSkeleton from "@/skeleton/ProfilePageSkeleton";
 
 const Profile = ({ userId }) => {
   const [isImageUpdating, setIsImageUpdating] = useState(false);
@@ -17,6 +18,7 @@ const Profile = ({ userId }) => {
   const [profileImageSrc, setProfileImageSrc] = useState(defaultProfileImage);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const fileInputRef = useRef(null);
+  const [loading, setLoading] = useState(false);
 
   const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
@@ -168,6 +170,7 @@ const Profile = ({ userId }) => {
         router.push("/LoginPage");
         return;
       }
+      setLoading(true);
 
       try {
         const response = await fetch(
@@ -190,8 +193,11 @@ const Profile = ({ userId }) => {
         const result = await response.json();
         setDataUser(result);
         setProfileImageSrc(result.profileImage || defaultProfileImage);
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching user data:", error);
+        setLoading(false);
+
       }
     };
 
@@ -207,7 +213,7 @@ const Profile = ({ userId }) => {
 
   return (
     <div>
-      <div className="second scrollbar-hide bg-black sm:w-[430px] md:w-[712px] md:ml-[72px] xl:w-[89.3vw] xl:ml-[93px] lg:w-[703px] lg:ml-[59px] min-h-screen overflow-y-auto flex flex-col">
+      {loading ? <ProfileSkeleton /> : (<div className="second scrollbar-hide bg-black sm:w-[430px] md:w-[712px] md:ml-[72px] xl:w-[89.3vw] xl:ml-[93px] lg:w-[703px] lg:ml-[59px] min-h-screen overflow-y-auto flex flex-col">
         <div className="flex gap-10 items-center px-4 py-2">
           <Link href="/Twitter">
             <Image
@@ -241,8 +247,10 @@ const Profile = ({ userId }) => {
               <Image
                 src={profileImageSrc || defaultProfileImage}
                 alt=""
+                unoptimized
                 width={100}
                 height={100}
+
                 className="w-44 h-44 rounded-full border-4 cursor-pointer border-black"
                 onClick={handleImageClick}
               />
@@ -342,7 +350,7 @@ const Profile = ({ userId }) => {
           {/* Content Section */}
           <div className="mt-4">{renderContent()}</div>
         </div>
-      </div>
+      </div>)}
     </div>
   );
 };

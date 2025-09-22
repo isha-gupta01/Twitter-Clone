@@ -15,7 +15,9 @@ export default function ShareDropdown({ id }) {
     const copyToClipboard = () => {
         navigator.clipboard.writeText(postUrl);
         setCopied(true);
+        setTimeout(() => setOpen(false), 500);
         setTimeout(() => setCopied(false), 5000);
+
     };
 
     // 🔒 Close on outside click
@@ -31,6 +33,10 @@ export default function ShareDropdown({ id }) {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, []);
+
+    useEffect(() => {
+        setTimeout(() => setOpen(false), 500);
+    }, [])
 
     return (
         <div className="relative  inline-block text-left" ref={dropdownRef}>
@@ -58,6 +64,7 @@ export default function ShareDropdown({ id }) {
                             href={`https://wa.me/?text=${encodeURIComponent(postUrl)}`}
                             target="_blank"
                             rel="noopener noreferrer"
+                            onClick={() => setOpen(false)}
                             className="px-4 py-2  border border-b border-gray-700  rounded-t-md text-sm hover:bg-green-500"
                         >
                             Share to WhatsApp
@@ -66,6 +73,8 @@ export default function ShareDropdown({ id }) {
                             href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(postUrl)}&text=Check this out!`}
                             target="_blank"
                             rel="noopener noreferrer"
+                            onClick={() => setOpen(false)}
+
                             className="px-4 py-2 border border-b border-gray-700   text-sm hover:bg-gray-500"
                         >
                             Share to X
@@ -74,6 +83,8 @@ export default function ShareDropdown({ id }) {
                             href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(postUrl)}`}
                             target="_blank"
                             rel="noopener noreferrer"
+                            onClick={() => setOpen(false)}
+
                             className="px-4 py-2 border border-b border-gray-700  text-sm hover:bg-blue-500"
                         >
                             Share to Facebook

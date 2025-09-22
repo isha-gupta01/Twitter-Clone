@@ -122,7 +122,7 @@ const SecondSec = () => {
     const profileImg = user.profileImage && user.profileImage !== "undefined" ? user.profileImage : "/person2.png";
 
     return (
-        <div>
+        <div className=" overflow-hidden">
             <ToastContainer
                 position="bottom-center"
                 autoClose={3000}
@@ -139,104 +139,113 @@ const SecondSec = () => {
                 className="text-white"
             />
 
-            {loading ? <SecondSecSkeleton /> : (<div className="second bg-black w-[703px] md:w-[703px] xl:w-[907px] lg:w-[703px] mb-20 md:mb-0 min-h-screen md:ml-[60px] xl:ml-[90px] lg:ml-[59px] overflow-y-auto scrollbar-hide">
-                <div className={`${scrolled ? "hidden" : "flex flex-col fixed top-0"} md:flex md:flex-col md:fixed md:top-0 z-50`}>
-                    <div className="backdrop-blur w-[500px] md:w-[703px] xl:w-[907px] lg:w-[703px] max-h-fit md:h-[53px] bg-black/30 flex flex-col md:flex-row">
-                        <div className="flex md:hidden items-center">
+            {loading ? <SecondSecSkeleton /> : (
+                <div className="second bg-black w-full md:w-[703px] xl:w-[907px] lg:w-[703px] mb-20 md:mb-0 min-h-screen md:ml-[60px] xl:ml-[90px] lg:ml-[59px] overflow-y-auto scrollbar-hide">
+                    {/* Header Section */}
+                    <div className={`${scrolled ? "hidden" : "flex flex-col fixed top-0 w-full md:w-auto"} md:flex md:flex-col md:fixed md:top-0 z-50`}>                        <div className="backdrop-blur w-full max-w-full md:w-[703px] xl:w-[907px] lg:w-[703px] max-h-fit md:h-[53px] bg-black/30 flex flex-col md:flex-row">
+                        {/* Mobile Header */}
+                        <div className="flex md:hidden items-center px-4">
                             <Link href="/Logout">
-                                <li className="flex md:justify-start items-center justify-center md:w-fit hover:bg-gray-900 hover:cursor-pointer px-5 py-3">
-                                    <div className="w-[50px] h-[50px] rounded-full overflow-hidden">
-                                        <Image src={profileImg} alt="person" width={50} height={50} className="object-cover w-full h-full" />
+                                <li className="flex items-center justify-center hover:bg-gray-900 hover:cursor-pointer px-3 py-3">
+                                    <div className="w-[40px] h-[40px] rounded-full overflow-hidden">
+                                        <Image src={profileImg} alt="person" width={40} height={40} className="object-cover w-full h-full" />
                                     </div>
                                 </li>
                             </Link>
-                            <div>Home</div>
+                            <div className="text-white font-semibold">Home</div>
                         </div>
-                        <div className="flex mt-1 justify-center items-center">
-                            <div className="text-[1.1rem] w-[210px] md:w-[300px] h-[53px] xl:w-[452px] lg:w-[300px] flex justify-center items-center flex-col text-white hover:text-white cursor-pointer text-center">
+
+                        {/* Navigation Tabs */}
+                        <div className="flex mt-1 justify-center items-center w-full px-4 md:px-0">
+                            <div className="text-[1rem] md:text-[1.1rem] w-1/2 md:w-[300px] h-[53px] xl:w-[452px] lg:w-[300px] flex justify-center items-center flex-col text-white hover:text-white cursor-pointer text-center">
                                 <div className="relative inline-block group">
                                     {/* Background box - stays in place */}
-                                    <div className="h-7 w-[7.7rem] rounded-2xl bg-white border border-white"></div>
+                                    <div className="h-7 w-20 md:w-[7.7rem] rounded-2xl bg-white border border-white"></div>
 
                                     {/* Foreground text - moves on hover */}
-                                    <span className="absolute inset-0 flex items-center justify-center rounded-2xl border border-gray-700 bg-black  text-white px-8 transition-transform duration-200 group-hover:-translate-y-1">
+                                    <span className="absolute inset-0 flex items-center justify-center rounded-2xl border border-gray-700 bg-black text-white px-4 md:px-8 transition-transform duration-200 group-hover:-translate-y-1 text-sm md:text-base">
                                         For you
                                     </span>
                                 </div>
-                                <div className="w-[4rem] h-[6px] backdrop-blur rounded-full bg-blue-500 relative -bottom-[0.66rem]"></div>
+                                <div className="w-[3rem] md:w-[4rem] h-[6px] backdrop-blur rounded-full bg-blue-500 relative -bottom-[0.66rem]"></div>
                             </div>
-                            <div className="text-[1.1rem] w-[210px] md:w-[300px] h-[53px] xl:w-[452px] lg:w-[300px] flex justify-center items-center flex-col text-white hover:text-white cursor-pointer text-center">
-                                <Link href="/following" className="relative  bottom-1 inline-block group">
+                            <div className="text-[1rem] md:text-[1.1rem] w-1/2 md:w-[300px] h-[53px] xl:w-[452px] lg:w-[300px] flex justify-center items-center flex-col text-white hover:text-white cursor-pointer text-center">
+                                <Link href="/following" className="relative bottom-1 inline-block group">
                                     {/* Background box - stays in place */}
-                                    <div className="h-7 w-[7.7rem] rounded-2xl bg-white border border-white"></div>
+                                    <div className="h-7 w-20 md:w-[7.7rem] rounded-2xl bg-white border border-white"></div>
 
                                     {/* Foreground text - moves on hover */}
-                                    <span className="absolute py-2 inset-0 flex items-center justify-center rounded-2xl border border-gray-700 bg-black   text-white px-8  transition-transform duration-200 group-hover:-translate-y-1">
+                                    <span className="absolute py-2 inset-0 flex items-center justify-center rounded-2xl border border-gray-700 bg-black text-white px-4 md:px-8 transition-transform duration-200 group-hover:-translate-y-1 text-sm md:text-base">
                                         Following
                                     </span>
                                 </Link>
+                            </div>
+                        </div>
+                    </div>
+                        <hr className="opacity-25 w-full relative" />
+                    </div>
 
+                    {/* Tweet Composition Section */}
+                    <div className="section-mid-part2 mt-[130px] md:mt-[53px] w-full h-auto flex flex-col mb-5">
+                        <form onSubmit={handlePostSubmitting} className="px-4 md:px-0">
+                            <div className="flex flex-row mx-1 md:m-5 items-start gap-3 py-4">
+                                <Link href="/ProfilePage" className="hidden md:flex xl:flex flex-shrink-0">
+                                    <img src={user.profileImage} alt="Profile" className="w-10 h-10 rounded-full object-cover" />
+                                </Link>
+                                <div className="flex-1 min-w-0">
+                                    <input
+                                        className="text-[1rem] bg-black w-full border focus:border-blue-500 rounded-full px-4 py-3 border-white/30 text-white placeholder-gray-500"
+                                        placeholder="What is Happening?"
+                                        name="content"
+                                        value={content}
+                                        onChange={handleInputChange}
+                                    />
+                                </div>
                             </div>
 
-                        </div>
-
+                            <div className="flex flex-row justify-between items-center mx-1 md:mr-4">
+                                <ul className="flex flex-row gap-2 ml-4 md:ml-24">
+                                    <li onClick={handleOpenFilePicker}>
+                                        <svg viewBox="0 0 24 24" aria-hidden="true" className="w-6 cursor-pointer fill-blue-500/80">
+                                            <g>
+                                                <path d="M3 5.5C3 4.119 4.119 3 5.5 3h13C19.881 3 21 4.119 21 5.5v13c0 1.381-1.119 2.5-2.5 2.5h-13C4.119 21 3 19.881 3 18.5v-13zM5.5 5c-.276 0-.5.224-.5.5v9.086l3-3 3 3 5-5 3 3V5.5c0-.276-.224-.5-.5-.5h-13zM19 15.414l-3-3-5 5-3-3-3 3V18.5c0 .276.224.5.5.5h13c.276 0 .5-.224.5-.5v-3.086zM9.75 7C8.784 7 8 7.784 8 8.75s.784 1.75 1.75 1.75 1.75-.784 1.75-1.75S10.716 7 9.75 7z"></path>
+                                            </g>
+                                        </svg>
+                                    </li>
+                                </ul>
+                                <input
+                                    type="file"
+                                    ref={fileInputRef}
+                                    onChange={handleFileChange}
+                                    accept="image/*"
+                                    style={{ display: "none" }}
+                                    className="cursor-pointer"
+                                />
+                                <div className="flex items-center gap-3">
+                                    {selectedFile && <p className="text-green-400 font-bold text-sm">Selected</p>}
+                                    <button
+                                        type="submit"
+                                        disabled={!isActive || submitting}
+                                        className={`rounded-full text-center px-4 md:px-5 py-1.5 md:py-1 font-bold transition-colors duration-300 text-sm md:text-base
+                                            ${isActive ? "bg-blue-600 text-white hover:bg-blue-700 cursor-pointer" : "bg-gray-400 text-black cursor-not-allowed"}`}>
+                                        {submitting ? "Posting..." : "Post"}
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
-                    <hr className="opacity-25 w-[703px] relative" />
-                </div>
 
-                <div className="section-mid-part2 mt-[130px] md:mt-[53px] w-full h-28 flex flex-col mb-5">
-                    <form onSubmit={handlePostSubmitting}>
-                        <div className="flex flex-row m-5 items-center gap-3">
-                            <Link href="/ProfilePage" className="hidden w-[3rem] xl:flex">
-                                <img src={user.profileImage} alt="Profile" className="w-10 h-10 rounded-full object-cover" />
-                            </Link>
-                            <input
-                                className="text-[1rem] bg-black w-full border focus:border-blue-500 rounded-full px-4 mx-5 py-3 border-white/30 text-white"
-                                placeholder="What is Happening?"
-                                name="content"
-                                value={content}
-                                onChange={handleInputChange}
-                            />
-                        </div>
-                        <div className="flex flex-row justify-between mr-4 items-center">
-                            <ul className="flex flex-row gap-2 ml-8 md:ml-28">
-                                <li onClick={handleOpenFilePicker}>
-                                    <svg viewBox="0 0 24 24" aria-hidden="true" className="w-6 cursor-pointer fill-blue-500/80">
-                                        <g>
-                                            <path d="M3 5.5C3 4.119 4.119 3 5.5 3h13C19.881 3 21 4.119 21 5.5v13c0 1.381-1.119 2.5-2.5 2.5h-13C4.119 21 3 19.881 3 18.5v-13zM5.5 5c-.276 0-.5.224-.5.5v9.086l3-3 3 3 5-5 3 3V5.5c0-.276-.224-.5-.5-.5h-13zM19 15.414l-3-3-5 5-3-3-3 3V18.5c0 .276.224.5.5.5h13c.276 0 .5-.224.5-.5v-3.086zM9.75 7C8.784 7 8 7.784 8 8.75s.784 1.75 1.75 1.75 1.75-.784 1.75-1.75S10.716 7 9.75 7z"></path>
-                                        </g>
-                                    </svg>
-                                </li>
-                            </ul>
-                            <input
-                                type="file"
-                                ref={fileInputRef}
-                                onChange={handleFileChange}
-                                accept="image/*"
-                                style={{ display: "none" }}
-                                className="cursor-pointer"
-                            />
-                            {selectedFile && <p className="text-green-400 font-bold">Selected</p>}
-                            <button
-                                type="submit"
-                                disabled={!isActive}
-                                className={`rounded-full text-center px-5 py-1 font-bold transition-colors duration-300
-                                    ${isActive ? "bg-blue-600 text-white hover:bg-blue-700 cursor-pointer" : "bg-gray-400 text-black cursor-not-allowed"}`}>
-                                {submitting ? "Posting..." : "Post"}
-                            </button>
-                        </div>
-                    </form>
-                </div>
+                    <hr className="opacity-25 w-full" />
 
-                <hr className="opacity-25 w-full" />
-                {loading ? (
-                    <div className="flex justify-center items-center h-20">
-                        <div className="animate-spin h-8 w-8 border-4 border-gray-300 border-t-blue-500 rounded-full"></div>
-                    </div>
-                ) : (
-                    <PostCard />
-                )}
-            </div>)}
+                    {loading ? (
+                        <div className="flex justify-center items-center h-20">
+                            <div className="animate-spin h-8 w-8 border-4 border-gray-300 border-t-blue-500 rounded-full"></div>
+                        </div>
+                    ) : (
+                        <PostCard />
+                    )}
+                </div>
+            )}
         </div>
     )
 }

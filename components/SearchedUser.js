@@ -6,6 +6,7 @@ import Link from 'next/link'
 import SearchedPosts from '@/sections/searchedPosts'
 import Media from '@/sections/media'
 import FollowButton from './FollowButton'
+import ProfileSkeleton from '@/skeleton/ProfilePageSkeleton'
 
 const SearchedUser = ({ username, userId }) => {
     const [dataUser, setDataUser] = useState(null);
@@ -36,14 +37,15 @@ const SearchedUser = ({ username, userId }) => {
 
     useEffect(() => {
         const fetchUserData = async () => {
+            setLoading(true);
             try {
                 const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/loggeduser/profile/searched/${username}`);
                 if (!res.ok) throw new Error("User not found");
-                
+
                 const user = await res.json();
                 setDataUser(user);
                 const userId = user._id; // ✅ Extract userId from the response
-    
+
                 // ✅ Fetch their tweet count using the correct userId
                 const tweetRes = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/tweetfetch/count/searched/${userId}`);
                 const tweetData = await tweetRes.json();
@@ -55,14 +57,14 @@ const SearchedUser = ({ username, userId }) => {
                 setLoading(false);
             }
         };
-    
+
         fetchUserData();
     }, [username]);
-    
 
-    if (loading) return <div className="flex mx-auto  mt-20 md:w-[703px] justify-center items-center">
-        <div className="animate-spin h-6 w-6  border-4 border-gray-300 border-t-blue-500 rounded-full"></div>
-    </div>
+
+    // if (loading) return <div className="flex w-28  mt-20 md:w-[703px] justify-center items-center">
+    //     <div className="animate-spin h-6 w-6  border-4 border-gray-300 border-t-blue-500 rounded-full"></div>
+    // </div>
     if (error || !dataUser) return <div className="text-red-500 p-4">{error}</div>;
 
     const joinDate = dataUser?.createdAt
@@ -71,14 +73,14 @@ const SearchedUser = ({ username, userId }) => {
 
     return (
         <div>
-            <div className='bg-black sm:w-[430px] md:w-[712px] md:ml-[80px] xl:w-[90.9vw] xl:ml-[93px] lg:w-[703px] lg:ml-[59px] min-h-screen overflow-y-auto overflow-x-hidden flex flex-col'>
+           {loading? (<ProfileSkeleton/>):(<div className='bg-black sm:w-[430px] md:w-[712px] md:ml-[80px] xl:w-[90.9vw] xl:ml-[93px] lg:w-[703px] lg:ml-[59px] min-h-screen overflow-y-auto overflow-x-hidden flex flex-col'>
                 <div className='  flex gap-10 items-center px-4 py-2'>
                     <Link href="/Twitter"><Image src="/back.png" alt='back' width={20} height={20} className='invert self-center' /></Link>
                     <div className=' text-white flex flex-col '>
                         <span className='  text-xl'>{dataUser.Name} </span>
                         <span className='text-sm text-white/30'>{tweetCount} posts</span>
                     </div>
-                </div>
+                </div >
                 <div className="relative  h-48 bg-gray-600">
                     <Image src={dataUser.coverImage} alt='cover image'width={703} height={200} className='object-cover z-0 h-[192px] w-full'/>
 
@@ -139,8 +141,8 @@ const SearchedUser = ({ username, userId }) => {
                     {/* Content Section */}
                     <div className="mt-4">{renderContent()}</div>
                 </div>
-            </div>
-        </div>
+            </div >)} 
+        </div >
     );
 };
 

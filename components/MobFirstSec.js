@@ -27,13 +27,9 @@ const MobFirstSec = () => {
                     <Image src="/search.png" alt="search" width={28} height={28} />
                 </Link>
 
-                <div className="shrink-0">
-                    <Image src="/notification.png" alt="notification" width={28} height={28} />
-                </div>
-
-                <div className="shrink-0">
-                    <Image src="/chat.png" alt="chat" width={28} height={28} />
-                </div>
+                <Link href="/saved" className="shrink-0">
+                    <Image src="/bookmark.png" alt="chat" width={28} height={28} />
+                </Link>
 
                 <Link href="/ProfilePage" className="shrink-0">
                     <Image src="/person.png" alt="person" width={28} height={28} />

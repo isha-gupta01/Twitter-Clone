@@ -9,19 +9,19 @@ const FollowingsContent = () => {
   const [error, setError] = useState(null);
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
-  
+
   const router = useRouter();
 
 
   const handleUserClick = (username) => {
-    router.push(`/SearchedProfile/${username}`); // or `/user/${userId}`, etc.
+    router.push(`/SearchedProfile/${username}`); 
   }
 
   useEffect(() => {
     const delayDebounce = setTimeout(() => {
       if (query.trim()) {
         axios
-                      .get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/search?query=${query}`)
+          .get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/search?query=${query}`)
           .then((res) => setResults(res.data))
           .catch((err) => console.error(err));
       } else {
@@ -67,8 +67,7 @@ const FollowingsContent = () => {
     fetchFollowingUsers();
   }, []);
 
-  //   if (loading) return <p className="text-white mt-32">Loading...</p>;
-  if (error) return <p className="text-red-500 mt-32">{error}</p>;
+  if (error) return <p className="text-red-500 mt-32 flex justify-center items-center">Unable to Fetch</p>;
 
   return (
     <div className="mt-40 md:mt-20 px-4 sm:px-10">
